@@ -23,7 +23,7 @@ namespace Leap {
             if (keybindingCom.IsKeyPressing(InputKeyEnum.MoveRight)) {
                 moveAxis.x = 1;
             }
-            if (keybindingCom.IsKeyPressing(InputKeyEnum.Jump)) {
+            if (keybindingCom.IsKeyDown(InputKeyEnum.Jump)) {
                 jumpAxis = 1;
             }
 

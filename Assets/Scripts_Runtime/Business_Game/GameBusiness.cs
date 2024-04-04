@@ -19,20 +19,24 @@ namespace Leap {
         public static void Tick(GameBusinessContext ctx, float dt) {
 
             InputEntity inputEntity = ctx.inputEntity;
-            inputEntity.Reset();
 
             ProcessInput(ctx, dt);
             PreTick(ctx, dt);
 
-            float restTime = dt;
             const float intervalTime = 0.01f;
-            for (; restTime >= intervalTime; restTime -= intervalTime) {
-                FixedTick(ctx, intervalTime);
-            }
-            if (restTime > 0) {
-                FixedTick(ctx, restTime);
+            ref float restSec = ref ctx.fixedRestSec;
+            restSec += dt;
+            if (restSec < intervalTime) {
+                FixedTick(ctx, restSec);
+                restSec = 0;
+            } else {
+                while (restSec >= intervalTime) {
+                    restSec -= intervalTime;
+                    FixedTick(ctx, intervalTime);
+                }
             }
             LateTick(ctx, dt);
+            inputEntity.Reset();
 
         }
 
@@ -64,8 +68,9 @@ namespace Leap {
                     GameRoleFSMController.FixedTickFSM(ctx, role, fixdt);
                 });
 
-                Physics2D.Simulate(fixdt);
             }
+            Physics2D.Simulate(fixdt);
+
         }
 
         static void LateTick(GameBusinessContext ctx, float dt) {

@@ -27,6 +27,9 @@ namespace Leap {
         public TemplateInfraContext templateInfraContext;
         public AssetsInfraContext assetsInfraContext;
 
+        // Timer
+        public float fixedRestSec;
+
         public GameBusinessContext() {
             gameEntity = new GameEntity();
             playerEntity = new PlayerEntity();

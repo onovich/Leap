@@ -19,7 +19,6 @@ namespace Leap {
         public Vector2 Velocity => rb.velocity;
 
         // State
-        public bool allowJump;
         public bool isGround;
 
         // FSM
@@ -55,7 +54,6 @@ namespace Leap {
         public void Ctor() {
             fsmCom = new RoleFSMComponent();
             inputCom = new RoleInputComponent();
-            allowJump = true;
             Binding();
         }
 
@@ -100,21 +98,26 @@ namespace Leap {
 
         public void Move_EnterGround() {
             isGround = true;
-            allowJump = true;
+        }
+
+        public void Move_LeaveGround() {
+            isGround = false;
         }
 
         public void Move_Jump() {
-            if (allowJump) {
-                var velo = rb.velocity;
-                velo.y = jumpForce;
-                rb.velocity = velo;
-                isGround = false;
-                allowJump = false;
+            if (!isGround) {
+                return;
             }
+            var velo = rb.velocity;
+            velo.y = jumpForce;
+            rb.velocity = velo;
+            Move_LeaveGround();
         }
 
         public void Move_Falling(float dt) {
-            float jumpAxis = inputCom.jumpAxis;
+            if (isGround) {
+                return;
+            }
             var velo = rb.velocity;
             velo.y -= g * dt;
             velo.y = Mathf.Max(velo.y, -fallingSpeedMax);

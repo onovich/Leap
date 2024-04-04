@@ -43,21 +43,11 @@ namespace Leap {
             role.TearDown();
         }
 
-        public static void ApplyMove(GameBusinessContext ctx, RoleEntity role, float dt) {
-            var owner = ctx.Role_GetOwner();
-            if (owner.inputCom.moveAxis == Vector2.zero) {
-                role.Move_Stop();
-            } else if (owner.inputCom.moveAxis != Vector2.zero) {
-                role.Move_ApplyMove(dt);
-            }
-        }
-
         static void OnFootTriggerEnter(GameBusinessContext ctx, RoleEntity role, Collider2D other) {
 
             var otherGo = other.gameObject;
             var otherTag = otherGo.tag;
 
-            // 仅处理落地及碰到硬物
             if (otherGo.CompareTag(TagConst.GROUND)) {
                 RoleEnterGroundOrBlock(ctx, role);
             } else if (otherGo.CompareTag(TagConst.BLOCK)) {
@@ -110,9 +100,18 @@ namespace Leap {
             // Eat Star
         }
 
+        public static void ApplyMove(GameBusinessContext ctx, RoleEntity role, float dt) {
+            var owner = ctx.Role_GetOwner();
+            if (owner.inputCom.moveAxis == Vector2.zero) {
+                role.Move_Stop();
+            } else if (owner.inputCom.moveAxis != Vector2.zero) {
+                role.Move_ApplyMove(dt);
+            }
+        }
+
         public static void ApplyJump(GameBusinessContext ctx, RoleEntity role, float dt) {
             var owner = ctx.Role_GetOwner();
-            if (owner.inputCom.jumpAxis != 0) {
+            if (owner.inputCom.jumpAxis != 0f) {
                 role.Move_Jump();
             }
         }
