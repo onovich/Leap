@@ -15,5 +15,8 @@ MonoBehaviour:
   typeID: 1
   allyStatus: 1
   aiType: 0
-  moveSpeed: 1
+  moveSpeed: 6.5
+  jumpForce: 200
+  g: 800
+  fallingSpeedMax: 400
   mesh: {fileID: 21300000, guid: 0017f0cf71d3f6b459941706866630c0, type: 3}

@@ -10,6 +10,30 @@ namespace Leap {
                                               ctx.idRecordService,
                                               typeID,
                                               pos);
+
+            role.OnFootTriggerEnterHandle += (RoleEntity role, Collider2D other) => {
+                OnFootTriggerEnter(ctx, role, other);
+            };
+            role.OnFootTriggerStayHandle += (RoleEntity role, Collider2D other) => {
+                OnFootTriggerStay(ctx, role, other);
+            };
+            role.OnFootTriggerExitHandle += (RoleEntity role, Collider2D other) => {
+                OnFootTriggerExit(role, other);
+            };
+
+            role.OnBodyCollisionEnterHandle += (RoleEntity role, Collision2D other) => {
+                OnBodyCollisionEnter(ctx, role, other);
+            };
+            role.OnBodyCollisionStayHandle += (RoleEntity role, Collision2D other) => {
+                OnBodyCollisionStay(ctx, role, other);
+            };
+            role.OnBodyCollisionExitHandle += (RoleEntity role, Collision2D other) => {
+                OnBodyCollisionExit(ctx, role, other);
+            };
+
+            role.OnBodyTriggerEnterHandle += (RoleEntity role, Collider2D other) => {
+                OnBodyTriggerEnter(ctx, role, other);
+            };
             ctx.roleRepo.Add(role);
             return role;
         }
@@ -20,16 +44,81 @@ namespace Leap {
         }
 
         public static void ApplyMove(GameBusinessContext ctx, RoleEntity role, float dt) {
-
-            var player = ctx.playerEntity;
             var owner = ctx.Role_GetOwner();
-
             if (owner.inputCom.moveAxis == Vector2.zero) {
                 role.Move_Stop();
             } else if (owner.inputCom.moveAxis != Vector2.zero) {
                 role.Move_ApplyMove(dt);
             }
+        }
 
+        static void OnFootTriggerEnter(GameBusinessContext ctx, RoleEntity role, Collider2D other) {
+
+            var otherGo = other.gameObject;
+            var otherTag = otherGo.tag;
+
+            // 仅处理落地及碰到硬物
+            if (otherGo.CompareTag(TagConst.GROUND)) {
+                RoleEnterGroundOrBlock(ctx, role);
+            } else if (otherGo.CompareTag(TagConst.BLOCK)) {
+                RoleEnterGroundOrBlock(ctx, role);
+            }
+
+            // Enter Ground Or Block
+        }
+
+        static void OnFootTriggerStay(GameBusinessContext ctx, RoleEntity role, Collider2D other) {
+            var otherGo = other.gameObject;
+            var otherTag = otherGo.tag;
+
+            // Stay Ground Or Block
+            if (otherGo.CompareTag(TagConst.GROUND)) {
+                RoleEnterGroundOrBlock(ctx, role);
+            } else if (otherGo.CompareTag(TagConst.BLOCK)) {
+                RoleEnterGroundOrBlock(ctx, role);
+            }
+
+        }
+
+        static void RoleEnterGroundOrBlock(GameBusinessContext ctx, RoleEntity role) {
+            // - Enter Ground Or Block
+            if (role.Velocity.y <= 0) {
+                role.Move_EnterGround();
+            }
+
+            // - Restore Jump & Skill Times
+        }
+
+        static void OnFootTriggerExit(RoleEntity role, Collider2D other) {
+            // Leave Ground Or Block
+        }
+
+        static void OnBodyCollisionEnter(GameBusinessContext ctx, RoleEntity role, Collision2D other) {
+            // Hurt & Dead
+            // Teleport
+        }
+
+        static void OnBodyCollisionStay(GameBusinessContext gameContext, RoleEntity role, Collision2D other) {
+
+        }
+
+        static void OnBodyCollisionExit(GameBusinessContext gameContext, RoleEntity role, Collision2D other) {
+
+        }
+
+        static void OnBodyTriggerEnter(GameBusinessContext gameContext, RoleEntity role, Collider2D other) {
+            // Eat Star
+        }
+
+        public static void ApplyJump(GameBusinessContext ctx, RoleEntity role, float dt) {
+            var owner = ctx.Role_GetOwner();
+            if (owner.inputCom.jumpAxis != 0) {
+                role.Move_Jump();
+            }
+        }
+
+        public static void ApplyFalling(GameBusinessContext ctx, RoleEntity role, float dt) {
+            role.Move_Falling(dt);
         }
 
     }

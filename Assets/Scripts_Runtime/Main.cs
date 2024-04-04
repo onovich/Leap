@@ -95,8 +95,7 @@ namespace Leap {
             inputEntity.Ctor();
             inputEntity.Keybinding_Set(InputKeyEnum.MoveLeft, new KeyCode[] { KeyCode.A, KeyCode.LeftArrow });
             inputEntity.Keybinding_Set(InputKeyEnum.MoveRight, new KeyCode[] { KeyCode.D, KeyCode.RightArrow });
-            inputEntity.Keybinding_Set(InputKeyEnum.MoveUp, new KeyCode[] { KeyCode.W, KeyCode.UpArrow });
-            inputEntity.Keybinding_Set(InputKeyEnum.MoveDown, new KeyCode[] { KeyCode.S, KeyCode.DownArrow});
+            inputEntity.Keybinding_Set(InputKeyEnum.Jump, new KeyCode[] { KeyCode.Space });
 
             GameBusiness.Init(gameBusinessContext);
 

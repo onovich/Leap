@@ -27,6 +27,9 @@ namespace Leap {
 
             // Set Attr
             role.moveSpeed = roleTM.moveSpeed;
+            role.jumpForce = roleTM.jumpForce;
+            role.g = roleTM.g;
+            role.fallingSpeedMax = roleTM.fallingSpeedMax;
 
             // Set Pos
             role.Pos_SetPos(pos);

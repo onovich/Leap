@@ -13,6 +13,14 @@ namespace Leap {
 
         // Attr
         public float moveSpeed;
+        public float jumpForce;
+        public float g;
+        public float fallingSpeedMax;
+        public Vector2 Velocity => rb.velocity;
+
+        // State
+        public bool allowJump;
+        public bool isGround;
 
         // FSM
         public RoleFSMComponent fsmCom;
@@ -26,10 +34,41 @@ namespace Leap {
 
         // Physics
         [SerializeField] Rigidbody2D rb;
+        [SerializeField] RoleCollisionComponent bodyCollider;
+        [SerializeField] RoleCollisionComponent bodyTrigger;
+        [SerializeField] RoleCollisionComponent footTrigger;
+
+        // Pos
+        public Vector2 Pos => Pos_GetPos();
+
+        // Action
+        public event Action<RoleEntity, Collider2D> OnFootTriggerEnterHandle;
+        public event Action<RoleEntity, Collider2D> OnFootTriggerStayHandle;
+        public event Action<RoleEntity, Collider2D> OnFootTriggerExitHandle;
+
+        public event Action<RoleEntity, Collision2D> OnBodyCollisionEnterHandle;
+        public event Action<RoleEntity, Collision2D> OnBodyCollisionStayHandle;
+        public event Action<RoleEntity, Collision2D> OnBodyCollisionExitHandle;
+
+        public event Action<RoleEntity, Collider2D> OnBodyTriggerEnterHandle;
 
         public void Ctor() {
             fsmCom = new RoleFSMComponent();
             inputCom = new RoleInputComponent();
+            allowJump = true;
+            Binding();
+        }
+
+        void Binding() {
+            footTrigger.OnTriggerEnterHandle += (coll) => { OnFootTriggerEnterHandle.Invoke(this, coll); };
+            footTrigger.OnTriggerStayHandle += (coll) => { OnFootTriggerStayHandle.Invoke(this, coll); };
+            footTrigger.OnTriggerExitHandle += (coll) => { OnFootTriggerExitHandle.Invoke(this, coll); };
+
+            bodyCollider.OnCollisionEnterHandle += (coll) => { OnBodyCollisionEnterHandle.Invoke(this, coll); };
+            bodyCollider.OnCollisionStayHandle += (coll) => { OnBodyCollisionStayHandle.Invoke(this, coll); };
+            bodyCollider.OnCollisionExitHandle += (coll) => { OnBodyCollisionExitHandle.Invoke(this, coll); };
+
+            bodyTrigger.OnTriggerEnterHandle += (coll) => { OnBodyTriggerEnterHandle.Invoke(this, coll); };
         }
 
         // Pos
@@ -37,16 +76,8 @@ namespace Leap {
             transform.position = pos;
         }
 
-        public Vector2 Pos_GetPos() {
+        Vector2 Pos_GetPos() {
             return transform.position;
-        }
-
-        public Vector2Int Pos_GetPosInt() {
-            return transform.position.RoundToVector3Int().ToVector2Int();
-        }
-
-        public Vector2 Pos_GetVolecity() {
-            return rb.velocity;
         }
 
         // Attr
@@ -59,30 +90,35 @@ namespace Leap {
             Move_Apply(inputCom.moveAxis.normalized, Attr_GetMoveSpeed(), dt);
         }
 
-        public void Move_MoveToTarget(Vector2 targetPos, float constrainRange, float dt) {
-            float moveSpeed = Attr_GetMoveSpeed();
-            Vector2 dir = targetPos - (Vector2)transform.position;
-            if (dir.sqrMagnitude + float.Epsilon < constrainRange * constrainRange) {
-                Move_Stop();
-                return;
-            }
-            Move_Apply(dir, moveSpeed, dt);
-        }
-
-        public Vector2 Move_GetVelocity() {
-            return rb.velocity;
-        }
-
-        public void Move_ByDir(Vector2 dir, float dt) {
-            Move_Apply(dir, Attr_GetMoveSpeed(), dt);
-        }
-
         public void Move_Stop() {
             Move_Apply(Vector2.zero, 0, 0);
         }
 
         void Move_Apply(Vector2 dir, float moveSpeed, float fixdt) {
             rb.velocity = dir.normalized * moveSpeed;
+        }
+
+        public void Move_EnterGround() {
+            isGround = true;
+            allowJump = true;
+        }
+
+        public void Move_Jump() {
+            if (allowJump) {
+                var velo = rb.velocity;
+                velo.y = jumpForce;
+                rb.velocity = velo;
+                isGround = false;
+                allowJump = false;
+            }
+        }
+
+        public void Move_Falling(float dt) {
+            float jumpAxis = inputCom.jumpAxis;
+            var velo = rb.velocity;
+            velo.y -= g * dt;
+            velo.y = Mathf.Max(velo.y, -fallingSpeedMax);
+            rb.velocity = velo;
         }
 
         // FSM
@@ -108,7 +144,10 @@ namespace Leap {
         }
 
         public void TearDown() {
-            Destroy(gameObject);
+            footTrigger.TearDown();
+            bodyCollider.TearDown();
+            bodyTrigger.TearDown();
+            Destroy(this.gameObject);
         }
 
     }

@@ -42,7 +42,7 @@ namespace Leap {
             if (!has) {
                 return false;
             }
-            return Vector2.SqrMagnitude(role.Pos_GetPos() - pos) <= range * range;
+            return Vector2.SqrMagnitude(role.Pos - pos) <= range * range;
         }
 
         public void ForEach(Action<RoleEntity> action) {
@@ -59,7 +59,7 @@ namespace Leap {
                 if (role.allyStatus != allyStatus) {
                     continue;
                 }
-                float dist = Vector2.SqrMagnitude(role.Pos_GetPos() - pos);
+                float dist = Vector2.SqrMagnitude(role.Pos - pos);
                 if (dist <= radiusSqr && dist < nearestDist) {
                     nearestDist = dist;
                     nearestRole = role;

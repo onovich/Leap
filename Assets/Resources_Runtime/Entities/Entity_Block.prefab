@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 5971149133577474096}
   m_Layer: 0
   m_Name: Entity_Block
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,7 +166,6 @@ MonoBehaviour:
   typeID: 0
   body: {fileID: 5756515061732775915}
   spr: {fileID: 6979487770325959718}
-  rb: {fileID: 0}
 --- !u!1 &7201589755581663144
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +178,7 @@ GameObject:
   - component: {fileID: 3990134424807717786}
   m_Layer: 0
   m_Name: collider
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

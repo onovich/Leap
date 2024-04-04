@@ -7,6 +7,8 @@ namespace Leap {
     public class InputEntity {
 
         public Vector2 moveAxis;
+        public float jumpAxis;
+
         InputKeybindingComponent keybindingCom;
 
         public void Ctor() {
@@ -21,11 +23,8 @@ namespace Leap {
             if (keybindingCom.IsKeyPressing(InputKeyEnum.MoveRight)) {
                 moveAxis.x = 1;
             }
-            if (keybindingCom.IsKeyPressing(InputKeyEnum.MoveUp)) {
-                moveAxis.y = 1;
-            }
-            if (keybindingCom.IsKeyPressing(InputKeyEnum.MoveDown)) {
-                moveAxis.y = -1;
+            if (keybindingCom.IsKeyPressing(InputKeyEnum.Jump)) {
+                jumpAxis = 1;
             }
 
         }
@@ -36,6 +35,7 @@ namespace Leap {
 
         public void Reset() {
             moveAxis = Vector2.zero;
+            jumpAxis = 0f;
         }
 
     }

@@ -11,6 +11,9 @@ namespace Leap {
         public AIType aiType;
 
         public float moveSpeed;
+        public float jumpForce;
+        public float g;
+        public float fallingSpeedMax;
 
         public Sprite mesh;
     }

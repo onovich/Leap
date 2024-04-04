@@ -31,6 +31,12 @@ namespace Leap {
 
             // Move
             GameRoleDomain.ApplyMove(ctx, role, fixdt);
+
+            // Jump
+            GameRoleDomain.ApplyJump(ctx, role, fixdt);
+
+            // Fall
+            GameRoleDomain.ApplyFalling(ctx, role, fixdt);
         }
 
         static void FixedTickFSM_Dead(GameBusinessContext ctx, RoleEntity role, float fixdt) {
