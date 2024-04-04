@@ -1,0 +1,26 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# C# files
+[*.{cs,csharp}]
+# 设置为 "none"，因为 K&R 风格对于大多数块使用与声明在同一行的大括号
+csharp_new_line_before_open_brace = none
+
+# 对于控制块（如 if, else, while 等）, K&R 风格将大括号放在声明的同一行
+csharp_new_line_before_else = false
+csharp_new_line_before_catch = false
+csharp_new_line_before_finally = false
+csharp_new_line_before_members_in_anonymous_types = false
+csharp_new_line_before_members_in_object_initializers = false
+
+# 由于 .editorconfig 限制，不能完全精细控制每一个大括号的位置，如函数定义的大括号通常放在新行。这需要通过编码样式或IDE特定设置来进一步实现。
+
+# 保持一行的最大长度，K&R 没有严格规定，但维护可读性是个好习惯
+max_line_length = 120
+
+# 缩进风格，K&R 使用空格
+indent_style = space
+# 缩进大小，K&R 原文使用了 8 个空格，但在现代编程中，4 个空格更为常见
+indent_size = 4
