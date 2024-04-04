@@ -3,6 +3,7 @@ namespace Leap {
     public class IDRecordService {
 
         int roleEntityID;
+        int blockEntityID;
 
         public IDRecordService() { }
 
@@ -10,8 +11,13 @@ namespace Leap {
             return ++roleEntityID;
         }
 
+        public int PickBlockEntityID() {
+            return ++blockEntityID;
+        }
+
         public void Reset() {
             roleEntityID = 0;
+            blockEntityID = 0;
         }
     }
 

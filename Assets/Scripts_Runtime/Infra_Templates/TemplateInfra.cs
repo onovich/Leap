@@ -23,6 +23,15 @@ namespace Leap {
                 ctx.roleHandle = handle;
             }
 
+            {
+                var handle = Addressables.LoadAssetsAsync<BlockTM>("TM_Block", null);
+                var blockList = await handle.Task;
+                foreach (var tm in blockList) {
+                    ctx.Block_Add(tm);
+                }
+                ctx.blockHandle = handle;
+            }
+
         }
 
         public static void Release(TemplateInfraContext ctx) {

@@ -32,6 +32,14 @@ namespace Leap {
             return prefab;
         }
 
+        public GameObject Entity_GetBlock() {
+            var has = Entity_TryGet("Entity_Block", out var prefab);
+            if (!has) {
+                GLog.LogError($"Entity Block not found");
+            }
+            return prefab;
+        }
+
     }
 
 }

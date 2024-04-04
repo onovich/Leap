@@ -7,28 +7,16 @@ namespace Leap {
     public class RoleRepository {
 
         Dictionary<int, RoleEntity> all;
-        Dictionary<Vector2Int, List<RoleEntity>> posDict;
 
         RoleEntity[] temp;
-        Vector2Int[] cellsTemp;
 
         public RoleRepository() {
             all = new Dictionary<int, RoleEntity>();
-            posDict = new Dictionary<Vector2Int, List<RoleEntity>>();
             temp = new RoleEntity[1000];
-            cellsTemp = new Vector2Int[1000];
         }
 
         public void Add(RoleEntity role) {
             all.Add(role.entityID, role);
-            var pos = role.Pos_GetPosInt();
-            if (posDict.TryGetValue(pos, out var roles)) {
-                roles.Add(role);
-            } else {
-                var list = new List<RoleEntity>();
-                list.Add(role);
-                posDict.Add(pos, list);
-            }
         }
 
         public int TakeAll(out RoleEntity[] roles) {
@@ -43,83 +31,6 @@ namespace Leap {
 
         public void Remove(RoleEntity role) {
             all.Remove(role.entityID);
-            
-            var pos = role.Pos_GetPosInt();
-            if (posDict.ContainsKey(pos)) {
-                posDict[pos].Remove(role);
-            }
-        }
-
-        public void UpdatePosDict(RoleEntity role) {
-            var lastPos = role.Pos_GetLastPosInt();
-            var newPos = role.Pos_GetPosInt();
-            if (posDict.ContainsKey(lastPos)) {
-                posDict[lastPos].Remove(role);
-            } else {
-                GLog.LogError("Dont's has old key in PosDict, role entityID = " + role.entityID);
-            }
-            if (posDict.ContainsKey(newPos)) {
-                posDict[newPos].Add(role);
-            } else {
-                var list = new List<RoleEntity>();
-                list.Add(role);
-                posDict.Add(newPos, list);
-            }
-        }
-
-        public bool TryGetRoleByPosInt(Vector2Int pos, out List<RoleEntity> roles) {
-            if (!posDict.TryGetValue(pos, out roles)) {
-                return false;
-            }
-            return true;
-        }
-
-        public int TryGetAround(Vector2Int centerPos, float radius, int maxCount, out RoleEntity[] roles) {
-            int gridCount = GameFunctions.GFGrid.CircleCycle_GetCells(centerPos, radius, cellsTemp);
-            int roleCount = 0;
-            for (int i = 0; i < gridCount; i++) {
-                if (!posDict.TryGetValue(cellsTemp[i], out var list)) {
-                    continue;
-                }
-                list.ForEach((role) => {
-                    temp[roleCount++] = role;
-                    if (roleCount >= maxCount) {
-                        return;
-                    }
-                });
-                if (roleCount >= maxCount) {
-                    break;
-                }
-            }
-            roles = temp;
-            return roleCount;
-        }
-
-        public int TryGetAroundWithAlly(int entityID, AllyStatus allyStatus, Vector2Int centerPos, float radius, int maxCount, out RoleEntity[] roles) {
-            int gridCount = GameFunctions.GFGrid.CircleCycle_GetCells(centerPos, radius, cellsTemp);
-            int roleCount = 0;
-            for (int i = 0; i < gridCount; i++) {
-                if (!posDict.TryGetValue(cellsTemp[i], out var list)) {
-                    continue;
-                }
-                list.ForEach((role) => {
-                    if (role.allyStatus != allyStatus) {
-                        return;
-                    }
-                    if (role.entityID == entityID) {
-                        return;
-                    }
-                    temp[roleCount++] = role;
-                    if (roleCount >= maxCount) {
-                        return;
-                    }
-                });
-                if (roleCount >= maxCount) {
-                    break;
-                }
-            }
-            roles = temp;
-            return roleCount;
         }
 
         public bool TryGetRole(int entityID, out RoleEntity role) {
@@ -159,7 +70,6 @@ namespace Leap {
 
         public void Clear() {
             all.Clear();
-            posDict.Clear();
         }
 
     }

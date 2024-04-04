@@ -64,11 +64,6 @@ namespace Leap {
                     GameRoleFSMController.FixedTickFSM(ctx, role, fixdt);
                 });
 
-                // - UpdateLastPos
-                ctx.roleRepo.ForEach(role => {
-                    GameRoleDomain.UpdatePosDict(ctx, role);
-                });
-
                 Physics2D.Simulate(fixdt);
             }
         }

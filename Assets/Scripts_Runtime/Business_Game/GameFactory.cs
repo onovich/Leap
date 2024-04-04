@@ -40,6 +40,34 @@ namespace Leap {
             return role;
         }
 
+        public static BlockEntity Block_Spawn(TemplateInfraContext templateInfraContext,
+                                  AssetsInfraContext assetsInfraContext,
+                                  IDRecordService idRecordService,
+                                  int typeID,
+                                  Vector2 pos) {
+
+            var has = templateInfraContext.Block_TryGet(typeID, out var blockTM);
+            if (!has) {
+                GLog.LogError($"Role {typeID} not found");
+            }
+
+            var prefab = assetsInfraContext.Entity_GetBlock();
+            var block = GameObject.Instantiate(prefab).GetComponent<BlockEntity>();
+            block.Ctor();
+
+            // Base Info
+            block.entityID = idRecordService.PickRoleEntityID();
+            block.typeID = typeID;
+
+            // Set Pos
+            block.Pos_SetPos(pos);
+
+            // Set Mesh
+            block.Mesh_Set(blockTM.mesh);
+
+            return block;
+        }
+
     }
 
 }

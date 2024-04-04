@@ -12,6 +12,7 @@ namespace Leap {
         public InputEntity inputEntity; // External
 
         public RoleRepository roleRepo;
+        public BlockRepository blockRepo;
 
         // UI
         public UIAppContext uiContext;
@@ -31,6 +32,7 @@ namespace Leap {
             playerEntity = new PlayerEntity();
             idRecordService = new IDRecordService();
             roleRepo = new RoleRepository();
+            blockRepo = new BlockRepository();
         }
 
         public void Reset() {
@@ -43,12 +45,13 @@ namespace Leap {
             return role;
         }
 
-        public void Role_UpdatePosDict(RoleEntity role) {
-            roleRepo.UpdatePosDict(role);
-        }
-
         public void Role_ForEach(Action<RoleEntity> onAction) {
             roleRepo.ForEach(onAction);
+        }
+
+        // Block
+        public void Block_ForEach(Action<BlockEntity> onAction) {
+            blockRepo.ForEach(onAction);
         }
 
     }

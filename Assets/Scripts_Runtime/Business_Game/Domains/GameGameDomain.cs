@@ -28,6 +28,10 @@ namespace Leap {
             //                          npc.pos);
             // }
 
+            // Block
+            // 临时代码
+            var block = GameBlockDomain.Spawn(ctx, 1, new Vector2(0, -2));
+
             // Camera
 
             // UI

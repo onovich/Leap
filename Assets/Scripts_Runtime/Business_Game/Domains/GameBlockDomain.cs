@@ -2,16 +2,16 @@ using UnityEngine;
 
 namespace Leap {
 
-    public static class GameRoleDomain {
+    public static class GameBlockDomain {
 
-        public static RoleEntity Spawn(GameBusinessContext ctx, int typeID, Vector2 pos) {
-            var role = GameFactory.Role_Spawn(ctx.templateInfraContext,
+        public static BlockEntity Spawn(GameBusinessContext ctx, int typeID, Vector2 pos) {
+            var block = GameFactory.Block_Spawn(ctx.templateInfraContext,
                                               ctx.assetsInfraContext,
                                               ctx.idRecordService,
                                               typeID,
                                               pos);
-            ctx.roleRepo.Add(role);
-            return role;
+            ctx.blockRepo.Add(block);
+            return block;
         }
 
         public static void UnSpawn(GameBusinessContext ctx, RoleEntity role) {

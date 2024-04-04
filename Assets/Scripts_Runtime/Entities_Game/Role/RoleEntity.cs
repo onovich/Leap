@@ -27,9 +27,6 @@ namespace Leap {
         // Physics
         [SerializeField] Rigidbody2D rb;
 
-        // Pos
-        public Vector2Int lastPosInt;
-
         public void Ctor() {
             fsmCom = new RoleFSMComponent();
             inputCom = new RoleInputComponent();
@@ -50,18 +47,6 @@ namespace Leap {
 
         public Vector2 Pos_GetVolecity() {
             return rb.velocity;
-        }
-
-        public bool Pos_IsDifferentFromLast() {
-            return Pos_GetPosInt() != Pos_GetLastPosInt();
-        }
-
-        public void Pos_RecordLastPosInt() {
-            lastPosInt = Pos_GetPosInt();
-        }
-
-        public Vector2Int Pos_GetLastPosInt() {
-            return lastPosInt;
         }
 
         // Attr
