@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a1e22956f2334251b773b2a1967c65b, type: 3}
   m_Name: SO_Map_001
   m_EditorClassIdentifier: 
-  typeID: 0
+  typeID: 1
   mapSize: {x: 20, y: 10}
   tileBase_terrain: {fileID: 11400000, guid: 7cff088cd60594a7e9c71fce7ed147d4, type: 2}
   terrainSpawnPosArr:
@@ -54,10 +54,16 @@ MonoBehaviour:
   - {x: 7, y: -3}
   - {x: 8, y: -4}
   - {x: 8, y: -3}
+  - {x: 9, y: -4}
+  - {x: 9, y: -3}
+  - {x: 9, y: -2}
   SpawnPoint: {x: 0, y: 0}
   blockSpawnArr:
   - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
+  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
   blockSpawnPosArr:
-  - {x: -7, y: -1}
+  - {x: -10, y: -2}
+  - {x: -9, y: -1}
   blockSpawnSizeArr:
+  - {x: 1, y: 1}
   - {x: 1, y: 1}

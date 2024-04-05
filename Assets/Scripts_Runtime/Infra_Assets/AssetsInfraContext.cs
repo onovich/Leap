@@ -24,6 +24,14 @@ namespace Leap {
             return has;
         }
 
+        public GameObject Entity_GetMap() {
+            var has = Entity_TryGet("Entity_Map", out var prefab);
+            if (!has) {
+                GLog.LogError($"Entity Map not found");
+            }
+            return prefab;
+        }
+
         public GameObject Entity_GetRole() {
             var has = Entity_TryGet("Entity_Role", out var prefab);
             if (!has) {

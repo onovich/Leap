@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TriInspector;
 using UnityEditor;
@@ -32,16 +33,28 @@ namespace Leap.Modifier {
             mapTM.mapSize = mapSize.transform.localScale.RoundToVector2Int();
         }
 
+        // void BakeTerrain() {
+        //     var terrainSpawnPosList = new List<Vector2Int>();
+        //     for (int x = tilemap_terrain.cellBounds.x; x < tilemap_terrain.cellBounds.xMax; x++) {
+        //         for (int y = tilemap_terrain.cellBounds.y; y < tilemap_terrain.cellBounds.yMax; y++) {
+        //             var pos = new Vector3Int(x, y, 0);
+        //             var tile = tilemap_terrain.GetTile(pos);
+        //             if (tile == null) continue;
+        //             terrainSpawnPosList.Add(pos.ToVector2Int());
+        //         }
+        //     }
+        //     mapTM.terrainSpawnPosArr = terrainSpawnPosList.ToArray();
+        // }
+
         void BakeTerrain() {
             var terrainSpawnPosList = new List<Vector2Int>();
-            for (int x = tilemap_terrain.cellBounds.x; x < tilemap_terrain.cellBounds.xMax; x++) {
-                for (int y = tilemap_terrain.cellBounds.y; y < tilemap_terrain.cellBounds.yMax; y++) {
-                    var pos = new Vector3Int(x, y, 0);
-                    var tile = tilemap_terrain.GetTile(pos);
-                    if (tile == null) continue;
-                    terrainSpawnPosList.Add(pos.ToVector2Int());
+            TravelTilemap(tilemap_terrain, (tile, pos) => {
+                var tilebase = tilebase_terrain;
+                if (tilebase.name == tile.name) {
+                    terrainSpawnPosList.Add(pos);
+                    return;
                 }
-            }
+            });
             mapTM.terrainSpawnPosArr = terrainSpawnPosList.ToArray();
         }
 
@@ -73,7 +86,6 @@ namespace Leap.Modifier {
         }
 
         void BakeSpawnPoint() {
-
             var group = transform.GetChild(3);
             var editor = group.GetComponent<SpawnPointEditorEntity>();
             if (editor == null) {
@@ -82,7 +94,18 @@ namespace Leap.Modifier {
             editor.Rename();
             var posInt = editor.GetPosInt();
             mapTM.SpawnPoint = posInt;
+        }
 
+        void TravelTilemap(Tilemap tilemap, Action<TileBase, Vector2Int> action) {
+            for (int x = tilemap.cellBounds.x; x < tilemap.cellBounds.xMax; x++) {
+                for (int y = tilemap.cellBounds.y; y < tilemap.cellBounds.yMax; y++) {
+                    Vector3Int pos = new Vector3Int(x, y, 0);
+                    TileBase tile = tilemap.GetTile(pos);
+                    if (tile != null) {
+                        action.Invoke(tile, new Vector2Int(x, y));
+                    }
+                }
+            }
         }
 
     }

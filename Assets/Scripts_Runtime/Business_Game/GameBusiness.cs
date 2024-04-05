@@ -87,7 +87,11 @@ namespace Leap {
         }
 
         public static void TearDown(GameBusinessContext ctx) {
-            ExitGame(ctx);
+            var game = ctx.gameEntity;
+            var status = game.fsmComponent.status;
+            if (status == GameStatus.Gaming) {
+                ExitGame(ctx);
+            }
         }
 
         // UI

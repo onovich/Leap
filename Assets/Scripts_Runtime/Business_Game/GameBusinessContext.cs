@@ -10,6 +10,7 @@ namespace Leap {
         public GameEntity gameEntity;
         public PlayerEntity playerEntity;
         public InputEntity inputEntity; // External
+        public MapEntity currentMapEntity;
 
         public RoleRepository roleRepo;
         public BlockRepository blockRepo;

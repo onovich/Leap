@@ -4,6 +4,25 @@ namespace Leap {
 
     public static class GameFactory {
 
+        public static MapEntity Map_Spawn(TemplateInfraContext templateInfraContext,
+                                 AssetsInfraContext assetsInfraContext,
+                                 int typeID) {
+
+            var has = templateInfraContext.Map_TryGet(typeID, out var mapTM);
+            if (!has) {
+                GLog.LogError($"Map {typeID} not found");
+            }
+
+            var prefab = assetsInfraContext.Entity_GetMap();
+            var map = GameObject.Instantiate(prefab).GetComponent<MapEntity>();
+            map.Ctor();
+            map.typeID = typeID;
+            map.mapSize = mapTM.mapSize;
+            map.tileBase_terrain = mapTM.tileBase_terrain;
+
+            return map;
+        }
+
         public static RoleEntity Role_Spawn(TemplateInfraContext templateInfraContext,
                                  AssetsInfraContext assetsInfraContext,
                                  IDRecordService idRecordService,
@@ -47,7 +66,8 @@ namespace Leap {
                                   AssetsInfraContext assetsInfraContext,
                                   IDRecordService idRecordService,
                                   int typeID,
-                                  Vector2 pos) {
+                                  Vector2Int pos,
+                                  Vector2Int size) {
 
             var has = templateInfraContext.Block_TryGet(typeID, out var blockTM);
             if (!has) {
@@ -64,6 +84,9 @@ namespace Leap {
 
             // Set Pos
             block.Pos_SetPos(pos);
+
+            // Set Size
+            block.Size_SetSize(size);
 
             // Set Mesh
             block.Mesh_Set(blockTM.mesh);

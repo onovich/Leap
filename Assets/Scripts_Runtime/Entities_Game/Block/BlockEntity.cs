@@ -29,6 +29,11 @@ namespace Leap {
             return transform.position.RoundToVector3Int().ToVector2Int();
         }
 
+        // Size
+        public void Size_SetSize(Vector2 size) {
+            spr.size = size;
+        }
+
         // Mesh
         public void Mesh_Set(Sprite sp) {
             this.spr.sprite = sp;

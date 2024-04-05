@@ -12,6 +12,17 @@ namespace Leap {
             var game = ctx.gameEntity;
             game.fsmComponent.Gaming_Enter();
 
+            // Map
+            var map = GameMapDomain.Spawn(ctx, 1);
+            var has = ctx.templateInfraContext.Map_TryGet(1, out var mapTM);
+            if (!has) {
+                GLog.LogError($"MapTM Not Found {1}");
+            }
+
+            // - Terrain
+            var terrainPosArr = mapTM.terrainSpawnPosArr;
+            GameMapDomain.Terrain_SetAll(ctx, map, terrainPosArr);
+
             // Role
             var player = ctx.playerEntity;
 
@@ -21,17 +32,11 @@ namespace Leap {
                                              new Vector2(0, 0));
             player.ownerRoleEntityID = owner.entityID;
 
-            // - NPC
-            // foreach (var npc in mapTM.roleSpawnArr) {
-            //     GameRoleDomain.Spawn(ctx,
-            //                          npc.typeID,
-            //                          npc.pos);
-            // }
-
             // Block
-            // 临时代码
-            var block = GameBlockDomain.Spawn(ctx, 1, new Vector2(0, -2));
-            block.transform.localScale = new Vector3(7, 1, 1);
+            var blockTMArr = mapTM.blockSpawnArr;
+            var blockPosArr = mapTM.blockSpawnPosArr;
+            var blockSizeArr = mapTM.blockSpawnSizeArr;
+            GameBlockDomain.SpawnAll(ctx, blockTMArr, blockPosArr, blockSizeArr);
 
             // Camera
 
@@ -46,11 +51,21 @@ namespace Leap {
             var game = ctx.gameEntity;
             game.fsmComponent.NotInGame_Enter();
 
+            // Map
+            GameMapDomain.UnSpawn(ctx);
+
             // Role
             int roleLen = ctx.roleRepo.TakeAll(out var roles);
             for (int i = 0; i < roleLen; i++) {
                 var role = roles[i];
                 GameRoleDomain.UnSpawn(ctx, role);
+            }
+
+            // Block
+            int blockLen = ctx.blockRepo.TakeAll(out var blocks);
+            for (int i = 0; i < blockLen; i++) {
+                var block = blocks[i];
+                GameBlockDomain.UnSpawn(ctx, block);
             }
 
             // UI

@@ -43,3 +43,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Back Ground
+    uniqueID: 1711803947
+    locked: 0
+  - name: Terrain
+    uniqueID: 3378315267
+    locked: 0
+  - name: Block
+    uniqueID: 3650437459
+    locked: 0
+  - name: Spike
+    uniqueID: 1132230647
+    locked: 0
+  - name: Role
+    uniqueID: 1601092365
+    locked: 0
+  - name: VFX
+    uniqueID: 981059655
+    locked: 0
