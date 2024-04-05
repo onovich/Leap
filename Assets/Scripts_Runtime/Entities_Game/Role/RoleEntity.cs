@@ -120,9 +120,6 @@ namespace Leap {
         }
 
         public void Move_Falling(float dt) {
-            if (isGround) {
-                return;
-            }
             var velo = rb.velocity;
             velo.y -= g * dt;
             velo.y = Mathf.Max(velo.y, -fallingSpeedMax);

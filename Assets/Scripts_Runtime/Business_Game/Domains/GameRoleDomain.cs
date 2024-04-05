@@ -81,7 +81,6 @@ namespace Leap {
 
         static void OnFootTriggerExit(RoleEntity role, Collider2D other) {
             // Leave Ground Or Block
-            role.Move_LeaveGround();
         }
 
         static void OnBodyCollisionEnter(GameBusinessContext ctx, RoleEntity role, Collision2D other) {
