@@ -69,7 +69,8 @@ namespace Leap {
                                   IDRecordService idRecordService,
                                   int typeID,
                                   Vector2Int pos,
-                                  Vector2Int size) {
+                                  Vector2Int size,
+                                  int index) {
 
             var has = templateInfraContext.Block_TryGet(typeID, out var blockTM);
             if (!has) {
@@ -81,7 +82,7 @@ namespace Leap {
             block.Ctor();
 
             // Base Info
-            block.entityID = idRecordService.PickRoleEntityID();
+            block.entityIndex = index;
             block.typeID = typeID;
 
             // Set Pos
@@ -93,6 +94,9 @@ namespace Leap {
             // Set Mesh
             block.Mesh_Set(blockTM.mesh);
 
+            // Rename
+            block.Rename();
+
             return block;
         }
 
@@ -102,7 +106,8 @@ namespace Leap {
                                   int typeID,
                                   Vector2Int pos,
                                   Vector2Int size,
-                                  int rotationZ) {
+                                  int rotationZ,
+                                  int index) {
 
             var has = templateInfraContext.Spike_TryGet(typeID, out var blockTM);
             if (!has) {
@@ -114,7 +119,7 @@ namespace Leap {
             spike.Ctor();
 
             // Base Info
-            spike.entityID = idRecordService.PickRoleEntityID();
+            spike.entityIndex = index;
             spike.typeID = typeID;
 
             // Set Pos
@@ -125,6 +130,9 @@ namespace Leap {
 
             // Set Mesh
             spike.Mesh_Set(blockTM.mesh);
+
+            // Rename
+            spike.Rename();
 
             return spike;
         }

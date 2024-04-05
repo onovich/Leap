@@ -22,12 +22,17 @@ namespace Leap {
         public BlockTM[] blockSpawnArr;
         public Vector2Int[] blockSpawnPosArr;
         public Vector2Int[] blockSpawnSizeArr;
+        public int[] blockSpawnIndexArr;
 
         // Spike Spawn
         public SpikeTM[] spikeSpawnArr;
         public Vector2Int[] spikeSpawnPosArr;
         public Vector2Int[] spikeSpawnSizeArr;
         public int[] spikeSpawnRotationZArr;
+        public int[] spikeSpawnIndexArr;
+
+        // Track
+
 
     }
 

@@ -15,7 +15,7 @@ namespace Leap {
         }
 
         public void Add(SpikeEntity spike) {
-            all.Add(spike.entityID, spike);
+            all.Add(spike.entityIndex, spike);
         }
 
         public int TakeAll(out SpikeEntity[] spikes) {
@@ -29,7 +29,7 @@ namespace Leap {
         }
 
         public void Remove(SpikeEntity spike) {
-            all.Remove(spike.entityID);
+            all.Remove(spike.entityIndex);
         }
 
         public bool TryGetSpike(int entityID, out SpikeEntity spike) {

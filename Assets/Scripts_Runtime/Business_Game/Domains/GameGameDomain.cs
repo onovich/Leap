@@ -37,14 +37,16 @@ namespace Leap {
             var blockTMArr = mapTM.blockSpawnArr;
             var blockPosArr = mapTM.blockSpawnPosArr;
             var blockSizeArr = mapTM.blockSpawnSizeArr;
-            GameBlockDomain.SpawnAll(ctx, blockTMArr, blockPosArr, blockSizeArr);
+            var blockIndexArr = mapTM.blockSpawnIndexArr;
+            GameBlockDomain.SpawnAll(ctx, blockTMArr, blockPosArr, blockSizeArr, blockIndexArr);
 
             // Spike
             var spikeTMArr = mapTM.spikeSpawnArr;
             var spikePosArr = mapTM.spikeSpawnPosArr;
             var spikeSizeArr = mapTM.spikeSpawnSizeArr;
             var spikeRotationZArr = mapTM.spikeSpawnRotationZArr;
-            GameSpikeDomain.SpawnAll(ctx, spikeTMArr, spikePosArr, spikeSizeArr, spikeRotationZArr);
+            var spikeIndexArr = mapTM.spikeSpawnIndexArr;
+            GameSpikeDomain.SpawnAll(ctx, spikeTMArr, spikePosArr, spikeSizeArr, spikeRotationZArr, spikeIndexArr);
 
             // Camera
 

@@ -5,9 +5,10 @@ namespace Leap.Modifier {
     public class SpikerEditorEntity : MonoBehaviour {
 
         [SerializeField] public SpikeTM spikeTM;
+        public int index;
 
         public void Rename() {
-            this.gameObject.name = $"Spike - {spikeTM.typeID}";
+            this.gameObject.name = $"Spike - {spikeTM.typeID} - {index}";
         }
 
         public Vector2Int GetPosInt() {

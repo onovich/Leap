@@ -5,11 +5,12 @@ namespace Leap.Modifier {
     public class BlockEditorEntity : MonoBehaviour {
 
         [SerializeField] public BlockTM blockTM;
+        public int index;
 
         public void Rename() {
-            this.gameObject.name = $"Block - {blockTM.typeID}";
+            this.gameObject.name = $"Block - {blockTM.typeID} - {index}";
         }
-        
+
         public Vector2Int GetPosInt() {
             var posInt = this.transform.position.RoundToVector2Int();
             this.transform.position = posInt.ToVector3Int();

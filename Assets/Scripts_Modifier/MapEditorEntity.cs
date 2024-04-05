@@ -18,8 +18,12 @@ namespace Leap.Modifier {
         [SerializeField] Transform spikeGroup;
         [SerializeField] Transform spawnPointGroup;
 
+        IndexService indexService;
+
         [Button("Bake")]
         void Bake() {
+            indexService = new IndexService();
+            indexService.ResetIndex();
             BakeTerrain();
             BakeMapInfo();
             BakeBlock();
@@ -55,13 +59,13 @@ namespace Leap.Modifier {
             List<Vector2Int> spikeSpawnPosList = new List<Vector2Int>();
             List<Vector2Int> spikeSpawnSizeList = new List<Vector2Int>();
             List<int> spikeSpawnRotationZList = new List<int>();
+            List<int> spikeIndexList = new List<int>();
             var spikeEditors = spikeGroup.GetComponentsInChildren<SpikerEditorEntity>();
             if (spikeEditors == null) {
                 Debug.Log("BlockEditors Not Found");
             }
             for (int i = 0; i < spikeEditors.Length; i++) {
                 var editor = spikeEditors[i];
-                editor.Rename();
 
                 var tm = editor.spikeTM;
                 spikeTMList.Add(tm);
@@ -74,24 +78,31 @@ namespace Leap.Modifier {
 
                 var zInt = editor.GetRotationZInt();
                 spikeSpawnRotationZList.Add(zInt);
+
+                var index = indexService.PickSpikeIndex();
+                spikeIndexList.Add(index);
+                editor.index = index;
+
+                editor.Rename();
             }
             mapTM.spikeSpawnArr = spikeTMList.ToArray();
             mapTM.spikeSpawnPosArr = spikeSpawnPosList.ToArray();
             mapTM.spikeSpawnSizeArr = spikeSpawnSizeList.ToArray();
             mapTM.spikeSpawnRotationZArr = spikeSpawnRotationZList.ToArray();
+            mapTM.spikeSpawnIndexArr = spikeIndexList.ToArray();
         }
 
         void BakeBlock() {
             List<BlockTM> blockTMList = new List<BlockTM>();
             List<Vector2Int> blockSpawnPosList = new List<Vector2Int>();
             List<Vector2Int> blockSpawnSizeList = new List<Vector2Int>();
+            List<int> blockIndexList = new List<int>();
             var blockEditors = blockGroup.GetComponentsInChildren<BlockEditorEntity>();
             if (blockEditors == null) {
                 Debug.Log("BlockEditors Not Found");
             }
             for (int i = 0; i < blockEditors.Length; i++) {
                 var editor = blockEditors[i];
-                editor.Rename();
 
                 var tm = editor.blockTM;
                 blockTMList.Add(tm);
@@ -101,10 +112,17 @@ namespace Leap.Modifier {
 
                 var sizeInt = editor.GetSizeInt();
                 blockSpawnSizeList.Add(sizeInt);
+
+                var index = indexService.PickBlockIndex();
+                blockIndexList.Add(index);
+                editor.index = index;
+
+                editor.Rename();
             }
             mapTM.blockSpawnArr = blockTMList.ToArray();
             mapTM.blockSpawnPosArr = blockSpawnPosList.ToArray();
             mapTM.blockSpawnSizeArr = blockSpawnSizeList.ToArray();
+            mapTM.blockSpawnIndexArr = blockIndexList.ToArray();
         }
 
         void BakeSpawnPoint() {

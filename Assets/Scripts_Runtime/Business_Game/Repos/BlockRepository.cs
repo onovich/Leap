@@ -15,7 +15,7 @@ namespace Leap {
         }
 
         public void Add(BlockEntity block) {
-            all.Add(block.entityID, block);
+            all.Add(block.entityIndex, block);
         }
 
         public int TakeAll(out BlockEntity[] blocks) {
@@ -29,7 +29,7 @@ namespace Leap {
         }
 
         public void Remove(BlockEntity block) {
-            all.Remove(block.entityID);
+            all.Remove(block.entityIndex);
         }
 
         public bool TryGetBlock(int entityID, out BlockEntity block) {

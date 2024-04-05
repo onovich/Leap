@@ -6,7 +6,7 @@ namespace Leap {
     public class SpikeEntity : MonoBehaviour {
 
         // Base Info
-        public int entityID;
+        public int entityIndex;
         public int typeID;
 
         // Render
@@ -37,6 +37,11 @@ namespace Leap {
         // Mesh
         public void Mesh_Set(Sprite sp) {
             this.spr.sprite = sp;
+        }
+
+        // Rename
+        public void Rename() {
+            this.name = $"Block - {typeID} - {entityIndex}";
         }
 
         public void TearDown() {
