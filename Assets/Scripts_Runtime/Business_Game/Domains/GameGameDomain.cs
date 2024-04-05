@@ -30,8 +30,6 @@ namespace Leap {
 
             // Block
             // 临时代码
-            GameBlockDomain.SpawnMulti(ctx, 1, new Vector2(-10, -2));
-
             var block = GameBlockDomain.Spawn(ctx, 1, new Vector2(0, -2));
             block.transform.localScale = new Vector3(7, 1, 1);
 

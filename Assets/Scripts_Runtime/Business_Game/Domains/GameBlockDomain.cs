@@ -14,15 +14,6 @@ namespace Leap {
             return block;
         }
 
-        public static GameObject SpawnMulti(GameBusinessContext ctx, int typeID, Vector2 pos) {
-            var block = GameFactory.Block_SpawnMulti(ctx.templateInfraContext,
-                                              ctx.assetsInfraContext,
-                                              ctx.idRecordService,
-                                              typeID,
-                                              pos);
-            return block;
-        }
-
         public static void UnSpawn(GameBusinessContext ctx, RoleEntity role) {
             ctx.roleRepo.Remove(role);
             role.TearDown();

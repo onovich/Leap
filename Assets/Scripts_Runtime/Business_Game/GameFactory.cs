@@ -71,20 +71,6 @@ namespace Leap {
             return block;
         }
 
-        public static GameObject Block_SpawnMulti(TemplateInfraContext templateInfraContext,
-                                  AssetsInfraContext assetsInfraContext,
-                                  IDRecordService idRecordService,
-                                  int typeID,
-                                  Vector2 pos) {
-
-            var prefab = assetsInfraContext.Entity_GetMultiBlock();
-            var block = GameObject.Instantiate(prefab);
-
-            // Set Pos
-            block.transform.position = pos;
-            return block;
-        }
-
     }
 
 }
