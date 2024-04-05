@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.codewriter.triinspector": {
+      "version": "git@github.com:codewriter-packages/Tri-Inspector.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.localization": "1.0.0"
+      },
+      "hash": "57e726cc4f2c8d3488011f312d5b22dab2b19dc5"
+    },
     "com.gamearki.gamefunctions": {
       "version": "ssh://git@github.com/GameArki/GameFunctions.git?path=Assets",
       "depth": 0,
@@ -13,6 +22,13 @@
       "source": "git",
       "dependencies": {},
       "hash": "d28429bcf558304d11a6f7a38300db9b76cb524e"
+    },
+    "com.mortise.swing": {
+      "version": "ssh://git@github.com/onovich/Swing.git?path=/Assets/com.mortise.swing#unity-edition",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "28e16b6f750137587b7527e6832b8d9bb2dac059"
     },
     "com.unity.2d.animation": {
       "version": "9.0.4",
@@ -204,9 +220,26 @@
       "dependencies": {},
       "url": "https://packages.unity.cn"
     },
+    "com.unity.localization": {
+      "version": "1.4.4",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.addressables": "1.21.8",
+        "com.unity.nuget.newtonsoft-json": "3.0.2"
+      },
+      "url": "https://packages.unity.cn"
+    },
     "com.unity.mathematics": {
       "version": "1.2.6",
       "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.cn"
+    },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.1",
+      "depth": 2,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.cn"

@@ -1,7 +1,9 @@
 {
   "dependencies": {
+    "com.codewriter.triinspector": "git@github.com:codewriter-packages/Tri-Inspector.git",
     "com.gamearki.gamefunctions": "ssh://git@github.com/GameArki/GameFunctions.git?path=Assets",
     "com.mortise.loom": "ssh://git@github.com/onovich/Loom.git?path=/Assets/com.mortise.loom#main",
+    "com.mortise.swing": "ssh://git@github.com/onovich/Swing.git?path=/Assets/com.mortise.swing#unity-edition",
     "com.unity.addressables": "1.21.20",
     "com.unity.ai.navigation": "1.1.5",
     "com.unity.collab-proxy": "2.2.0",
