@@ -101,19 +101,11 @@ namespace Leap {
         }
 
         public static void ApplyMove(GameBusinessContext ctx, RoleEntity role, float dt) {
-            var owner = ctx.Role_GetOwner();
-            if (owner.inputCom.moveAxis == Vector2.zero) {
-                role.Move_Stop();
-            } else if (owner.inputCom.moveAxis != Vector2.zero) {
-                role.Move_ApplyMove(dt);
-            }
+            role.Move_ApplyMove(dt);
         }
 
         public static void ApplyJump(GameBusinessContext ctx, RoleEntity role, float dt) {
-            var owner = ctx.Role_GetOwner();
-            if (owner.inputCom.jumpAxis != 0f) {
-                role.Move_Jump();
-            }
+            role.Move_Jump();
         }
 
         public static void ApplyFalling(GameBusinessContext ctx, RoleEntity role, float dt) {

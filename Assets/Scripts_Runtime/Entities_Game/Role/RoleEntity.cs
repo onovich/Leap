@@ -85,15 +85,17 @@ namespace Leap {
 
         // Move
         public void Move_ApplyMove(float dt) {
-            Move_Apply(inputCom.moveAxis.normalized, Attr_GetMoveSpeed(), dt);
+            Move_Apply(inputCom.moveAxis.x, Attr_GetMoveSpeed(), dt);
         }
 
         public void Move_Stop() {
-            Move_Apply(Vector2.zero, 0, 0);
+            Move_Apply(0, 0, 0);
         }
 
-        void Move_Apply(Vector2 dir, float moveSpeed, float fixdt) {
-            rb.velocity = dir.normalized * moveSpeed;
+        void Move_Apply(float xAxis, float moveSpeed, float fixdt) {
+            var velo = rb.velocity;
+            velo.x = xAxis * moveSpeed;
+            rb.velocity = velo;
         }
 
         public void Move_EnterGround() {
@@ -106,6 +108,9 @@ namespace Leap {
 
         public void Move_Jump() {
             if (!isGround) {
+                return;
+            }
+            if (inputCom.jumpAxis <= 0) {
                 return;
             }
             var velo = rb.velocity;
