@@ -3,8 +3,9 @@
 
 关于"组合"的设计
 1. 每个 Block 都独立存在，Block 可拉伸
-2. "组合" 由 Block 附加组件实现: Spike、Path、Trigger、Effector... 不存在"多个 Block 的组合"
-3. Block 可以有多份预制体，用 TypeID 区分
+2. Spike、Block、Trigger、Effector 是独立存在的，不可组合
+3. Path 是一个容器，一个 Path 拥有一个 PathGroup，Group 内的所有 Transform 都会被代理
+4. Block 可以有多份预制体，用 TypeID 区分
 
 待实现机制
 1. 二段跳
