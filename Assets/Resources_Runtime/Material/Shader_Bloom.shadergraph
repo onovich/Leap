@@ -213,8 +213,8 @@
     },
     "m_FragmentContext": {
         "m_Position": {
-            "x": 641.142822265625,
-            "y": -2.285726308822632
+            "x": 664.0,
+            "y": 155.50001525878907
         },
         "m_Blocks": [
             {
@@ -239,7 +239,7 @@
         "preventRotation": false
     },
     "m_Path": "Shader Graphs",
-    "m_GraphPrecision": 1,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": ""
@@ -786,7 +786,7 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"492d4003cc58aa24694b84d90d4a0b95\",\"type\":3}}",
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"6c550037cc45ccd458625610f5195acf\",\"type\":3}}",
         "m_Guid": ""
     },
     "isMainTexture": false,
