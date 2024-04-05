@@ -8,6 +8,9 @@ namespace Leap {
         GameConfig config;
         public AsyncOperationHandle configHandle;
 
+        Dictionary<int, MapTM> mapDict;
+        public AsyncOperationHandle mapHandle;
+
         Dictionary<int, RoleTM> roleDict;
         public AsyncOperationHandle roleHandle;
 
@@ -15,6 +18,7 @@ namespace Leap {
         public AsyncOperationHandle blockHandle;
 
         public TemplateInfraContext() {
+            mapDict = new Dictionary<int, MapTM>();
             roleDict = new Dictionary<int, RoleTM>();
             blockDict = new Dictionary<int, BlockTM>();
         }
@@ -26,6 +30,19 @@ namespace Leap {
 
         public GameConfig Config_Get() {
             return config;
+        }
+
+        // Map
+        public void Map_Add(MapTM map) {
+            mapDict.Add(map.typeID, map);
+        }
+
+        public bool Map_TryGet(int typeID, out MapTM map) {
+            var has = mapDict.TryGetValue(typeID, out map);
+            if (!has) {
+                GLog.LogError($"Map {typeID} not found");
+            }
+            return has;
         }
 
         // Role
@@ -56,6 +73,7 @@ namespace Leap {
 
         // Clear
         public void Clear() {
+            mapDict.Clear();
             roleDict.Clear();
             blockDict.Clear();
         }
