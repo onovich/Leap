@@ -16,18 +16,19 @@ namespace Leap.Modifier {
 
         [Button("Bake")]
         void Bake() {
-
             BakeTerrain();
-            BakeMapSize();
+            BakeMapInfo();
             BakeBlock();
             BakeSpawnPoint();
 
             EditorUtility.SetDirty(mapTM);
             AssetDatabase.SaveAssets();
-
+            Debug.Log("Bake Sucess");
         }
 
-        void BakeMapSize() {
+        void BakeMapInfo() {
+            mapTM.typeID = typeID;
+            mapTM.tileBase_terrain = tilebase_terrain;
             mapTM.mapSize = mapSize.transform.localScale.RoundToVector2Int();
         }
 
@@ -78,6 +79,7 @@ namespace Leap.Modifier {
             if (editor == null) {
                 Debug.Log("SpawnPointEditor Not Found");
             }
+            editor.Rename();
             var posInt = editor.GetPosInt();
             mapTM.SpawnPoint = posInt;
 

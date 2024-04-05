@@ -14,8 +14,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeID: 0
   mapSize: {x: 20, y: 10}
-  tileBase_terrain: {fileID: 0}
-  terrainSpawnPosArr: []
+  tileBase_terrain: {fileID: 11400000, guid: 7cff088cd60594a7e9c71fce7ed147d4, type: 2}
+  terrainSpawnPosArr:
+  - {x: -10, y: -4}
+  - {x: -10, y: -3}
+  - {x: -9, y: -4}
+  - {x: -9, y: -3}
+  - {x: -8, y: -4}
+  - {x: -8, y: -3}
+  - {x: -7, y: -4}
+  - {x: -7, y: -3}
+  - {x: -6, y: -4}
+  - {x: -6, y: -3}
+  - {x: -5, y: -4}
+  - {x: -5, y: -3}
+  - {x: -4, y: -4}
+  - {x: -4, y: -3}
+  - {x: -3, y: -4}
+  - {x: -3, y: -3}
+  - {x: -2, y: -4}
+  - {x: -2, y: -3}
+  - {x: -1, y: -4}
+  - {x: -1, y: -3}
+  - {x: 0, y: -4}
+  - {x: 0, y: -3}
+  - {x: 1, y: -4}
+  - {x: 1, y: -3}
+  - {x: 2, y: -4}
+  - {x: 2, y: -3}
+  - {x: 3, y: -4}
+  - {x: 3, y: -3}
+  - {x: 4, y: -4}
+  - {x: 4, y: -3}
+  - {x: 5, y: -4}
+  - {x: 5, y: -3}
+  - {x: 6, y: -4}
+  - {x: 6, y: -3}
+  - {x: 7, y: -4}
+  - {x: 7, y: -3}
+  - {x: 8, y: -4}
+  - {x: 8, y: -3}
   SpawnPoint: {x: 0, y: 0}
   blockSpawnArr:
   - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
