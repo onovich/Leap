@@ -32,7 +32,7 @@ namespace Leap {
         public int[] spikeSpawnIndexArr;
 
         // Track
-
+        public TrackSpawnTM[] trackSpawnArr;
 
     }
 
