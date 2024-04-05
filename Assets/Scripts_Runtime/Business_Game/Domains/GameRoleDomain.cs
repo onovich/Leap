@@ -48,13 +48,13 @@ namespace Leap {
             var otherGo = other.gameObject;
             var otherTag = otherGo.tag;
 
+            // Enter Ground Or Block
             if (otherGo.CompareTag(TagConst.GROUND)) {
                 RoleEnterGroundOrBlock(ctx, role);
             } else if (otherGo.CompareTag(TagConst.BLOCK)) {
                 RoleEnterGroundOrBlock(ctx, role);
             }
 
-            // Enter Ground Or Block
         }
 
         static void OnFootTriggerStay(GameBusinessContext ctx, RoleEntity role, Collider2D other) {
@@ -81,6 +81,7 @@ namespace Leap {
 
         static void OnFootTriggerExit(RoleEntity role, Collider2D other) {
             // Leave Ground Or Block
+            role.Move_LeaveGround();
         }
 
         static void OnBodyCollisionEnter(GameBusinessContext ctx, RoleEntity role, Collision2D other) {

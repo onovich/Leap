@@ -30,9 +30,8 @@ namespace Leap {
 
             // Block
             // 临时代码
-            GameBlockDomain.Spawn(ctx, 1, new Vector2(0, -2));
-            GameBlockDomain.Spawn(ctx, 1, new Vector2(1, -2));
-            GameBlockDomain.Spawn(ctx, 1, new Vector2(-1, -2));
+            var block = GameBlockDomain.Spawn(ctx, 1, new Vector2(0, -2));
+            block.transform.localScale = new Vector3(10, 1, 1);
 
             // Camera
 
