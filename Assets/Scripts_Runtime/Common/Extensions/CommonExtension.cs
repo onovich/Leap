@@ -21,6 +21,11 @@ namespace Leap {
             return vector3Int;
         }
 
+        public static Vector2Int RoundToVector2Int(this Vector3 vector3) {
+            var vector2Int = new Vector2Int(Mathf.RoundToInt(vector3.x), Mathf.RoundToInt(vector3.y));
+            return vector2Int;
+        }
+
         public static Vector2Int RoundToVector2Int(this Vector2 vector2) {
             var vector2Int = new Vector2Int(Mathf.RoundToInt(vector2.x), Mathf.RoundToInt(vector2.y));
             return vector2Int;
