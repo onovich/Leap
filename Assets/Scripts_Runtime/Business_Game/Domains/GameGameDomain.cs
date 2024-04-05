@@ -13,10 +13,11 @@ namespace Leap {
             game.fsmComponent.Gaming_Enter();
 
             // Map
-            var map = GameMapDomain.Spawn(ctx, 1);
-            var has = ctx.templateInfraContext.Map_TryGet(1, out var mapTM);
+            var mapTypeID = config.originalMapTypeID;
+            var map = GameMapDomain.Spawn(ctx, mapTypeID);
+            var has = ctx.templateInfraContext.Map_TryGet(mapTypeID, out var mapTM);
             if (!has) {
-                GLog.LogError($"MapTM Not Found {1}");
+                GLog.LogError($"MapTM Not Found {mapTypeID}");
             }
 
             // - Terrain
@@ -38,12 +39,27 @@ namespace Leap {
             var blockSizeArr = mapTM.blockSpawnSizeArr;
             GameBlockDomain.SpawnAll(ctx, blockTMArr, blockPosArr, blockSizeArr);
 
+            // Spike
+            var spikeTMArr = mapTM.spikeSpawnArr;
+            var spikePosArr = mapTM.spikeSpawnPosArr;
+            var spikeSizeArr = mapTM.spikeSpawnSizeArr;
+            var spikeRotationZArr = mapTM.spikeSpawnRotationZArr;
+            GameSpikeDomain.SpawnAll(ctx, spikeTMArr, spikePosArr, spikeSizeArr, spikeRotationZArr);
+
             // Camera
 
             // UI
 
             // Cursor
 
+        }
+
+        public static void ApplyGameResult(GameBusinessContext ctx) {
+            var owner = ctx.Role_GetOwner();
+            var game = ctx.gameEntity;
+            if (owner == null || owner.needTearDown) {
+                game.fsmComponent.NotInGame_Enter();
+            }
         }
 
         public static void ExitGame(GameBusinessContext ctx) {
@@ -55,17 +71,24 @@ namespace Leap {
             GameMapDomain.UnSpawn(ctx);
 
             // Role
-            int roleLen = ctx.roleRepo.TakeAll(out var roles);
+            int roleLen = ctx.roleRepo.TakeAll(out var roleArr);
             for (int i = 0; i < roleLen; i++) {
-                var role = roles[i];
+                var role = roleArr[i];
                 GameRoleDomain.UnSpawn(ctx, role);
             }
 
             // Block
-            int blockLen = ctx.blockRepo.TakeAll(out var blocks);
+            int blockLen = ctx.blockRepo.TakeAll(out var blockArr);
             for (int i = 0; i < blockLen; i++) {
-                var block = blocks[i];
+                var block = blockArr[i];
                 GameBlockDomain.UnSpawn(ctx, block);
+            }
+
+            // Spike
+            int spikeLen = ctx.spikeRepo.TakeAll(out var spikeArr);
+            for (int i = 0; i < spikeLen; i++) {
+                var spike = spikeArr[i];
+                GameSpikeDomain.UnSpawn(ctx, spike);
             }
 
             // UI

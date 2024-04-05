@@ -4,6 +4,7 @@ namespace Leap {
 
         int roleEntityID;
         int blockEntityID;
+        int spikeEntityID;
 
         public IDRecordService() { }
 
@@ -15,9 +16,14 @@ namespace Leap {
             return ++blockEntityID;
         }
 
+        public int PickSpikeEntityID() {
+            return ++spikeEntityID;
+        }
+
         public void Reset() {
             roleEntityID = 0;
             blockEntityID = 0;
+            spikeEntityID = 0;
         }
     }
 

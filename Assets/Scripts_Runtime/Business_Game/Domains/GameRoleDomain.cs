@@ -38,6 +38,12 @@ namespace Leap {
             return role;
         }
 
+        public static void CheckAndUnSpawn(GameBusinessContext ctx, RoleEntity role) {
+            if (role.needTearDown) {
+                UnSpawn(ctx, role);
+            }
+        }
+
         public static void UnSpawn(GameBusinessContext ctx, RoleEntity role) {
             ctx.roleRepo.Remove(role);
             role.TearDown();
@@ -53,6 +59,8 @@ namespace Leap {
                 RoleEnterGroundOrBlock(ctx, role);
             } else if (otherGo.CompareTag(TagConst.BLOCK)) {
                 RoleEnterGroundOrBlock(ctx, role);
+            } else if (otherGo.CompareTag(TagConst.SPIKE)) {
+                RoleEnterSpike(ctx, role);
             }
 
         }
@@ -66,6 +74,8 @@ namespace Leap {
                 RoleEnterGroundOrBlock(ctx, role);
             } else if (otherGo.CompareTag(TagConst.BLOCK)) {
                 RoleEnterGroundOrBlock(ctx, role);
+            } else if (otherGo.CompareTag(TagConst.SPIKE)) {
+                RoleEnterSpike(ctx, role);
             }
 
         }
@@ -77,6 +87,11 @@ namespace Leap {
             }
 
             // - Restore Jump & Skill Times
+        }
+
+        static void RoleEnterSpike(GameBusinessContext ctx, RoleEntity role) {
+            // - Enter Spike
+            role.Attr_GetHurt();
         }
 
         static void OnFootTriggerExit(RoleEntity role, Collider2D other) {

@@ -17,9 +17,12 @@ namespace Leap {
         public float g;
         public float fallingSpeedMax;
         public Vector2 Velocity => rb.velocity;
+        public int hp;
+        public int hpMax;
 
         // State
         public bool isGround;
+        public bool needTearDown;
 
         // FSM
         public RoleFSMComponent fsmCom;
@@ -81,6 +84,10 @@ namespace Leap {
         // Attr
         public float Attr_GetMoveSpeed() {
             return moveSpeed;
+        }
+
+        public void Attr_GetHurt() {
+            hp -= 1;
         }
 
         // Move

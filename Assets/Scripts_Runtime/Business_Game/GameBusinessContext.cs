@@ -14,6 +14,7 @@ namespace Leap {
 
         public RoleRepository roleRepo;
         public BlockRepository blockRepo;
+        public SpikeRepository spikeRepo;
 
         // UI
         public UIAppContext uiContext;
@@ -37,10 +38,14 @@ namespace Leap {
             idRecordService = new IDRecordService();
             roleRepo = new RoleRepository();
             blockRepo = new BlockRepository();
+            spikeRepo = new SpikeRepository();
         }
 
         public void Reset() {
+            idRecordService.Reset();
             roleRepo.Clear();
+            blockRepo.Clear();
+            spikeRepo.Clear();
         }
 
         // Role

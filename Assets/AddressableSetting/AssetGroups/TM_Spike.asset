@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: TM_Spike
+  m_EditorClassIdentifier: 
+  m_GroupName: TM_Spike
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 8cc5a0e8e9b44419196c1d3e7bf2f811
+  m_SerializeEntries:
+  - m_GUID: 4207a4dbb68f040fb975daf2d9edf313
+    m_Address: SO_Spike_0001
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - TM_Spike
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: bcda1c8e574105f42bf63fc8b4423c66, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 1e76a8b052aec462a86afd7f6b57731d, type: 2}
+    - {fileID: 11400000, guid: 4916fcab2c8b24caebca8cbe5db11518, type: 2}

@@ -19,4 +19,5 @@ MonoBehaviour:
   jumpForce: 16
   g: 40
   fallingSpeedMax: 40
+  hp: 1
   mesh: {fileID: 21300000, guid: 0017f0cf71d3f6b459941706866630c0, type: 3}

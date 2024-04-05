@@ -15,6 +15,8 @@ namespace Leap {
         public float g;
         public float fallingSpeedMax;
 
+        public int hp;
+
         public Sprite mesh;
     }
 

@@ -7,7 +7,8 @@ namespace Leap {
     public class GameConfig : ScriptableObject {
 
         public int ownerRoleTypeID;
-        
+        public int originalMapTypeID;
+
     }
 
 }

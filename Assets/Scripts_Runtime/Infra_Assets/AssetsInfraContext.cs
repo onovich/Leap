@@ -48,6 +48,14 @@ namespace Leap {
             return prefab;
         }
 
+        public GameObject Entity_GetSpike() {
+            var has = Entity_TryGet("Entity_Spike", out var prefab);
+            if (!has) {
+                GLog.LogError($"Entity Spike not found");
+            }
+            return prefab;
+        }
+
     }
 
 }

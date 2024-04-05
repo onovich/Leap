@@ -52,6 +52,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3368427c563dd264aa2611a0613372e2, type: 2}
   - {fileID: 11400000, guid: 82a184c5b1d2f4156bd82b5f5058044a, type: 2}
   - {fileID: 11400000, guid: 4e812ad70b4b0452aa6f7c525f79e6ed, type: 2}
+  - {fileID: 11400000, guid: 2f1e06fbe335f4d34bba2ff159a5dc36, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -99,6 +100,7 @@ MonoBehaviour:
     - TM_Role
     - TM_Block
     - TM_Map
+    - TM_Spike
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 2316a715d6a6eb047bed5ac4c42ad64f, type: 2}

@@ -67,3 +67,10 @@ MonoBehaviour:
   blockSpawnSizeArr:
   - {x: 1, y: 1}
   - {x: 1, y: 1}
+  spikeSpawnArr:
+  - {fileID: 11400000, guid: 4207a4dbb68f040fb975daf2d9edf313, type: 2}
+  spikeSpawnPosArr:
+  - {x: 6, y: -2}
+  spikeSpawnSizeArr:
+  - {x: 1, y: 1}
+  spikeSpawnRotationZArr: 00000000

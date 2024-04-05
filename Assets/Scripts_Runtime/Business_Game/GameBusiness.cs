@@ -64,9 +64,13 @@ namespace Leap {
             if (status == GameStatus.Gaming) {
 
                 // Roles
-                ctx.roleRepo.ForEach((role) => {
+                var roleLen = ctx.roleRepo.TakeAll(out var roleArr);
+                for (int i = 0; i < roleLen; i++) {
+                    var role = roleArr[i];
                     GameRoleFSMController.FixedTickFSM(ctx, role, fixdt);
-                });
+                    GameRoleDomain.CheckAndUnSpawn(ctx, role);
+                }
+                GameGameDomain.ApplyGameResult(ctx);
 
             }
             Physics2D.Simulate(fixdt);

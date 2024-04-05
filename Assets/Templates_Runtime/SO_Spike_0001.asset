@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb11335240b544e63abb305dccd0a418, type: 3}
-  m_Name: SO_GameConfig
+  m_Script: {fileID: 11500000, guid: aaaf482e865a54485867f3ac470df77a, type: 3}
+  m_Name: SO_Spike_0001
   m_EditorClassIdentifier: 
-  ownerRoleTypeID: 1
-  originalMapTypeID: 1
+  typeID: 1
+  mesh: {fileID: 21300000, guid: 9095d45f15cda419783fed9a2399ed53, type: 3}

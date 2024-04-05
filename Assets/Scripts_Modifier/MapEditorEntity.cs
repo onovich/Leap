@@ -14,12 +14,16 @@ namespace Leap.Modifier {
         [SerializeField] MapTM mapTM;
         [SerializeField] Tilemap tilemap_terrain;
         [SerializeField] TileBase tilebase_terrain;
+        [SerializeField] Transform blockGroup;
+        [SerializeField] Transform spikeGroup;
+        [SerializeField] Transform spawnPointGroup;
 
         [Button("Bake")]
         void Bake() {
             BakeTerrain();
             BakeMapInfo();
             BakeBlock();
+            BakeSpike();
             BakeSpawnPoint();
 
             EditorUtility.SetDirty(mapTM);
@@ -33,37 +37,55 @@ namespace Leap.Modifier {
             mapTM.mapSize = mapSize.transform.localScale.RoundToVector2Int();
         }
 
-        // void BakeTerrain() {
-        //     var terrainSpawnPosList = new List<Vector2Int>();
-        //     for (int x = tilemap_terrain.cellBounds.x; x < tilemap_terrain.cellBounds.xMax; x++) {
-        //         for (int y = tilemap_terrain.cellBounds.y; y < tilemap_terrain.cellBounds.yMax; y++) {
-        //             var pos = new Vector3Int(x, y, 0);
-        //             var tile = tilemap_terrain.GetTile(pos);
-        //             if (tile == null) continue;
-        //             terrainSpawnPosList.Add(pos.ToVector2Int());
-        //         }
-        //     }
-        //     mapTM.terrainSpawnPosArr = terrainSpawnPosList.ToArray();
-        // }
-
         void BakeTerrain() {
             var terrainSpawnPosList = new List<Vector2Int>();
-            TravelTilemap(tilemap_terrain, (tile, pos) => {
-                var tilebase = tilebase_terrain;
-                if (tilebase.name == tile.name) {
-                    terrainSpawnPosList.Add(pos);
-                    return;
+            for (int x = tilemap_terrain.cellBounds.x; x < tilemap_terrain.cellBounds.xMax; x++) {
+                for (int y = tilemap_terrain.cellBounds.y; y < tilemap_terrain.cellBounds.yMax; y++) {
+                    var pos = new Vector3Int(x, y, 0);
+                    var tile = tilemap_terrain.GetTile(pos);
+                    if (tile == null) continue;
+                    terrainSpawnPosList.Add(pos.ToVector2Int());
                 }
-            });
+            }
             mapTM.terrainSpawnPosArr = terrainSpawnPosList.ToArray();
+        }
+
+        void BakeSpike() {
+            List<SpikeTM> spikeTMList = new List<SpikeTM>();
+            List<Vector2Int> spikeSpawnPosList = new List<Vector2Int>();
+            List<Vector2Int> spikeSpawnSizeList = new List<Vector2Int>();
+            List<int> spikeSpawnRotationZList = new List<int>();
+            var spikeEditors = spikeGroup.GetComponentsInChildren<SpikerEditorEntity>();
+            if (spikeEditors == null) {
+                Debug.Log("BlockEditors Not Found");
+            }
+            for (int i = 0; i < spikeEditors.Length; i++) {
+                var editor = spikeEditors[i];
+                editor.Rename();
+
+                var tm = editor.spikeTM;
+                spikeTMList.Add(tm);
+
+                var posInt = editor.GetPosInt();
+                spikeSpawnPosList.Add(posInt);
+
+                var sizeInt = editor.GetSizeInt();
+                spikeSpawnSizeList.Add(sizeInt);
+
+                var zInt = editor.GetRotationZInt();
+                spikeSpawnRotationZList.Add(zInt);
+            }
+            mapTM.spikeSpawnArr = spikeTMList.ToArray();
+            mapTM.spikeSpawnPosArr = spikeSpawnPosList.ToArray();
+            mapTM.spikeSpawnSizeArr = spikeSpawnSizeList.ToArray();
+            mapTM.spikeSpawnRotationZArr = spikeSpawnRotationZList.ToArray();
         }
 
         void BakeBlock() {
             List<BlockTM> blockTMList = new List<BlockTM>();
             List<Vector2Int> blockSpawnPosList = new List<Vector2Int>();
             List<Vector2Int> blockSpawnSizeList = new List<Vector2Int>();
-            var group = transform.GetChild(2);
-            var blockEditors = group.GetComponentsInChildren<BlockEditorEntity>();
+            var blockEditors = blockGroup.GetComponentsInChildren<BlockEditorEntity>();
             if (blockEditors == null) {
                 Debug.Log("BlockEditors Not Found");
             }
@@ -86,26 +108,13 @@ namespace Leap.Modifier {
         }
 
         void BakeSpawnPoint() {
-            var group = transform.GetChild(3);
-            var editor = group.GetComponent<SpawnPointEditorEntity>();
+            var editor = spawnPointGroup.GetComponent<SpawnPointEditorEntity>();
             if (editor == null) {
                 Debug.Log("SpawnPointEditor Not Found");
             }
             editor.Rename();
             var posInt = editor.GetPosInt();
             mapTM.SpawnPoint = posInt;
-        }
-
-        void TravelTilemap(Tilemap tilemap, Action<TileBase, Vector2Int> action) {
-            for (int x = tilemap.cellBounds.x; x < tilemap.cellBounds.xMax; x++) {
-                for (int y = tilemap.cellBounds.y; y < tilemap.cellBounds.yMax; y++) {
-                    Vector3Int pos = new Vector3Int(x, y, 0);
-                    TileBase tile = tilemap.GetTile(pos);
-                    if (tile != null) {
-                        action.Invoke(tile, new Vector2Int(x, y));
-                    }
-                }
-            }
         }
 
     }

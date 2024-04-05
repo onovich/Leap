@@ -49,6 +49,8 @@ namespace Leap {
             role.jumpForce = roleTM.jumpForce;
             role.g = roleTM.g;
             role.fallingSpeedMax = roleTM.fallingSpeedMax;
+            role.hp = roleTM.hp;
+            role.hpMax = roleTM.hp;
 
             // Set Pos
             role.Pos_SetPos(pos);
@@ -92,6 +94,39 @@ namespace Leap {
             block.Mesh_Set(blockTM.mesh);
 
             return block;
+        }
+
+        public static SpikeEntity Spike_Spawn(TemplateInfraContext templateInfraContext,
+                                  AssetsInfraContext assetsInfraContext,
+                                  IDRecordService idRecordService,
+                                  int typeID,
+                                  Vector2Int pos,
+                                  Vector2Int size,
+                                  int rotationZ) {
+
+            var has = templateInfraContext.Spike_TryGet(typeID, out var blockTM);
+            if (!has) {
+                GLog.LogError($"Role {typeID} not found");
+            }
+
+            var prefab = assetsInfraContext.Entity_GetSpike();
+            var spike = GameObject.Instantiate(prefab).GetComponent<SpikeEntity>();
+            spike.Ctor();
+
+            // Base Info
+            spike.entityID = idRecordService.PickRoleEntityID();
+            spike.typeID = typeID;
+
+            // Set Pos
+            spike.Pos_SetPos(pos);
+
+            // Set Size
+            spike.Size_SetSize(size);
+
+            // Set Mesh
+            spike.Mesh_Set(blockTM.mesh);
+
+            return spike;
         }
 
     }
