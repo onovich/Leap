@@ -34,6 +34,9 @@ namespace Leap {
         // Timer
         public float fixedRestSec;
 
+        // SpawnPoint
+        public Vector2 ownerSpawnPoint;
+
         public GameBusinessContext() {
             gameEntity = new GameEntity();
             playerEntity = new PlayerEntity();

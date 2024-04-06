@@ -55,6 +55,9 @@ namespace Leap {
             var status = game.fsmComponent.status;
             if (status == GameStatus.Gaming) {
             }
+            if (status == GameStatus.GameOver) {
+                GameGameDomain.ApplyRestartGame(ctx);
+            }
         }
 
         static void FixedTick(GameBusinessContext ctx, float fixdt) {
@@ -82,7 +85,7 @@ namespace Leap {
             var game = ctx.gameEntity;
             var status = game.fsmComponent.status;
             var owner = ctx.Role_GetOwner();
-            if (status == GameStatus.Gaming) {
+            if (status == GameStatus.Gaming || status == GameStatus.GameOver) {
 
                 // Camera
                 CameraApp.LateTick(ctx.cameraContext, dt);

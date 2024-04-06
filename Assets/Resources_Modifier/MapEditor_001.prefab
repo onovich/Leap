@@ -644,8 +644,8 @@ MonoBehaviour:
   blockGroup: {fileID: 7978123014259889667}
   spikeGroup: {fileID: 3975431810735949407}
   spawnPointGroup: {fileID: 7904511553033203598}
-  cameraConfinerWorldMax: {x: 10, y: 5}
-  cameraConfinerWorldMin: {x: -10, y: -5}
+  cameraConfinerWorldMax: {x: 30, y: 20}
+  cameraConfinerWorldMin: {x: -30, y: -20}
 --- !u!1 &7115896714514695303
 GameObject:
   m_ObjectHideFlags: 0

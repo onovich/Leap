@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb11335240b544e63abb305dccd0a418, type: 3}
   m_Name: SO_GameConfig
   m_EditorClassIdentifier: 
+  gameResetEnterTime: 0.5
   ownerRoleTypeID: 1
   originalMapTypeID: 1
-  cameraDeadZoneNormalizedSize: {x: 0.4, y: 0.4}
-  roleDeadShakeFrequency: 0.1
-  roleDeadShakeAmplitude: 0.1
+  cameraDeadZoneNormalizedSize: {x: 0.1, y: 0.2}
+  roleDeadShakeFrequency: 0.2
+  roleDeadShakeAmplitude: 0.2
   roleDeadShakeDuration: 0.5
   roleDeadShakeEasingType: 0
   roleDeadShakeEasingMode: 0

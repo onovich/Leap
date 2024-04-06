@@ -7,6 +7,10 @@ namespace Leap {
     [CreateAssetMenu(fileName = "SO_GameConfig", menuName = "Leap/GameConfig")]
     public class GameConfig : ScriptableObject {
 
+        // Game
+        [Header("Game Config")]
+        public float gameResetEnterTime;
+
         // Role
         [Header("Role Config")]
         public int ownerRoleTypeID;

@@ -1,3 +1,5 @@
+using MortiseFrame.Swing;
+using TenonKit.Prism;
 using UnityEngine;
 
 namespace Leap {
@@ -28,10 +30,12 @@ namespace Leap {
             var player = ctx.playerEntity;
 
             // - Owner
+            var spawnPoint = mapTM.SpawnPoint;
             var owner = GameRoleDomain.Spawn(ctx,
                                              config.ownerRoleTypeID,
-                                             new Vector2(0, 0));
+                                             spawnPoint);
             player.ownerRoleEntityID = owner.entityID;
+            ctx.ownerSpawnPoint = spawnPoint;
 
             // Block
             var blockTMArr = mapTM.blockSpawnArr;
@@ -57,11 +61,30 @@ namespace Leap {
 
         }
 
+        public static void ApplyRestartGame(GameBusinessContext ctx) {
+
+            var spawnPoint = ctx.ownerSpawnPoint;
+            var game = ctx.gameEntity;
+            var enterTime = game.fsmComponent.gameOver_enterTime;
+            var gameOver_isEntering = game.fsmComponent.gameOver_isEntering;
+
+            if (gameOver_isEntering) {
+                game.fsmComponent.gameOver_isEntering = false;
+                CameraApp.SetMoveToTarget(ctx.cameraContext, spawnPoint, enterTime, EasingType.Linear, EasingMode.None, onComplete: () => {
+                    ExitGame(ctx);
+                    NewGame(ctx);
+                    game.fsmComponent.Gaming_Enter();
+                });
+            }
+
+        }
+
         public static void ApplyGameResult(GameBusinessContext ctx) {
             var owner = ctx.Role_GetOwner();
             var game = ctx.gameEntity;
+            var config = ctx.templateInfraContext.Config_Get();
             if (owner == null || owner.needTearDown) {
-                game.fsmComponent.NotInGame_Enter();
+                game.fsmComponent.GameOver_Enter(config.gameResetEnterTime);
             }
         }
 

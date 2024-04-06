@@ -9,7 +9,7 @@ namespace Leap {
 
     public static class CameraApp {
 
-        public static void Init(CameraAppContext ctx,Transform driver, Vector2 pos, Vector2 confinerWorldMax, Vector2 confinerWorldMin) {
+        public static void Init(CameraAppContext ctx, Transform driver, Vector2 pos, Vector2 confinerWorldMax, Vector2 confinerWorldMin) {
             var cameraID = CreateMainCamera(ctx, pos, confinerWorldMax, confinerWorldMin);
             SetCurrentCamera(ctx, cameraID);
             var config = ctx.templateInfraContext.Config_Get();
