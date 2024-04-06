@@ -18,7 +18,7 @@ namespace Leap.Modifier {
         }
 
         public Vector2Int GetSizeInt() {
-            var size = transform.localScale;
+            var size = GetComponent<SpriteRenderer>().size;
             var sizeInt = size.RoundToVector2Int();
             return sizeInt;
         }

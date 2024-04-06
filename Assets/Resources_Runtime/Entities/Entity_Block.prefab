@@ -77,8 +77,8 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.16, y: 0.16}
+  m_DrawMode: 2
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -166,6 +166,7 @@ MonoBehaviour:
   typeID: 0
   body: {fileID: 5756515061732775915}
   spr: {fileID: 6979487770325959718}
+  boxCollider: {fileID: 3990134424807717786}
 --- !u!1 &7201589755581663144
 GameObject:
   m_ObjectHideFlags: 0

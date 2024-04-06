@@ -12,6 +12,7 @@ namespace Leap {
         // Render
         [SerializeField] public Transform body;
         [SerializeField] SpriteRenderer spr;
+        [SerializeField] BoxCollider2D boxCollider;
 
         // Pos
         public Vector2 Pos => transform.position;
@@ -32,6 +33,7 @@ namespace Leap {
         // Size
         public void Size_SetSize(Vector2 size) {
             spr.size = size;
+            boxCollider.size = size;
         }
 
         // Mesh

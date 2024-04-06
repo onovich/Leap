@@ -12,6 +12,7 @@ namespace Leap {
         // Render
         [SerializeField] public Transform body;
         [SerializeField] SpriteRenderer spr;
+        [SerializeField] BoxCollider2D boxCollider;
 
         // Pos
         public Vector2 Pos => transform.position;
@@ -32,6 +33,8 @@ namespace Leap {
         // Size
         public void Size_SetSize(Vector2 size) {
             spr.size = size;
+            size.y *= 0.5f;
+            boxCollider.size = size;
         }
 
         // Mesh
@@ -41,7 +44,7 @@ namespace Leap {
 
         // Rename
         public void Rename() {
-            this.name = $"Block - {typeID} - {entityIndex}";
+            this.name = $"Spike - {typeID} - {entityIndex}";
         }
 
         public void TearDown() {
