@@ -23,8 +23,24 @@ namespace Leap {
             ctx.vfxCore.Tick(dt);
         }
 
-        public static void PlayRoleDeadVFX(VFXAppContext ctx, string name, Vector2 pos, float duration) {
-            ctx.AddVFXToWorld(name, duration, pos);
+        public static void AddVFXToWorld(VFXAppContext ctx, string vfxName, float duration, Vector2 pos) {
+            ctx.vfxCore.TrySpawnAndPlayVFX_ToWorldPos(vfxName, duration, pos);
+        }
+
+        public static void AddVFXToTarget(VFXAppContext ctx, string vfxName, float duration, Transform target) {
+            ctx.vfxCore.TrySpawnAndPlayVFX_ToTarget(vfxName, duration, target, Vector3.zero);
+        }
+
+        public static void PlayVFXManualy(VFXAppContext ctx, int preSpawnVFXID) {
+            ctx.vfxCore.TryPlayManualy(preSpawnVFXID);
+        }
+
+        public static void StopVFXManualy(VFXAppContext ctx, int preSpawnVFXID) {
+            ctx.vfxCore.TryStopManualy(preSpawnVFXID);
+        }
+
+        public static void TearDown(VFXAppContext ctx) {
+            ctx.vfxCore.TearDown();
         }
 
     }

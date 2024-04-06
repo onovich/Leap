@@ -19,6 +19,7 @@ namespace Leap {
         // App
         public UIAppContext uiContext;
         public VFXAppContext vfxContext;
+        public CameraAppContext cameraContext;
 
         // Camera
         public Camera mainCamera;

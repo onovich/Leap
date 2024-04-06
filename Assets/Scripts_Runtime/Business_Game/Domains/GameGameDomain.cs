@@ -49,6 +49,7 @@ namespace Leap {
             GameSpikeDomain.SpawnAll(ctx, spikeTMArr, spikePosArr, spikeSizeArr, spikeRotationZArr, spikeIndexArr);
 
             // Camera
+            CameraApp.Init(ctx.cameraContext, owner.transform, owner.Pos, mapTM.cameraConfinerWorldMax, mapTM.cameraConfinerWorldMin);
 
             // UI
 

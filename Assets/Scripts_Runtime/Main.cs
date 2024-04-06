@@ -9,6 +9,8 @@ namespace Leap {
 
     public class Main : MonoBehaviour {
 
+        [SerializeField] bool drawCameraGizmos;
+
         InputEntity inputEntity;
 
         AssetsInfraContext assetsInfraContext;
@@ -19,6 +21,7 @@ namespace Leap {
 
         UIAppContext uiAppContext;
         VFXAppContext vfxAppContext;
+        CameraAppContext cameraAppContext;
 
         bool isLoadedAssets;
         bool isTearDown;
@@ -40,6 +43,7 @@ namespace Leap {
 
             uiAppContext = new UIAppContext("UI", mainCanvas, hudFakeCanvas, mainCamera);
             vfxAppContext = new VFXAppContext("VFX", vfxRoot);
+            cameraAppContext = new CameraAppContext(mainCamera, new Vector2(Screen.width, Screen.height));
 
             assetsInfraContext = new AssetsInfraContext();
             templateInfraContext = new TemplateInfraContext();
@@ -52,7 +56,10 @@ namespace Leap {
             gameBusinessContext.templateInfraContext = templateInfraContext;
             gameBusinessContext.uiContext = uiAppContext;
             gameBusinessContext.vfxContext = vfxAppContext;
+            gameBusinessContext.cameraContext = cameraAppContext;
             gameBusinessContext.mainCamera = mainCamera;
+
+            cameraAppContext.templateInfraContext = templateInfraContext;
 
             // TODO Camera
 
@@ -153,6 +160,10 @@ namespace Leap {
             TemplateInfra.Release(templateInfraContext);
             // TemplateInfra.ReleaseAssets(templateInfraContext);
             // UIApp.TearDown(uiAppContext);
+        }
+
+        void OnDrawGizmos() {
+            GameBusiness.OnDrawGizmos(gameBusinessContext, drawCameraGizmos);
         }
 
     }

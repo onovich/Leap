@@ -24,6 +24,10 @@ namespace Leap {
         public Vector2Int[] blockSpawnSizeArr;
         public int[] blockSpawnIndexArr;
 
+        // Camera
+        public Vector2 cameraConfinerWorldMax;
+        public Vector2 cameraConfinerWorldMin;
+
         // Spike Spawn
         public SpikeTM[] spikeSpawnArr;
         public Vector2Int[] spikeSpawnPosArr;

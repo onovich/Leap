@@ -51,7 +51,10 @@ namespace Leap {
             }
 
             // VFX
-            VFXApp.PlayRoleDeadVFX(ctx.vfxContext, role.deadVFXName, role.Pos, role.deadVFXDuration);
+            VFXApp.AddVFXToWorld(ctx.vfxContext, role.deadVFXName, role.deadVFXDuration, role.Pos);
+
+            // Camera
+            CameraApp.ShakeOnce(ctx.cameraContext, ctx.cameraContext.mainCameraID);
             role.needTearDown = true;
         }
 

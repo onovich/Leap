@@ -23,20 +23,6 @@ namespace Leap {
             evt = new UIEventCenter();
         }
 
-        // Load
-        public async Task LoadAssets() {
-            try {
-                await uiCore.LoadAssets();
-            } catch (Exception e) {
-                LLog.Log(e.ToString());
-            }
-        }
-
-        // Tick
-        public void LateTick(float dt) {
-            uiCore.LateTick(dt);
-        }
-
         #region Unique Panel
         public T UniquePanel_Open<T>(bool isWorldSpace = false) where T : IPanel {
             return uiCore.UniquePanel_Open<T>(isWorldSpace);

@@ -17,6 +17,8 @@ namespace Leap.Modifier {
         [SerializeField] Transform blockGroup;
         [SerializeField] Transform spikeGroup;
         [SerializeField] Transform spawnPointGroup;
+        [SerializeField] Vector2 cameraConfinerWorldMax;
+        [SerializeField] Vector2 cameraConfinerWorldMin;
 
         IndexService indexService;
 
@@ -90,6 +92,8 @@ namespace Leap.Modifier {
             mapTM.spikeSpawnSizeArr = spikeSpawnSizeList.ToArray();
             mapTM.spikeSpawnRotationZArr = spikeSpawnRotationZList.ToArray();
             mapTM.spikeSpawnIndexArr = spikeIndexList.ToArray();
+            mapTM.cameraConfinerWorldMax = cameraConfinerWorldMax;
+            mapTM.cameraConfinerWorldMin = cameraConfinerWorldMin;
         }
 
         void BakeBlock() {
@@ -133,6 +137,11 @@ namespace Leap.Modifier {
             editor.Rename();
             var posInt = editor.GetPosInt();
             mapTM.SpawnPoint = posInt;
+        }
+
+        void OnDrawGizmos() {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube((cameraConfinerWorldMax + cameraConfinerWorldMin) / 2, cameraConfinerWorldMax - cameraConfinerWorldMin);
         }
 
     }

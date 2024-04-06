@@ -68,6 +68,8 @@ MonoBehaviour:
   - {x: 1, y: 1}
   - {x: 1, y: 1}
   blockSpawnIndexArr: 0100000002000000
+  cameraConfinerWorldMax: {x: 10, y: 5}
+  cameraConfinerWorldMin: {x: -10, y: -5}
   spikeSpawnArr:
   - {fileID: 11400000, guid: 4207a4dbb68f040fb975daf2d9edf313, type: 2}
   spikeSpawnPosArr:
