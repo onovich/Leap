@@ -18,8 +18,8 @@ namespace Leap {
         // Infra
         public TemplateInfraContext templateInfraContext;
 
-        public UIAppContext(Canvas mainCanvas, Transform worldSpaceFakeCanvas = null, Camera worldSpaceCamera = null) {
-            uiCore = new UICore("UI", mainCanvas, worldSpaceFakeCanvas, worldSpaceCamera);
+        public UIAppContext(string label, Canvas mainCanvas, Transform worldSpaceFakeCanvas = null, Camera worldSpaceCamera = null) {
+            uiCore = new UICore(label, mainCanvas, worldSpaceFakeCanvas, worldSpaceCamera);
             evt = new UIEventCenter();
         }
 

@@ -19,9 +19,7 @@ namespace Leap {
             }
         }
 
-        public static void LateTick(UIAppContext ctx, float dt) {
-
-        }
+        public static void LateTick(UIAppContext ctx, float dt) { }
 
         // Panel - Login
         public static void Login_Open(UIAppContext ctx) {

@@ -18,6 +18,7 @@ namespace Leap {
         GameBusinessContext gameBusinessContext;
 
         UIAppContext uiAppContext;
+        VFXAppContext vfxAppContext;
 
         bool isLoadedAssets;
         bool isTearDown;
@@ -30,13 +31,15 @@ namespace Leap {
             Canvas mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
             Transform hudFakeCanvas = GameObject.Find("HUDFakeCanvas").transform;
             Camera mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
+            Transform vfxRoot = GameObject.Find("VFXRoot").transform;
 
             inputEntity = new InputEntity();
 
             loginBusinessContext = new LoginBusinessContext();
             gameBusinessContext = new GameBusinessContext();
 
-            uiAppContext = new UIAppContext(mainCanvas, hudFakeCanvas, mainCamera);
+            uiAppContext = new UIAppContext("UI", mainCanvas, hudFakeCanvas, mainCamera);
+            vfxAppContext = new VFXAppContext("VFX", vfxRoot);
 
             assetsInfraContext = new AssetsInfraContext();
             templateInfraContext = new TemplateInfraContext();
@@ -48,6 +51,7 @@ namespace Leap {
             gameBusinessContext.assetsInfraContext = assetsInfraContext;
             gameBusinessContext.templateInfraContext = templateInfraContext;
             gameBusinessContext.uiContext = uiAppContext;
+            gameBusinessContext.vfxContext = vfxAppContext;
             gameBusinessContext.mainCamera = mainCamera;
 
             // TODO Camera
@@ -100,6 +104,7 @@ namespace Leap {
             GameBusiness.Init(gameBusinessContext);
 
             UIApp.Init(uiAppContext);
+            VFXApp.Init(vfxAppContext);
 
         }
 
@@ -121,6 +126,7 @@ namespace Leap {
 
         async Task LoadAssets() {
             await UIApp.LoadAssets(uiAppContext);
+            await VFXApp.LoadAssets(vfxAppContext);
             await AssetsInfra.LoadAssets(assetsInfraContext);
             await TemplateInfra.LoadAssets(templateInfraContext);
         }

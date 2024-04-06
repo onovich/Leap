@@ -53,6 +53,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 82a184c5b1d2f4156bd82b5f5058044a, type: 2}
   - {fileID: 11400000, guid: 4e812ad70b4b0452aa6f7c525f79e6ed, type: 2}
   - {fileID: 11400000, guid: 2f1e06fbe335f4d34bba2ff159a5dc36, type: 2}
+  - {fileID: 11400000, guid: a38a8ad709262449cafa5666cd3478e0, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -96,6 +97,7 @@ MonoBehaviour:
     - default
     - UI
     - Entity
+    - VFX
     - TM_Config
     - TM_Role
     - TM_Block

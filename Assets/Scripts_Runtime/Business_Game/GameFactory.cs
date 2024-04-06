@@ -61,6 +61,10 @@ namespace Leap {
             // Set FSM
             role.FSM_EnterIdle();
 
+            // Set VFX
+            role.deadVFXName = roleTM.deadVFX.name;
+            role.deadVFXDuration = roleTM.deadVFXDuration;
+
             return role;
         }
 

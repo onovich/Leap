@@ -18,6 +18,8 @@ namespace Leap {
         public int hp;
 
         public Sprite mesh;
+        public GameObject deadVFX;
+        public float deadVFXDuration;
     }
 
 }

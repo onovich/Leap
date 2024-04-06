@@ -34,6 +34,10 @@ namespace Leap {
         [SerializeField] public Transform body;
         [SerializeField] SpriteRenderer spr;
 
+        // VFX
+        public string deadVFXName;
+        public float deadVFXDuration;
+
         // Physics
         [SerializeField] Rigidbody2D rb;
         [SerializeField] RoleCollisionComponent bodyCollider;

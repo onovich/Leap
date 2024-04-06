@@ -87,7 +87,10 @@ namespace Leap {
                 // Camera
 
                 // UI
+
             }
+            // VFX
+            VFXApp.LateTick(ctx.vfxContext, dt);
         }
 
         public static void TearDown(GameBusinessContext ctx) {

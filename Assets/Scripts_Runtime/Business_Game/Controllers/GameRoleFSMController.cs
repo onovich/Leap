@@ -50,8 +50,8 @@ namespace Leap {
                 fsm.dead_isEntering = false;
             }
 
-            // SFX
-
+            // VFX
+            VFXApp.PlayRoleDeadVFX(ctx.vfxContext, role.deadVFXName, role.Pos, role.deadVFXDuration);
             role.needTearDown = true;
         }
 

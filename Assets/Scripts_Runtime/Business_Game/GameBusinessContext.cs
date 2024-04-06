@@ -16,8 +16,9 @@ namespace Leap {
         public BlockRepository blockRepo;
         public SpikeRepository spikeRepo;
 
-        // UI
+        // App
         public UIAppContext uiContext;
+        public VFXAppContext vfxContext;
 
         // Camera
         public Camera mainCamera;
