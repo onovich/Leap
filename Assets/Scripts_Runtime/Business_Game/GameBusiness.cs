@@ -54,6 +54,16 @@ namespace Leap {
             var game = ctx.gameEntity;
             var status = game.fsmComponent.status;
             if (status == GameStatus.Gaming) {
+
+                // Roles
+                var roleLen = ctx.roleRepo.TakeAll(out var roleArr);
+                for (int i = 0; i < roleLen; i++) {
+                    var role = roleArr[i];
+                    GameRoleDomain.CheckAndUnSpawn(ctx, role);
+                }
+
+                // Result
+                GameGameDomain.ApplyGameResult(ctx);
             }
             if (status == GameStatus.GameOver) {
                 GameGameDomain.ApplyRestartGame(ctx);
@@ -71,9 +81,7 @@ namespace Leap {
                 for (int i = 0; i < roleLen; i++) {
                     var role = roleArr[i];
                     GameRoleFSMController.FixedTickFSM(ctx, role, fixdt);
-                    GameRoleDomain.CheckAndUnSpawn(ctx, role);
                 }
-                GameGameDomain.ApplyGameResult(ctx);
 
             }
             Physics2D.Simulate(fixdt);
