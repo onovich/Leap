@@ -37,6 +37,13 @@
       "dependencies": {},
       "hash": "a0a83b78f4e6257dc7435583eb4b624238e36cc7"
     },
+    "com.tenon.vista.camera2d": {
+      "version": "ssh://git@github.com/onovich/Vista.git?path=/Assets/com.tenon.vista.camera2d#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "92874a2ad8e1316840a8973b9de74ee6ee2faaae"
+    },
     "com.unity.2d.animation": {
       "version": "9.0.4",
       "depth": 1,
