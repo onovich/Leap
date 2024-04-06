@@ -16,8 +16,8 @@ MonoBehaviour:
   ownerRoleTypeID: 1
   originalMapTypeID: 1
   cameraDeadZoneNormalizedSize: {x: 0.1, y: 0.2}
-  roleDeadShakeFrequency: 0.2
-  roleDeadShakeAmplitude: 0.2
-  roleDeadShakeDuration: 0.5
-  roleDeadShakeEasingType: 0
+  roleDeadShakeFrequency: 6
+  roleDeadShakeAmplitude: 1
+  roleDeadShakeDuration: 0.2
+  roleDeadShakeEasingType: 1
   roleDeadShakeEasingMode: 0
