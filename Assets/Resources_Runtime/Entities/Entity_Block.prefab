@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7520863440949661788}
   - component: {fileID: 6979487770325959718}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5756515061732775915}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: bd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3433530738972530475}
   - component: {fileID: 5971149133577474096}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Entity_Block
   m_TagString: Block
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2282364361609164524}
   - component: {fileID: 3990134424807717786}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: collider
   m_TagString: Block
   m_Icon: {fileID: 0}

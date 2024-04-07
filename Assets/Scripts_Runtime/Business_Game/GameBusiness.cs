@@ -83,8 +83,14 @@ namespace Leap {
                     GameRoleFSMController.FixedTickFSM(ctx, role, fixdt);
                 }
 
+                Physics2D.Simulate(fixdt);
+
+                for (int i = 0; i < roleLen; i++) {
+                    var role = roleArr[i];
+                    GameRoleDomain.BoxCast(ctx, role);
+                }
+
             }
-            Physics2D.Simulate(fixdt);
 
         }
 

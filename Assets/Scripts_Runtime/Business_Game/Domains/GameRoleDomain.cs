@@ -49,17 +49,33 @@ namespace Leap {
             role.TearDown();
         }
 
+        public static void BoxCast(GameBusinessContext ctx, RoleEntity role) {
+            var pos = role.Pos;
+            var size = Vector2.one;
+            var dir = Vector2.down;
+            LayerMask layer = (1 << LayConst.GROUND) | (1 << LayConst.BLOCK);
+
+            var hitResults = ctx.hitResults;
+            // var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0.4f, layer);
+            var hitCount = Physics2D.RaycastNonAlloc(pos, dir, hitResults, 1.3f, layer);
+            for (int i = 0; i < hitCount; i++) {
+                var hit = hitResults[i];
+                var hitGo = hit.collider.gameObject;
+                if (hitGo.CompareTag(TagConst.BLOCK)) {
+                    RoleEnterGroundOrBlock(ctx, role);
+                } else if (hitGo.CompareTag(TagConst.GROUND)) {
+                    RoleEnterGroundOrBlock(ctx, role);
+                }
+            }
+        }
+
         static void OnFootTriggerEnter(GameBusinessContext ctx, RoleEntity role, Collider2D other) {
 
             var otherGo = other.gameObject;
             var otherTag = otherGo.tag;
 
             // Enter Ground Or Block
-            if (otherGo.CompareTag(TagConst.GROUND)) {
-                RoleEnterGroundOrBlock(ctx, role);
-            } else if (otherGo.CompareTag(TagConst.BLOCK)) {
-                RoleEnterGroundOrBlock(ctx, role);
-            } else if (otherGo.CompareTag(TagConst.SPIKE)) {
+            if (otherGo.CompareTag(TagConst.SPIKE)) {
                 RoleEnterSpike(ctx, role);
             }
 
@@ -70,11 +86,7 @@ namespace Leap {
             var otherTag = otherGo.tag;
 
             // Stay Ground Or Block
-            if (otherGo.CompareTag(TagConst.GROUND)) {
-                RoleEnterGroundOrBlock(ctx, role);
-            } else if (otherGo.CompareTag(TagConst.BLOCK)) {
-                RoleEnterGroundOrBlock(ctx, role);
-            } else if (otherGo.CompareTag(TagConst.SPIKE)) {
+            if (otherGo.CompareTag(TagConst.SPIKE)) {
                 RoleEnterSpike(ctx, role);
             }
 

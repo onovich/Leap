@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4770927378810214309}
   - component: {fileID: 1763210624183779931}
   - component: {fileID: 8998948626312996520}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: tilemap_terrain
   m_TagString: Ground
   m_Icon: {fileID: 0}
