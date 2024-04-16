@@ -94,7 +94,7 @@ namespace Leap {
 
         static void RoleEnterGroundOrBlock(GameBusinessContext ctx, RoleEntity role) {
             // - Enter Ground Or Block
-            if (role.Velocity.y <= 0) {
+            if (role.Velocity.y <= 0.0001f) {
                 role.Move_EnterGround();
             }
 
