@@ -28,6 +28,7 @@ namespace Leap {
         // State
         public bool isGround;
         public bool needTearDown;
+        public bool isWall;
 
         // FSM
         public RoleFSMComponent fsmCom;
@@ -45,23 +46,17 @@ namespace Leap {
 
         // Physics
         [SerializeField] Rigidbody2D rb;
-        [SerializeField] RoleCollisionComponent bodyCollider;
         [SerializeField] RoleCollisionComponent bodyTrigger;
-        [SerializeField] RoleCollisionComponent footTrigger;
+        [SerializeField] RoleCollisionComponent bodyCollider;
 
         // Pos
         public Vector2 Pos => Pos_GetPos();
 
         // Action
-        public event Action<RoleEntity, Collider2D> OnFootTriggerEnterHandle;
-        public event Action<RoleEntity, Collider2D> OnFootTriggerStayHandle;
-        public event Action<RoleEntity, Collider2D> OnFootTriggerExitHandle;
-
-        public event Action<RoleEntity, Collision2D> OnBodyCollisionEnterHandle;
-        public event Action<RoleEntity, Collision2D> OnBodyCollisionStayHandle;
-        public event Action<RoleEntity, Collision2D> OnBodyCollisionExitHandle;
-
         public event Action<RoleEntity, Collider2D> OnBodyTriggerEnterHandle;
+        public event Action<RoleEntity, Collision2D> OnBodyCollisionEnterHandle;
+        public event Action<RoleEntity, Collision2D> OnBodyCollisionExitHandle;
+        public event Action<RoleEntity, Collision2D> OnBodyCollisionStayHandle;
 
         public void Ctor() {
             fsmCom = new RoleFSMComponent();
@@ -70,15 +65,10 @@ namespace Leap {
         }
 
         void Binding() {
-            footTrigger.OnTriggerEnterHandle += (coll) => { OnFootTriggerEnterHandle.Invoke(this, coll); };
-            footTrigger.OnTriggerStayHandle += (coll) => { OnFootTriggerStayHandle.Invoke(this, coll); };
-            footTrigger.OnTriggerExitHandle += (coll) => { OnFootTriggerExitHandle.Invoke(this, coll); };
-
-            bodyCollider.OnCollisionEnterHandle += (coll) => { OnBodyCollisionEnterHandle.Invoke(this, coll); };
-            bodyCollider.OnCollisionStayHandle += (coll) => { OnBodyCollisionStayHandle.Invoke(this, coll); };
-            bodyCollider.OnCollisionExitHandle += (coll) => { OnBodyCollisionExitHandle.Invoke(this, coll); };
-
             bodyTrigger.OnTriggerEnterHandle += (coll) => { OnBodyTriggerEnterHandle.Invoke(this, coll); };
+            bodyCollider.OnCollisionEnterHandle += (coll) => { OnBodyCollisionEnterHandle.Invoke(this, coll); };
+            bodyCollider.OnCollisionExitHandle += (coll) => { OnBodyCollisionExitHandle.Invoke(this, coll); };
+            // bodyCollider.OnCollisionStayHandle += (coll) => { OnBodyCollisionStayHandle.Invoke(this, coll); };
         }
 
         // Pos
@@ -122,6 +112,14 @@ namespace Leap {
             isGround = false;
         }
 
+        public void Move_EnterWall() {
+            isWall = true;
+        }
+
+        public void Move_LeaveWall() {
+            isWall = false;
+        }
+
         public void Move_Jump() {
             if (!isGround) {
                 return;
@@ -133,6 +131,19 @@ namespace Leap {
             velo.y = jumpForce;
             rb.velocity = velo;
             Move_LeaveGround();
+        }
+
+        public void Move_WallJump() {
+            if (!isWall) {
+                return;
+            }
+            if (inputCom.jumpAxis <= 0) {
+                return;
+            }
+            var velo = rb.velocity;
+            velo.y = jumpForce;
+            rb.velocity = velo;
+            Move_LeaveWall();
         }
 
         public void Move_Falling(float dt) {
@@ -165,8 +176,6 @@ namespace Leap {
         }
 
         public void TearDown() {
-            footTrigger.TearDown();
-            bodyCollider.TearDown();
             bodyTrigger.TearDown();
             Destroy(this.gameObject);
         }

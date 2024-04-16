@@ -10,30 +10,18 @@ namespace Leap {
                                               ctx.idRecordService,
                                               typeID,
                                               pos);
-
-            role.OnFootTriggerEnterHandle += (RoleEntity role, Collider2D other) => {
-                OnFootTriggerEnter(ctx, role, other);
-            };
-            role.OnFootTriggerStayHandle += (RoleEntity role, Collider2D other) => {
-                OnFootTriggerStay(ctx, role, other);
-            };
-            role.OnFootTriggerExitHandle += (RoleEntity role, Collider2D other) => {
-                OnFootTriggerExit(role, other);
-            };
-
-            role.OnBodyCollisionEnterHandle += (RoleEntity role, Collision2D other) => {
-                OnBodyCollisionEnter(ctx, role, other);
-            };
-            role.OnBodyCollisionStayHandle += (RoleEntity role, Collision2D other) => {
-                OnBodyCollisionStay(ctx, role, other);
-            };
-            role.OnBodyCollisionExitHandle += (RoleEntity role, Collision2D other) => {
-                OnBodyCollisionExit(ctx, role, other);
-            };
-
             role.OnBodyTriggerEnterHandle += (RoleEntity role, Collider2D other) => {
                 OnBodyTriggerEnter(ctx, role, other);
             };
+            role.OnBodyCollisionEnterHandle += (RoleEntity role, Collision2D coll) => {
+                OnBodyCollisionEnterWall(ctx, role, coll);
+            };
+            role.OnBodyCollisionExitHandle += (RoleEntity role, Collision2D coll) => {
+                OnBodyCollisionExitWall(ctx, role, coll);
+            };
+            // role.OnBodyCollisionStayHandle += (RoleEntity role, Collision2D coll) => {
+            //     OnBodyCollisionEnterWall(ctx, role, coll);
+            // };
             ctx.roleRepo.Add(role);
             return role;
         }
@@ -51,47 +39,27 @@ namespace Leap {
 
         public static void BoxCast(GameBusinessContext ctx, RoleEntity role) {
             var pos = role.Pos;
-            var size = Vector2.one;
+            var size = new Vector2(0.8f, 1f);
             var dir = Vector2.down;
-            LayerMask layer = (1 << LayConst.GROUND) | (1 << LayConst.BLOCK);
+            LayerMask layer = (1 << LayConst.GROUND) | (1 << LayConst.BLOCK) | (1 << LayConst.SPIKE);
 
             var hitResults = ctx.hitResults;
-            var hitCount = Physics2D.RaycastNonAlloc(pos, dir, hitResults, 1.3f, layer);
+            var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0.3f, layer);
+            Debug.DrawRay(pos, dir * 0.8f, Color.red);
             for (int i = 0; i < hitCount; i++) {
                 var hit = hitResults[i];
                 var hitGo = hit.collider.gameObject;
                 if (hitGo.CompareTag(TagConst.BLOCK)) {
-                    RoleEnterGroundOrBlock(ctx, role);
+                    OnFootEnterGroundOrBlock(ctx, role);
                 } else if (hitGo.CompareTag(TagConst.GROUND)) {
-                    RoleEnterGroundOrBlock(ctx, role);
+                    OnFootEnterGroundOrBlock(ctx, role);
+                } else if (hitGo.CompareTag(TagConst.SPIKE)) {
+                    OnFootEnterSpike(ctx, role);
                 }
             }
         }
 
-        static void OnFootTriggerEnter(GameBusinessContext ctx, RoleEntity role, Collider2D other) {
-
-            var otherGo = other.gameObject;
-            var otherTag = otherGo.tag;
-
-            // Enter Ground Or Block
-            if (otherGo.CompareTag(TagConst.SPIKE)) {
-                RoleEnterSpike(ctx, role);
-            }
-
-        }
-
-        static void OnFootTriggerStay(GameBusinessContext ctx, RoleEntity role, Collider2D other) {
-            var otherGo = other.gameObject;
-            var otherTag = otherGo.tag;
-
-            // Stay Ground Or Block
-            if (otherGo.CompareTag(TagConst.SPIKE)) {
-                RoleEnterSpike(ctx, role);
-            }
-
-        }
-
-        static void RoleEnterGroundOrBlock(GameBusinessContext ctx, RoleEntity role) {
+        static void OnFootEnterGroundOrBlock(GameBusinessContext ctx, RoleEntity role) {
             // - Enter Ground Or Block
             if (role.Velocity.y <= 0.0001f) {
                 role.Move_EnterGround();
@@ -100,26 +68,32 @@ namespace Leap {
             // - Restore Jump & Skill Times
         }
 
-        static void RoleEnterSpike(GameBusinessContext ctx, RoleEntity role) {
+        static void OnBodyCollisionEnterWall(GameBusinessContext ctx, RoleEntity role, Collision2D coll) {
+            // - Enter Wall
+            if (!coll.transform.CompareTag(TagConst.BLOCK) && !coll.transform.CompareTag(TagConst.GROUND)) {
+                return;
+            }
+            if (role.isGround) {
+                return;
+            }
+            role.Move_EnterWall();
+
+            GLog.Log("Enter Wall");
+        }
+
+        static void OnBodyCollisionExitWall(GameBusinessContext ctx, RoleEntity role, Collision2D coll) {
+            // - Exit Wall
+            if (!coll.transform.CompareTag(TagConst.BLOCK) && !coll.transform.CompareTag(TagConst.GROUND)) {
+                return;
+            }
+            role.Move_LeaveWall();
+
+            GLog.Log("Exit Wall");
+        }
+
+        static void OnFootEnterSpike(GameBusinessContext ctx, RoleEntity role) {
             // - Enter Spike
             role.Attr_GetHurt();
-        }
-
-        static void OnFootTriggerExit(RoleEntity role, Collider2D other) {
-            // Leave Ground Or Block
-        }
-
-        static void OnBodyCollisionEnter(GameBusinessContext ctx, RoleEntity role, Collision2D other) {
-            // Hurt & Dead
-            // Teleport
-        }
-
-        static void OnBodyCollisionStay(GameBusinessContext gameContext, RoleEntity role, Collision2D other) {
-
-        }
-
-        static void OnBodyCollisionExit(GameBusinessContext gameContext, RoleEntity role, Collision2D other) {
-
         }
 
         static void OnBodyTriggerEnter(GameBusinessContext gameContext, RoleEntity role, Collider2D other) {
@@ -132,6 +106,10 @@ namespace Leap {
 
         public static void ApplyJump(GameBusinessContext ctx, RoleEntity role, float dt) {
             role.Move_Jump();
+        }
+
+        public static void ApplyWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
+            role.Move_WallJump();
         }
 
         public static void ApplyFalling(GameBusinessContext ctx, RoleEntity role, float dt) {
