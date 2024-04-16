@@ -52,6 +52,11 @@ namespace Leap {
             role.hp = roleTM.hp;
             role.hpMax = roleTM.hp;
 
+            // Set Skill
+            role.hasWallJump = roleTM.hasWallJump;
+            role.hasDoubleJump = roleTM.hasDoubleJump;
+            role.hasDash = roleTM.hasDash;
+
             // Set Pos
             role.Pos_SetPos(pos);
 

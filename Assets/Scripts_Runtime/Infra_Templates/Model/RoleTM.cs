@@ -20,6 +20,11 @@ namespace Leap {
         public Sprite mesh;
         public GameObject deadVFX;
         public float deadVFXDuration;
+
+        public bool hasWallJump;
+        public bool hasDoubleJump;
+        public bool hasDash;
+
     }
 
 }

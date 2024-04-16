@@ -56,7 +56,6 @@ namespace Leap {
             LayerMask layer = (1 << LayConst.GROUND) | (1 << LayConst.BLOCK);
 
             var hitResults = ctx.hitResults;
-            // var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0.4f, layer);
             var hitCount = Physics2D.RaycastNonAlloc(pos, dir, hitResults, 1.3f, layer);
             for (int i = 0; i < hitCount; i++) {
                 var hit = hitResults[i];
