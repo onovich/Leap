@@ -13,15 +13,6 @@ namespace Leap {
             role.OnBodyTriggerEnterHandle += (RoleEntity role, Collider2D other) => {
                 OnBodyTriggerEnter(ctx, role, other);
             };
-            role.OnBodyCollisionEnterHandle += (RoleEntity role, Collision2D coll) => {
-                OnBodyCollisionEnterWall(ctx, role, coll);
-            };
-            role.OnBodyCollisionExitHandle += (RoleEntity role, Collision2D coll) => {
-                OnBodyCollisionExitWall(ctx, role, coll);
-            };
-            // role.OnBodyCollisionStayHandle += (RoleEntity role, Collision2D coll) => {
-            //     OnBodyCollisionEnterWall(ctx, role, coll);
-            // };
             ctx.roleRepo.Add(role);
             return role;
         }
@@ -43,6 +34,7 @@ namespace Leap {
             var dir = Vector2.down;
             LayerMask layer = (1 << LayConst.TERRAIN) | (1 << LayConst.BLOCK) | (1 << LayConst.SPIKE);
 
+            role.Move_LeaveGround();
             var hitResults = ctx.hitResults;
             var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0.3f, layer);
             Debug.DrawRay(pos, dir * 0.8f, Color.red);
@@ -57,6 +49,25 @@ namespace Leap {
             }
         }
 
+        public static void BoxCastWall(GameBusinessContext ctx, RoleEntity role) {
+            var pos = role.Pos;
+            var size = new Vector2(1.6f, 0.2f);
+            var dir = Vector2.zero;
+            LayerMask layer = (1 << LayConst.TERRAIN) | (1 << LayConst.BLOCK);
+
+            role.Move_LeaveWall();
+            var hitResults = ctx.hitResults;
+            var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0f, layer);
+            Debug.DrawRay(pos + new Vector2(-0.8f, 0f), new Vector2(0.8f, 0f), Color.red);
+            for (int i = 0; i < hitCount; i++) {
+                var hit = hitResults[i];
+                var hitGo = hit.collider.gameObject;
+                if (hitGo.CompareTag(TagConst.BLOCK) || hitGo.CompareTag(TagConst.TERRAIN)) {
+                    OnBodyEnterWall(ctx, role, hit.collider);
+                }
+            }
+        }
+
         static void OnFootEnterGround(GameBusinessContext ctx, RoleEntity role) {
             // - Enter Ground Or Block
             if (role.Velocity.y <= 0.0001f) {
@@ -66,37 +77,30 @@ namespace Leap {
             // - Restore Jump & Skill Times
         }
 
-        static void OnBodyCollisionEnterWall(GameBusinessContext ctx, RoleEntity role, Collision2D coll) {
+        static void OnBodyEnterWall(GameBusinessContext ctx, RoleEntity role, Collider2D coll) {
             // - Enter Wall
             if (role.isGround) {
                 return;
             }
             if (coll.transform.CompareTag(TagConst.BLOCK)) {
-                var normal = coll.contacts[0].normal;
+                var dir = (coll.ClosestPoint(role.Pos) - role.Pos).normalized;
+                var horizontalDir = new Vector2(dir.x, 0);
                 var go = coll.transform.parent.parent;
                 var entity = go.GetComponent<BlockEntity>();
                 if (entity == null) {
                     GLog.LogError($"Didn't Find BlockEntity At: {entity.gameObject.name}");
                 }
                 var friction = GameBlockDomain.GetFallingFriction(ctx, entity.typeID);
-                role.Move_EnterWall(-normal, friction);
+                role.Move_EnterWall(horizontalDir, friction);
             }
             if (coll.transform.CompareTag(TagConst.TERRAIN)) {
-                var point = coll.collider.ClosestPoint(role.Pos);
-                var dir = point - role.Pos;
-                var normal = coll.contacts[0].normal;
+                var point = coll.ClosestPoint(role.Pos);
+                var dir = (point - role.Pos).normalized;
+                var horizontalDir = new Vector2(dir.x, 0);
                 var pos = role.Pos + dir.normalized;
                 var friction = GameMapDomain.Terrain_GetFallingFriction(ctx, ctx.currentMapEntity, pos, dir);
-                role.Move_EnterWall(-normal, friction);
+                role.Move_EnterWall(horizontalDir, friction);
             }
-        }
-
-        static void OnBodyCollisionExitWall(GameBusinessContext ctx, RoleEntity role, Collision2D coll) {
-            // - Exit Wall
-            if (!coll.transform.CompareTag(TagConst.BLOCK) && !coll.transform.CompareTag(TagConst.TERRAIN)) {
-                return;
-            }
-            role.Move_LeaveWall();
         }
 
         static void OnFootEnterSpike(GameBusinessContext ctx, RoleEntity role) {
@@ -125,20 +129,14 @@ namespace Leap {
         }
 
         public static void ApplyWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
-            if (!role.isHoldWall) {
+            if (!role.isWall) {
                 return;
             }
             role.Move_WallJump();
         }
 
         public static void ApplyFalling(GameBusinessContext ctx, RoleEntity role, float dt) {
-            var fallingFriction = 0f;
-            if (role.isHoldWall) {
-                fallingFriction = role.holdWallFriction;
-                role.Move_Falling(dt, fallingFriction);
-            }
-
-            role.Move_Falling(dt, fallingFriction);
+            role.Move_Falling(dt);
         }
 
     }

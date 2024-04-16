@@ -59,9 +59,6 @@ namespace Leap {
 
         // Action
         public event Action<RoleEntity, Collider2D> OnBodyTriggerEnterHandle;
-        public event Action<RoleEntity, Collision2D> OnBodyCollisionEnterHandle;
-        public event Action<RoleEntity, Collision2D> OnBodyCollisionExitHandle;
-        public event Action<RoleEntity, Collision2D> OnBodyCollisionStayHandle;
 
         public void Ctor() {
             fsmCom = new RoleFSMComponent();
@@ -71,9 +68,6 @@ namespace Leap {
 
         void Binding() {
             bodyTrigger.OnTriggerEnterHandle += (coll) => { OnBodyTriggerEnterHandle.Invoke(this, coll); };
-            bodyCollider.OnCollisionEnterHandle += (coll) => { OnBodyCollisionEnterHandle.Invoke(this, coll); };
-            bodyCollider.OnCollisionExitHandle += (coll) => { OnBodyCollisionExitHandle.Invoke(this, coll); };
-            // bodyCollider.OnCollisionStayHandle += (coll) => { OnBodyCollisionStayHandle.Invoke(this, coll); };
         }
 
         // Pos
@@ -164,11 +158,10 @@ namespace Leap {
             var velo = rb.velocity;
             velo.y = jumpForceY;
             rb.velocity = velo;
-            Move_LeaveGround();
         }
 
         public void Move_WallJump() {
-            if (!isWall) {
+            if (!isHoldWall) {
                 return;
             }
             if (inputCom.jumpAxis <= 0) {
@@ -179,15 +172,14 @@ namespace Leap {
             velo.x += -holdWallDir.x * wallJumpForceX;
             rb.velocity = velo;
             Move_LeaveWall();
-            // GLog.Log($"Wall Jump : HoldWallDir = {holdWallDir}; velo = {velo}");
         }
 
-        public void Move_Falling(float dt, float fallingFriction) {
+        public void Move_Falling(float dt) {
             var velo = rb.velocity;
             velo.y -= g * dt;
 
             if (isHoldWall) {
-                velo.y *= 1 - fallingFriction;
+                velo.y *= 1 - holdWallFriction;
             }
 
             velo.y = Mathf.Max(velo.y, -fallingSpeedMax);

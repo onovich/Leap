@@ -36,7 +36,6 @@ namespace Leap {
         }
 
         public static float Terrain_GetFallingFriction(GameBusinessContext ctx, MapEntity map, Vector2 pos, Vector2 normal) {
-            // var worldPos = pos - normal * 0.5f;
             var worldPos = pos;
             var tileMap = map.Tilemap_Terrain;
             var posInt = tileMap.WorldToCell(worldPos).ToVector2Int();
