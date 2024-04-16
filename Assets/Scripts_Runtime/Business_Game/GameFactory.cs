@@ -46,7 +46,9 @@ namespace Leap {
 
             // Set Attr
             role.moveSpeed = roleTM.moveSpeed;
-            role.jumpForce = roleTM.jumpForce;
+            role.jumpForceY = roleTM.jumpForceY;
+            role.wallJumpForceY = roleTM.wallJumpForceY;
+            role.wallJumpForceX = roleTM.wallJumpForceX;
             role.g = roleTM.g;
             role.fallingSpeedMax = roleTM.fallingSpeedMax;
             role.hp = roleTM.hp;

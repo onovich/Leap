@@ -13,7 +13,9 @@ namespace Leap {
 
         // Attr
         public float moveSpeed;
-        public float jumpForce;
+        public float jumpForceY;
+        public float wallJumpForceY;
+        public float wallJumpForceX;
         public float g;
         public float fallingSpeedMax;
         public Vector2 Velocity => rb.velocity;
@@ -102,6 +104,9 @@ namespace Leap {
         }
 
         void Move_Apply(float xAxis, float moveSpeed, float fixdt) {
+            if (isHoldWall) {
+                return;
+            }
             var velo = rb.velocity;
             velo.x = xAxis * moveSpeed;
             rb.velocity = velo;
@@ -116,6 +121,9 @@ namespace Leap {
         }
 
         public void Move_HoldWall() {
+            if (holdWallFriction <= 0) {
+                return;
+            }
             isHoldWall = true;
         }
 
@@ -154,7 +162,7 @@ namespace Leap {
                 return;
             }
             var velo = rb.velocity;
-            velo.y = jumpForce;
+            velo.y = jumpForceY;
             rb.velocity = velo;
             Move_LeaveGround();
         }
@@ -167,9 +175,11 @@ namespace Leap {
                 return;
             }
             var velo = rb.velocity;
-            velo.y = jumpForce;
+            velo.y = wallJumpForceY;
+            velo.x += -holdWallDir.x * wallJumpForceX;
             rb.velocity = velo;
             Move_LeaveWall();
+            // GLog.Log($"Wall Jump : HoldWallDir = {holdWallDir}; velo = {velo}");
         }
 
         public void Move_Falling(float dt, float fallingFriction) {

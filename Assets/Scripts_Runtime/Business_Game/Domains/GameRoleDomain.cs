@@ -125,6 +125,9 @@ namespace Leap {
         }
 
         public static void ApplyWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
+            if (!role.isHoldWall) {
+                return;
+            }
             role.Move_WallJump();
         }
 

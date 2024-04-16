@@ -99,6 +99,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
   - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
   - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
+  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
+  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
+  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
+  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
+  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
+  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
+  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
+  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
+  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
+  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
   blockSpawnPosArr:
   - {x: -9, y: -2}
   - {x: -9, y: -1}
@@ -109,6 +119,16 @@ MonoBehaviour:
   - {x: -16, y: -3}
   - {x: -17, y: -3}
   - {x: -14, y: -3}
+  - {x: -3, y: 0}
+  - {x: -3, y: 8}
+  - {x: -3, y: 9}
+  - {x: -3, y: 7}
+  - {x: -3, y: 6}
+  - {x: -3, y: 5}
+  - {x: -3, y: 4}
+  - {x: -3, y: 3}
+  - {x: -3, y: 2}
+  - {x: -3, y: 1}
   blockSpawnSizeArr:
   - {x: 1, y: 1}
   - {x: 1, y: 1}
@@ -119,7 +139,17 @@ MonoBehaviour:
   - {x: 1, y: 1}
   - {x: 1, y: 1}
   - {x: 1, y: 1}
-  blockSpawnIndexArr: 010000000200000003000000040000000500000006000000070000000800000009000000
+  - {x: 1, y: 1}
+  - {x: 1, y: 1}
+  - {x: 1, y: 1}
+  - {x: 1, y: 1}
+  - {x: 1, y: 1}
+  - {x: 1, y: 1}
+  - {x: 1, y: 1}
+  - {x: 1, y: 1}
+  - {x: 1, y: 1}
+  - {x: 1, y: 1}
+  blockSpawnIndexArr: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000010000000110000001200000013000000
   cameraConfinerWorldMax: {x: 30, y: 20}
   cameraConfinerWorldMin: {x: -30, y: -20}
   spikeSpawnArr:

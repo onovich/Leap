@@ -35,11 +35,11 @@ namespace Leap {
             // Jump
             GameRoleDomain.ApplyJump(ctx, role, fixdt);
 
-            // Hold Wall
-            GameRoleDomain.ApplyHoldWall(ctx, role, fixdt);
-
             // Wall Jump
             GameRoleDomain.ApplyWallJump(ctx, role, fixdt);
+
+            // Hold Wall
+            GameRoleDomain.ApplyHoldWall(ctx, role, fixdt);
 
             // Fall
             GameRoleDomain.ApplyFalling(ctx, role, fixdt);
