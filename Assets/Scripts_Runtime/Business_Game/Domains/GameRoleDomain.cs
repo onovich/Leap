@@ -57,24 +57,6 @@ namespace Leap {
             }
         }
 
-        public static void BoxCastWall(GameBusinessContext ctx, RoleEntity role) {
-            var pos = role.Pos;
-            var size = new Vector2(1.4f, 0.2f);
-            var dir = Vector2.zero;
-            LayerMask layer = (1 << LayConst.TERRAIN) | (1 << LayConst.BLOCK);
-
-            var hitResults = ctx.hitResults;
-            var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0f, layer);
-            Debug.DrawRay(pos + new Vector2(-0.2f, 0f), new Vector2(0.2f, 0f), Color.red);
-            for (int i = 0; i < hitCount; i++) {
-                var hit = hitResults[i];
-                var hitGo = hit.collider.gameObject;
-                if (hitGo.CompareTag(TagConst.BLOCK) || hitGo.CompareTag(TagConst.TERRAIN)) {
-                    OnBodyEnterWall(ctx, role, hit.collider);
-                }
-            }
-        }
-
         static void OnFootEnterGround(GameBusinessContext ctx, RoleEntity role) {
             // - Enter Ground Or Block
             if (role.Velocity.y <= 0.0001f) {
@@ -82,30 +64,6 @@ namespace Leap {
             }
 
             // - Restore Jump & Skill Times
-        }
-
-        static void OnBodyEnterWall(GameBusinessContext ctx, RoleEntity role, Collider2D coll) {
-            // // - Enter Wall
-            // if (role.isGround) {
-            //     return;
-            // }
-            // if (coll.transform.CompareTag(TagConst.BLOCK)) {
-            //     var dir = coll.ClosestPoint(role.Pos) - role.Pos;
-            //     var go = coll.transform.parent.parent;
-            //     var entity = go.GetComponent<BlockEntity>();
-            //     if (entity == null) {
-            //         GLog.LogError($"Didn't Find BlockEntity At: {entity.gameObject.name}");
-            //     }
-            //     var friction = GameBlockDomain.GetFallingFriction(ctx, entity.typeID);
-            //     role.Move_EnterWall(dir, friction);
-            // }
-            // if (coll.transform.CompareTag(TagConst.TERRAIN)) {
-            //     var point = coll.ClosestPoint(role.Pos);
-            //     var dir = point - role.Pos;
-            //     var pos = role.Pos + dir.normalized;
-            //     var friction = GameMapDomain.Terrain_GetFallingFriction(ctx, ctx.currentMapEntity, pos, dir);
-            //     role.Move_EnterWall(dir, friction);
-            // }
         }
 
         static void OnBodyCollisionEnterWall(GameBusinessContext ctx, RoleEntity role, Collision2D coll) {
