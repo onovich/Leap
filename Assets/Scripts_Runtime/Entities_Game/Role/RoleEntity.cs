@@ -31,8 +31,7 @@ namespace Leap {
         public bool isWall;
         public bool isHoldWall;
         public Vector2 holdWallDir;
-        public int holdWallTypeID;
-        public EntityType holdWallType;
+        public float holdWallFriction;
 
         // FSM
         public RoleFSMComponent fsmCom;
@@ -124,11 +123,10 @@ namespace Leap {
             isHoldWall = false;
         }
 
-        public void Move_EnterWall(Vector2 dir, int typeID, EntityType type) {
+        public void Move_EnterWall(Vector2 dir, float friction) {
             isWall = true;
             holdWallDir = dir;
-            holdWallTypeID = typeID;
-            holdWallType = type;
+            holdWallFriction = friction;
         }
 
         public void Move_LeaveWall() {
@@ -142,7 +140,7 @@ namespace Leap {
             if (inputCom.moveAxis.x == 0) {
                 return false;
             }
-            if (inputCom.moveAxis.x != -holdWallDir.x) {
+            if (inputCom.moveAxis.x != holdWallDir.x) {
                 return false;
             }
             return true;

@@ -24,7 +24,8 @@ namespace Leap {
 
             // - Terrain
             var terrainPosArr = mapTM.terrainSpawnPosArr;
-            GameMapDomain.Terrain_SetAll(ctx, map, terrainPosArr);
+            var terrainTypeIDArr = mapTM.terrainTypeIDArr;
+            GameMapDomain.Terrain_SetAll(ctx, map, terrainPosArr, terrainTypeIDArr);
 
             // Role
             var player = ctx.playerEntity;

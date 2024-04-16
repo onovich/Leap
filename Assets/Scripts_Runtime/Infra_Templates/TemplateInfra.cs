@@ -50,6 +50,16 @@ namespace Leap {
                 ctx.spikeHandle = handle;
             }
 
+            {
+                var handle = Addressables.LoadAssetsAsync<TerrainTM>("TM_Terrain", null);
+                var terrainList = await handle.Task;
+                foreach (var tm in terrainList) {
+                    ctx.Terrain_Add(tm);
+                }
+                ctx.terrainHandle = handle;
+
+            }
+
         }
 
         public static void Release(TemplateInfraContext ctx) {
@@ -67,6 +77,9 @@ namespace Leap {
             }
             if (ctx.spikeHandle.IsValid()) {
                 Addressables.Release(ctx.spikeHandle);
+            }
+            if (ctx.terrainHandle.IsValid()) {
+                Addressables.Release(ctx.terrainHandle);
             }
         }
 

@@ -20,11 +20,15 @@ namespace Leap {
         Dictionary<int, SpikeTM> spikeDict;
         public AsyncOperationHandle spikeHandle;
 
+        Dictionary<int, TerrainTM> terrainDict;
+        public AsyncOperationHandle terrainHandle;
+
         public TemplateInfraContext() {
             mapDict = new Dictionary<int, MapTM>();
             roleDict = new Dictionary<int, RoleTM>();
             blockDict = new Dictionary<int, BlockTM>();
             spikeDict = new Dictionary<int, SpikeTM>();
+            terrainDict = new Dictionary<int, TerrainTM>();
         }
 
         // Game
@@ -88,12 +92,26 @@ namespace Leap {
             return has;
         }
 
+        // Terrain
+        public void Terrain_Add(TerrainTM terrain) {
+            terrainDict.Add(terrain.typeID, terrain);
+        }
+
+        public bool Terrain_TryGet(int typeID, out TerrainTM terrain) {
+            var has = terrainDict.TryGetValue(typeID, out terrain);
+            if (!has) {
+                GLog.LogError($"Terrain {typeID} not found");
+            }
+            return has;
+        }
+
         // Clear
         public void Clear() {
             mapDict.Clear();
             roleDict.Clear();
             blockDict.Clear();
             spikeDict.Clear();
+            terrainDict.Clear();
         }
 
     }

@@ -14,6 +14,7 @@ namespace Leap {
 
         // Terrain
         public Vector2Int[] terrainSpawnPosArr;
+        public int[] terrainTypeIDArr;
 
         // Role Spawn 
         public Vector2 SpawnPoint;

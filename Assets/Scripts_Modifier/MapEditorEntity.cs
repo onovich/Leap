@@ -21,9 +21,12 @@ namespace Leap.Modifier {
         [SerializeField] Vector2 cameraConfinerWorldMin;
 
         IndexService indexService;
+        List<TerrainTM> terrainTMArr;
 
         [Button("Bake")]
         void Bake() {
+            GetAllTerrainTM();
+
             indexService = new IndexService();
             indexService.ResetIndex();
             BakeTerrain();
@@ -45,15 +48,23 @@ namespace Leap.Modifier {
 
         void BakeTerrain() {
             var terrainSpawnPosList = new List<Vector2Int>();
+            var terrainTypeIDList = new List<int>();
             for (int x = tilemap_terrain.cellBounds.x; x < tilemap_terrain.cellBounds.xMax; x++) {
                 for (int y = tilemap_terrain.cellBounds.y; y < tilemap_terrain.cellBounds.yMax; y++) {
                     var pos = new Vector3Int(x, y, 0);
                     var tile = tilemap_terrain.GetTile(pos);
                     if (tile == null) continue;
                     terrainSpawnPosList.Add(pos.ToVector2Int());
+                    var terrainTM = GetTerrainTM(tile);
+                    if (terrainTM == null) {
+                        Debug.Log("TerrainTM Not Found");
+                        continue;
+                    }
+                    terrainTypeIDList.Add(terrainTM.typeID);
                 }
             }
             mapTM.terrainSpawnPosArr = terrainSpawnPosList.ToArray();
+            mapTM.terrainTypeIDArr = terrainTypeIDList.ToArray();
         }
 
         void BakeSpike() {
@@ -142,6 +153,19 @@ namespace Leap.Modifier {
         void OnDrawGizmos() {
             Gizmos.color = Color.green;
             Gizmos.DrawWireCube((cameraConfinerWorldMax + cameraConfinerWorldMin) / 2, cameraConfinerWorldMax - cameraConfinerWorldMin);
+        }
+
+        TerrainTM GetTerrainTM(TileBase tileBase) {
+            foreach (var terrainTM in terrainTMArr) {
+                if (terrainTM.tile == tileBase) {
+                    return terrainTM;
+                }
+            }
+            return null;
+        }
+
+        void GetAllTerrainTM() {
+            terrainTMArr = FieldHelper.GetAllInstances<TerrainTM>();
         }
 
     }

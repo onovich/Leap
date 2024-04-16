@@ -31,6 +31,14 @@ namespace Leap {
             block.TearDown();
         }
 
+        public static float GetFallingFriction(GameBusinessContext ctx, int typeID) {
+            var has = ctx.templateInfraContext.Block_TryGet(typeID, out var blockTM);
+            if (!has) {
+                GLog.LogError($"BlockTM Not Found At {typeID}");
+            }
+            return blockTM.fallingFriction;
+        }
+
     }
 
 }
