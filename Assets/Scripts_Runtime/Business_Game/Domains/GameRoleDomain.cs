@@ -41,7 +41,7 @@ namespace Leap {
             var pos = role.Pos;
             var size = new Vector2(0.8f, 1f);
             var dir = Vector2.down;
-            LayerMask layer = (1 << LayConst.GROUND) | (1 << LayConst.BLOCK) | (1 << LayConst.SPIKE);
+            LayerMask layer = (1 << LayConst.TERRAIN) | (1 << LayConst.BLOCK) | (1 << LayConst.SPIKE);
 
             var hitResults = ctx.hitResults;
             var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0.3f, layer);
@@ -49,17 +49,15 @@ namespace Leap {
             for (int i = 0; i < hitCount; i++) {
                 var hit = hitResults[i];
                 var hitGo = hit.collider.gameObject;
-                if (hitGo.CompareTag(TagConst.BLOCK)) {
-                    OnFootEnterGroundOrBlock(ctx, role);
-                } else if (hitGo.CompareTag(TagConst.GROUND)) {
-                    OnFootEnterGroundOrBlock(ctx, role);
+                if (hitGo.CompareTag(TagConst.BLOCK) || hitGo.CompareTag(TagConst.TERRAIN)) {
+                    OnFootEnterGround(ctx, role);
                 } else if (hitGo.CompareTag(TagConst.SPIKE)) {
                     OnFootEnterSpike(ctx, role);
                 }
             }
         }
 
-        static void OnFootEnterGroundOrBlock(GameBusinessContext ctx, RoleEntity role) {
+        static void OnFootEnterGround(GameBusinessContext ctx, RoleEntity role) {
             // - Enter Ground Or Block
             if (role.Velocity.y <= 0.0001f) {
                 role.Move_EnterGround();
@@ -70,25 +68,29 @@ namespace Leap {
 
         static void OnBodyCollisionEnterWall(GameBusinessContext ctx, RoleEntity role, Collision2D coll) {
             // - Enter Wall
-            if (!coll.transform.CompareTag(TagConst.BLOCK) && !coll.transform.CompareTag(TagConst.GROUND)) {
-                return;
-            }
             if (role.isGround) {
                 return;
             }
-            role.Move_EnterWall();
+            if (coll.transform.CompareTag(TagConst.BLOCK)) {
+                var dir = coll.contacts[0].normal;
+                var go = coll.transform.parent.parent;
+                var entity = go.GetComponent<BlockEntity>();
+                if (entity == null) {
+                    GLog.LogError($"Didn't Find BlockEntity At: {entity.gameObject.name}");
+                }
+                role.Move_EnterWall(dir, entity.typeID, EntityType.Block);
+            }
+            if (coll.transform.CompareTag(TagConst.TERRAIN)) {
 
-            GLog.Log("Enter Wall");
+            }
         }
 
         static void OnBodyCollisionExitWall(GameBusinessContext ctx, RoleEntity role, Collision2D coll) {
             // - Exit Wall
-            if (!coll.transform.CompareTag(TagConst.BLOCK) && !coll.transform.CompareTag(TagConst.GROUND)) {
+            if (!coll.transform.CompareTag(TagConst.BLOCK) && !coll.transform.CompareTag(TagConst.TERRAIN)) {
                 return;
             }
             role.Move_LeaveWall();
-
-            GLog.Log("Exit Wall");
         }
 
         static void OnFootEnterSpike(GameBusinessContext ctx, RoleEntity role) {
@@ -108,12 +110,31 @@ namespace Leap {
             role.Move_Jump();
         }
 
+        public static void ApplyHoldWall(GameBusinessContext ctx, RoleEntity role, float dt) {
+            if (role.Move_TryHoldWall()) {
+                role.Move_HoldWall();
+            } else {
+                role.Move_LeaveHoldWall();
+            }
+        }
+
         public static void ApplyWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
             role.Move_WallJump();
         }
 
         public static void ApplyFalling(GameBusinessContext ctx, RoleEntity role, float dt) {
-            role.Move_Falling(dt);
+            var fallingFriction = 0f;
+            if (role.isHoldWall && role.holdWallType == EntityType.Block) {
+                var typeID = role.holdWallTypeID;
+                var has = ctx.templateInfraContext.Block_TryGet(typeID, out var blockTM);
+                if (!has) {
+                    GLog.LogError($"Role {typeID} not found");
+                }
+                fallingFriction = blockTM.fallingFriction;
+                role.Move_Falling(dt, fallingFriction);
+            }
+
+            role.Move_Falling(dt, fallingFriction);
         }
 
     }

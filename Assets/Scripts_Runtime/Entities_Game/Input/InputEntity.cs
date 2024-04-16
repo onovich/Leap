@@ -8,6 +8,7 @@ namespace Leap {
 
         public Vector2 moveAxis;
         public float jumpAxis;
+        public bool isHoldWall;
 
         InputKeybindingComponent keybindingCom;
 
@@ -36,6 +37,7 @@ namespace Leap {
         public void Reset() {
             moveAxis = Vector2.zero;
             jumpAxis = 0f;
+            isHoldWall = false; 
         }
 
     }

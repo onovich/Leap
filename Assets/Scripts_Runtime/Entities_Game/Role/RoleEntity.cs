@@ -29,6 +29,10 @@ namespace Leap {
         public bool isGround;
         public bool needTearDown;
         public bool isWall;
+        public bool isHoldWall;
+        public Vector2 holdWallDir;
+        public int holdWallTypeID;
+        public EntityType holdWallType;
 
         // FSM
         public RoleFSMComponent fsmCom;
@@ -112,12 +116,36 @@ namespace Leap {
             isGround = false;
         }
 
-        public void Move_EnterWall() {
+        public void Move_HoldWall() {
+            isHoldWall = true;
+        }
+
+        public void Move_LeaveHoldWall() {
+            isHoldWall = false;
+        }
+
+        public void Move_EnterWall(Vector2 dir, int typeID, EntityType type) {
             isWall = true;
+            holdWallDir = dir;
+            holdWallTypeID = typeID;
+            holdWallType = type;
         }
 
         public void Move_LeaveWall() {
             isWall = false;
+        }
+
+        public bool Move_TryHoldWall() {
+            if (!isWall) {
+                return false;
+            }
+            if (inputCom.moveAxis.x == 0) {
+                return false;
+            }
+            if (inputCom.moveAxis.x != -holdWallDir.x) {
+                return false;
+            }
+            return true;
         }
 
         public void Move_Jump() {
@@ -146,9 +174,14 @@ namespace Leap {
             Move_LeaveWall();
         }
 
-        public void Move_Falling(float dt) {
+        public void Move_Falling(float dt, float fallingFriction) {
             var velo = rb.velocity;
             velo.y -= g * dt;
+
+            if (isHoldWall) {
+                velo.y *= 1 - fallingFriction;
+            }
+
             velo.y = Mathf.Max(velo.y, -fallingSpeedMax);
             rb.velocity = velo;
         }

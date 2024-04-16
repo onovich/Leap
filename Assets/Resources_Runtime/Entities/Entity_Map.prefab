@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8998948626312996520}
   m_Layer: 6
   m_Name: tilemap_terrain
-  m_TagString: Ground
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

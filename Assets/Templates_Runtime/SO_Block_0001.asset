@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeID: 1
   mesh: {fileID: 21300000, guid: 01787af68450246e3b2912d494821db6, type: 3}
+  fallingFriction: 0.18

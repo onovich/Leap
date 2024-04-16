@@ -5,8 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Block
-  - Ground
   - Spike
+  - Terrain
   layers:
   - Default
   - TransparentFX
@@ -14,7 +14,7 @@ TagManager:
   - 
   - Water
   - UI
-  - Ground
+  - Terrain
   - Block
   - Spike
   - 
