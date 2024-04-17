@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5558879089588271763}
   - component: {fileID: 2691024469516889009}
   - component: {fileID: 3920497209876547276}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: collider_head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 3433530738972530475}
   - component: {fileID: 2529477388704631507}
   - component: {fileID: 5554288827522698273}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Entity_Role
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 2282364361609164524}
   - component: {fileID: 3990134424807717786}
   - component: {fileID: 7089494760141923978}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: collider_body
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -5,7 +5,7 @@ namespace Leap {
     public static class GameBusiness {
 
         public static void Init(GameBusinessContext ctx) {
-
+            Physics2D.IgnoreLayerCollision(LayConst.ROLE, LayConst.ROLE, true);
         }
 
         public static void StartGame(GameBusinessContext ctx) {
