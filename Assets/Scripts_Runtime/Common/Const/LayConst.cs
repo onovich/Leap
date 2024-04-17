@@ -5,6 +5,7 @@ namespace Leap {
         public const int TERRAIN = 6;
         public const int BLOCK = 7;
         public const int SPIKE = 8;
+        public const int ROLE = 9;
 
     }
 

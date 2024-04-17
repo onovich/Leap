@@ -98,9 +98,6 @@ namespace Leap {
         }
 
         void Move_Apply(float xAxis, float moveSpeed, float fixdt) {
-            if (isHoldWall) {
-                return;
-            }
             var velo = rb.velocity;
             velo.x = xAxis * moveSpeed;
             rb.velocity = velo;

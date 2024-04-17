@@ -29,6 +29,9 @@ namespace Leap {
                 fsm.idle_isEntering = false;
             }
 
+            // Fall
+            GameRoleDomain.ApplyFalling(ctx, role, fixdt);
+
             // Move
             GameRoleDomain.ApplyMove(ctx, role, fixdt);
 
@@ -40,9 +43,6 @@ namespace Leap {
 
             // Wall Jump
             GameRoleDomain.ApplyWallJump(ctx, role, fixdt);
-
-            // Fall
-            GameRoleDomain.ApplyFalling(ctx, role, fixdt);
 
             // Dead
             if (role.hp <= 0) {
