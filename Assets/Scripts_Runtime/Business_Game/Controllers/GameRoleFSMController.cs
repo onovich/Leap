@@ -9,8 +9,10 @@ namespace Leap {
             FixedTickFSM_Any(ctx, role, fixdt);
 
             RoleFSMStatus status = role.FSM_GetStatus();
-            if (status == RoleFSMStatus.Idle) {
+            if (status == RoleFSMStatus.Normal) {
                 FixedTickFSM_Idle(ctx, role, fixdt);
+            } else if (status == RoleFSMStatus.WallJumping) {
+                FixedTickFSM_WallJumping(ctx, role, fixdt);
             } else if (status == RoleFSMStatus.Dead) {
                 FixedTickFSM_Dead(ctx, role, fixdt);
             } else {
@@ -25,8 +27,8 @@ namespace Leap {
 
         static void FixedTickFSM_Idle(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
-            if (fsm.idle_isEntering) {
-                fsm.idle_isEntering = false;
+            if (fsm.normal_isEntering) {
+                fsm.normal_isEntering = false;
             }
 
             // Fall
@@ -48,6 +50,17 @@ namespace Leap {
             if (role.hp <= 0) {
                 fsm.EnterDead();
             }
+        }
+
+        static void FixedTickFSM_WallJumping(GameBusinessContext ctx, RoleEntity role, float fixdt) {
+            RoleFSMComponent fsm = role.FSM_GetComponent();
+            if (fsm.dead_isEntering) {
+                fsm.dead_isEntering = false;
+            }
+
+            // Hit Wall
+            GameRoleDomain.ApplyHitWall(ctx, role, fixdt);
+
         }
 
         static void FixedTickFSM_Dead(GameBusinessContext ctx, RoleEntity role, float fixdt) {

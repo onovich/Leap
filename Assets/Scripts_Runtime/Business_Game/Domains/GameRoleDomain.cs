@@ -120,6 +120,12 @@ namespace Leap {
             role.Move_Jump();
         }
 
+        public static void ApplyHitWall(GameBusinessContext ctx, RoleEntity role, float dt) {
+            if (role.isWall || role.isGround) {
+                role.fsmCom.EnterNormal();
+            }
+        }
+
         public static void ApplyHoldWall(GameBusinessContext ctx, RoleEntity role, float dt) {
             if (role.Move_TryHoldWall()) {
                 role.Move_HoldWall();
@@ -133,6 +139,7 @@ namespace Leap {
                 return;
             }
             role.Move_WallJump();
+            // role.fsmCom.EnterWallJumping();
         }
 
         public static void ApplyFalling(GameBusinessContext ctx, RoleEntity role, float dt) {

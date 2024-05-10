@@ -193,7 +193,7 @@ namespace Leap {
         }
 
         public void FSM_EnterIdle() {
-            fsmCom.EnterIdle();
+            fsmCom.EnterNormal();
         }
 
         public void FSM_EnterDead() {

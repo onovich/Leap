@@ -4,14 +4,20 @@ namespace Leap {
 
         public RoleFSMStatus status;
 
-        public bool idle_isEntering;
+        public bool normal_isEntering;
+        public bool wallJumping_isEntering;
         public bool dead_isEntering;
 
         public RoleFSMComponent() { }
 
-        public void EnterIdle() {
-            status = RoleFSMStatus.Idle;
-            idle_isEntering = true;
+        public void EnterNormal() {
+            status = RoleFSMStatus.Normal;
+            normal_isEntering = true;
+        }
+
+        public void EnterWallJumping() {
+            status = RoleFSMStatus.WallJumping;
+            wallJumping_isEntering = true;
         }
 
         public void EnterDead() {
