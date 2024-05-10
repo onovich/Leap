@@ -1,21 +1,6 @@
-关于"拼接"的制作
-1. 当存在"多个Block拼成一个平台s"时，拼接处会有接缝，需要使用 Composite Collider
-
-关于"组合"的设计
-1. 每个 Block 都独立存在，Block 可拉伸
-2. Spike、Block、Trigger、Effector 是独立存在的，不可组合
-3. Path 是一个容器，一个 Path 拥有一个 PathGroup，Group 内的所有 Transform 都会被代理
-4. Block 可以有多份预制体，用 TypeID 区分
-
-关于 Track 编辑时的设计
-1. 分为两个部分：Track Path 和 Tack Container
-2. Track Path 由一组封闭或非封闭的 Path Node 构成，有起止点和方向，指示 Track 的移动轨迹
-3. Tack Container 由一组封闭的 Container Node 构成，指示当前 Track 负载的对象
-4. 使用 IsPointInPolygon 或碰撞检测算法，将 Tack Container 包围的 Block/Spike 等 Bake 进 TM
-
-关于 Track 运行时的设计
-1. Track 先对自己负责，在 Tick 中使用缓动函数将 Track 从当前 Path Node 推向下一个 Path Node
-2. Track 计算每一帧偏移量，把偏移量附加给 Container 里关联的所有物体
+待办
+1. 蹬墙跳状态下的 Falling、Moving 逻辑，采用不同的重力等参数
+2. HitWall 状态下，减少向墙移动的力，避免这个力和蹬墙跳的抬升力的合力仍然向墙，导致跳不高跳不远
 
 待实现机制
 1. 二段跳
