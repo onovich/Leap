@@ -9,6 +9,7 @@ namespace Leap {
 
         public int typeID;
         public Vector2Int mapSize;
+        public Vector2Int mapOffset;
         public TileBase tileBase_terrain;
 
         public Dictionary<Vector2Int, int> terrainTypeIDDict;

@@ -46,6 +46,9 @@ namespace Leap {
             // Wall Jump
             GameRoleDomain.ApplyWallJump(ctx, role, fixdt);
 
+            // Constraint
+            GameRoleDomain.ApplyConstraint(ctx, role, fixdt);
+
             // Dead
             if (role.hp <= 0) {
                 fsm.EnterDead();
@@ -57,6 +60,12 @@ namespace Leap {
             if (fsm.dead_isEntering) {
                 fsm.dead_isEntering = false;
             }
+
+            // Fall
+            GameRoleDomain.ApplyFalling(ctx, role, fixdt);
+
+            // Wall Jump
+            // GameRoleDomain.ApplyWallJump(ctx, role, fixdt);
 
             // Hit Wall
             GameRoleDomain.ApplyHitWall(ctx, role, fixdt);

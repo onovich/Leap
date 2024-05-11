@@ -44,6 +44,9 @@ namespace Leap.Modifier {
             mapTM.typeID = typeID;
             mapTM.tileBase_terrain = tilebase_terrain;
             mapTM.mapSize = mapSize.transform.localScale.RoundToVector2Int();
+            mapTM.mapPos = mapSize.transform.localPosition.RoundToVector2Int();
+            mapSize.transform.localScale = mapTM.mapSize.ToVector3Int();
+            mapSize.transform.localPosition = mapTM.mapPos.ToVector3Int();
         }
 
         void BakeTerrain() {

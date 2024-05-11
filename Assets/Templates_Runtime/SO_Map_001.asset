@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SO_Map_001
   m_EditorClassIdentifier: 
   typeID: 1
-  mapSize: {x: 20, y: 10}
+  mapSize: {x: 40, y: 24}
+  mapPos: {x: 0, y: -2}
   tileBase_terrain: {fileID: 11400000, guid: 7cff088cd60594a7e9c71fce7ed147d4, type: 2}
   terrainSpawnPosArr:
   - {x: -9, y: -13}
@@ -132,8 +133,8 @@ MonoBehaviour:
   - {x: -3, y: 5}
   - {x: -3, y: 6}
   - {x: -3, y: 7}
-  - {x: -3, y: 8}
   - {x: -3, y: 9}
+  - {x: -3, y: 8}
   blockSpawnSizeArr:
   - {x: 1, y: 1}
   - {x: 1, y: 1}

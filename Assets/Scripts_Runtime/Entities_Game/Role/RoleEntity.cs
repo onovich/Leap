@@ -88,6 +88,10 @@ namespace Leap {
             hp -= 1;
         }
 
+        public void Attr_DeadlyHurt() {
+            hp = 0;
+        }
+
         // Move
         public void Move_ApplyMove(float dt) {
             Move_Apply(inputCom.moveAxis.x, Attr_GetMoveSpeed(), dt);

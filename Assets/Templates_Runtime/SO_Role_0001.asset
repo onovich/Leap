@@ -18,7 +18,7 @@ MonoBehaviour:
   moveSpeed: 6.5
   jumpForceY: 16
   wallJumpForceY: 16
-  wallJumpForceX: 80
+  wallJumpForceX: 40
   g: 50
   fallingSpeedMax: 40
   hp: 1

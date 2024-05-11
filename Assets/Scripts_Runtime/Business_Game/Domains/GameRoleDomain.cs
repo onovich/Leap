@@ -142,6 +142,19 @@ namespace Leap {
             // role.fsmCom.EnterWallJumping();
         }
 
+        public static void ApplyConstraint(GameBusinessContext ctx, RoleEntity role, float dt) {
+            var map = ctx.currentMapEntity;
+            var size = map.mapSize.ToVector3Int();
+            var center = map.transform.position;
+            var min = center - size / 2;
+            var max = center + size / 2;
+            var pos = role.Pos;
+            if (pos.x < min.x || pos.x > max.x || pos.y < min.y || pos.y > max.y) {
+                role.Attr_DeadlyHurt();
+                Debug.Log($"Dead: pos = {pos}, min = {min}, max = {max}, center = {center}, size = {size}");
+            }
+        }
+
         public static void ApplyFalling(GameBusinessContext ctx, RoleEntity role, float dt) {
             role.Move_Falling(dt);
         }
