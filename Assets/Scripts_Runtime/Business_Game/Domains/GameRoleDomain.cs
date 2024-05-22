@@ -144,14 +144,31 @@ namespace Leap {
 
         public static void ApplyConstraint(GameBusinessContext ctx, RoleEntity role, float dt) {
             var map = ctx.currentMapEntity;
-            var size = map.mapSize.ToVector3Int();
-            var center = map.transform.position;
+            var size = map.constraintSize;
+            var center = map.constraintCenter;
             var min = center - size / 2;
             var max = center + size / 2;
             var pos = role.Pos;
-            if (pos.x < min.x || pos.x > max.x || pos.y < min.y || pos.y > max.y) {
-                role.Attr_DeadlyHurt();
-                Debug.Log($"Dead: pos = {pos}, min = {min}, max = {max}, center = {center}, size = {size}");
+            if (pos.x < min.x) {
+                var diff = min.x - pos.x;
+                pos += new Vector2(diff, 0);
+                role.Pos_SetPos(pos);
+            }
+            if (pos.x > max.x) {
+                var diff = pos.x - max.x;
+                pos -= new Vector2(diff, 0);
+                role.Pos_SetPos(pos);
+            }
+            if (pos.y > max.y) {
+                var diff = pos.y - max.y;
+                pos -= new Vector2(0, diff);
+                role.Pos_SetPos(pos);
+            }
+            if (pos.y < min.y) {
+                // role.Attr_DeadlyHurt();
+                var diff = min.y - pos.y;
+                pos += new Vector2(0, diff);
+                role.Pos_SetPos(pos);
             }
         }
 

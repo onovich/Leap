@@ -10,7 +10,7 @@ namespace Leap.Modifier {
     public class MapEditorEntity : MonoBehaviour {
 
         [SerializeField] int typeID;
-        [SerializeField] GameObject mapSize;
+        [SerializeField] GameObject constraint;
         [SerializeField] MapTM mapTM;
         [SerializeField] Tilemap tilemap_terrain;
         [SerializeField] TileBase tilebase_terrain;
@@ -44,10 +44,10 @@ namespace Leap.Modifier {
         void BakeMapInfo() {
             mapTM.typeID = typeID;
             mapTM.tileBase_terrain = tilebase_terrain;
-            mapTM.mapSize = mapSize.transform.localScale.RoundToVector2Int();
-            mapTM.mapPos = mapSize.transform.localPosition.RoundToVector2Int();
-            mapSize.transform.localScale = mapTM.mapSize.ToVector3Int();
-            mapSize.transform.localPosition = mapTM.mapPos.ToVector3Int();
+            mapTM.constraintSize = constraint.transform.lossyScale;
+            mapTM.constraintCenter = constraint.transform.position;
+            mapTM.mapPos = transform.position.RoundToVector2Int();
+            this.transform.position = mapTM.mapPos.ToVector3Int();
         }
 
         void BakeTerrain() {

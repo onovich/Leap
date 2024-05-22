@@ -17,9 +17,10 @@ namespace Leap {
             var map = GameObject.Instantiate(prefab).GetComponent<MapEntity>();
             map.Ctor();
             map.typeID = typeID;
-            map.mapSize = mapTM.mapSize;
-            map.mapOffset = mapTM.mapPos;
+            map.constraintSize = mapTM.constraintSize;
+            map.constraintCenter = mapTM.constraintCenter;
             map.tileBase_terrain = mapTM.tileBase_terrain;
+            map.Pos_Set(mapTM.mapPos);
 
             return map;
         }

@@ -9,9 +9,11 @@ namespace Leap {
 
         public int typeID;
 
-        public Vector2Int mapSize;
         public Vector2Int mapPos;
         public TileBase tileBase_terrain;
+
+        public Vector2 constraintSize;
+        public Vector2 constraintCenter;
 
         // Terrain
         public Vector2Int[] terrainSpawnPosArr;

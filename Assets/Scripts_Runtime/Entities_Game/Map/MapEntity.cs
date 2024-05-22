@@ -8,9 +8,10 @@ namespace Leap {
     public class MapEntity : MonoBehaviour {
 
         public int typeID;
-        public Vector2Int mapSize;
-        public Vector2Int mapOffset;
         public TileBase tileBase_terrain;
+
+        public Vector2 constraintSize;
+        public Vector2 constraintCenter;
 
         public Dictionary<Vector2Int, int> terrainTypeIDDict;
 
@@ -19,6 +20,10 @@ namespace Leap {
 
         public void Ctor() {
             terrainTypeIDDict = new Dictionary<Vector2Int, int>();
+        }
+
+        public void Pos_Set(Vector2Int pos) {
+            transform.position = pos.ToVector3Int();
         }
 
         public void Terrain_Set(Vector2Int pos, TileBase tile, int typeID) {
