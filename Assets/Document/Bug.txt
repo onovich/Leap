@@ -1,2 +1,2 @@
 1. 角色落地和地面有差 0.014995
-2. Constraint 尺寸误差 1
+2. Apply Constraint 后，Physics2D.Simulate 前的坐标是正确的，Physics2D.Simulate 后的坐标是错误的
