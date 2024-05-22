@@ -160,7 +160,7 @@ MonoBehaviour:
   spikeSpawnArr:
   - {fileID: 11400000, guid: 4207a4dbb68f040fb975daf2d9edf313, type: 2}
   spikeSpawnPosArr:
-  - {x: -8, y: -3}
+  - {x: -9, y: -3}
   spikeSpawnSizeArr:
   - {x: 3, y: 1}
   spikeSpawnRotationZArr: 00000000

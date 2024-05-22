@@ -107,6 +107,13 @@ namespace Leap {
 
                 // UI
 
+                // Roles
+                var roleLen = ctx.roleRepo.TakeAll(out var roleArr);
+                for (int i = 0; i < roleLen; i++) {
+                    var role = roleArr[i];
+                    GameRoleDomain.ApplyConstraint(ctx, role, dt);
+                }
+
             }
             // VFX
             VFXApp.LateTick(ctx.vfxContext, dt);
