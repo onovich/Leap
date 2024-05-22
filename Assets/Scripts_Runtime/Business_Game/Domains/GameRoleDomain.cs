@@ -169,6 +169,7 @@ namespace Leap {
                 var diff = min.y - pos.y;
                 pos += new Vector2(0, diff);
                 role.Pos_SetPos(pos);
+                Debug.Log($"Min={min}, Max={max}, Pos={pos}");
             }
         }
 

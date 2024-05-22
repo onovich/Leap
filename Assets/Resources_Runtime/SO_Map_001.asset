@@ -16,7 +16,7 @@ MonoBehaviour:
   mapPos: {x: 0, y: 0}
   tileBase_terrain: {fileID: 11400000, guid: 7cff088cd60594a7e9c71fce7ed147d4, type: 2}
   constraintSize: {x: 40, y: 24}
-  constraintCenter: {x: -0.5, y: -2.5}
+  constraintCenter: {x: 0, y: -2}
   terrainSpawnPosArr:
   - {x: -9, y: -14}
   - {x: -9, y: -13}
