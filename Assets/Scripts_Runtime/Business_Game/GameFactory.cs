@@ -74,6 +74,9 @@ namespace Leap {
             role.deadVFXName = roleTM.deadVFX.name;
             role.deadVFXDuration = roleTM.deadVFXDuration;
 
+            // Set Physics
+            role.Size_SetSize(roleTM.size);
+
             return role;
         }
 

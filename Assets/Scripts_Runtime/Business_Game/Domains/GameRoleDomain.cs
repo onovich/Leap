@@ -146,30 +146,33 @@ namespace Leap {
             var map = ctx.currentMapEntity;
             var size = map.constraintSize;
             var center = map.constraintCenter;
+
+            var rolePos = role.Pos;
+            var roleSize = role.Size;
+
             var min = center - size / 2;
-            var max = center + size / 2;
-            var pos = role.Pos;
-            if (pos.x < min.x) {
-                var diff = min.x - pos.x;
-                pos += new Vector2(diff, 0);
-                role.Pos_SetPos(pos);
+            var max = center + size / 2 - roleSize;
+
+            if (rolePos.x < min.x) {
+                var diff = min.x - rolePos.x;
+                rolePos += new Vector2(diff, 0);
+                role.Pos_SetPos(rolePos);
             }
-            if (pos.x > max.x) {
-                var diff = pos.x - max.x;
-                pos -= new Vector2(diff, 0);
-                role.Pos_SetPos(pos);
+            if (rolePos.x > max.x) {
+                var diff = rolePos.x - max.x;
+                rolePos -= new Vector2(diff, 0);
+                role.Pos_SetPos(rolePos);
             }
-            if (pos.y > max.y) {
-                var diff = pos.y - max.y;
-                pos -= new Vector2(0, diff);
-                role.Pos_SetPos(pos);
+            if (rolePos.y > max.y) {
+                var diff = rolePos.y - max.y;
+                rolePos -= new Vector2(0, diff);
+                role.Pos_SetPos(rolePos);
             }
-            if (pos.y < min.y) {
+            if (rolePos.y < min.y) {
                 // role.Attr_DeadlyHurt();
-                var diff = min.y - pos.y;
-                pos += new Vector2(0, diff);
-                role.Pos_SetPos(pos);
-                Debug.Log($"Min={min}, Max={max}, Pos={pos}");
+                var diff = min.y - rolePos.y;
+                rolePos += new Vector2(0, diff);
+                role.Pos_SetPos(rolePos);
             }
         }
 

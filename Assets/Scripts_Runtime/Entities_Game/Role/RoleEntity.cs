@@ -53,6 +53,8 @@ namespace Leap {
         [SerializeField] Rigidbody2D rb;
         [SerializeField] RoleCollisionComponent bodyTrigger;
         [SerializeField] RoleCollisionComponent bodyCollider;
+        Vector2 size;
+        public Vector2 Size => size;
 
         // Pos
         public Vector2 Pos => Pos_GetPos();
@@ -212,6 +214,11 @@ namespace Leap {
         public void TearDown() {
             bodyTrigger.TearDown();
             Destroy(this.gameObject);
+        }
+
+        // Physics
+        public void Size_SetSize(Vector2 size) {
+            this.size = size;
         }
 
     }
