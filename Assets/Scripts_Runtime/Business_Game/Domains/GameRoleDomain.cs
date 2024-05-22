@@ -169,10 +169,7 @@ namespace Leap {
                 role.Pos_SetPos(rolePos);
             }
             if (rolePos.y < min.y) {
-                // role.Attr_DeadlyHurt();
-                var diff = min.y - rolePos.y;
-                rolePos += new Vector2(0, diff);
-                role.Pos_SetPos(rolePos);
+                role.Attr_DeadlyHurt();
             }
         }
 

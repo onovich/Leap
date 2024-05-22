@@ -1314,7 +1314,7 @@ Transform:
   m_GameObject: {fileID: 7115896714514695303}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4, y: -2, z: 0}
+  m_LocalPosition: {x: -4.5, y: -2, z: 0}
   m_LocalScale: {x: 3, y: 24, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1970,7 +1970,7 @@ PrefabInstance:
     - target: {fileID: 2956099388168823316, guid: 43e7084b75b214d21a5639c0c1905f58, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 7ed8a1a8a05a14ca1beac6994e3e1dcc, type: 3}
+      objectReference: {fileID: 21300000, guid: c39b05f6a46334103a225f2443b8a102, type: 3}
     - target: {fileID: 8008689513004911007, guid: 43e7084b75b214d21a5639c0c1905f58, type: 3}
       propertyPath: m_Name
       value: Spawn Point
