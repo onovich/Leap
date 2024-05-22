@@ -35,6 +35,7 @@ namespace Leap.Modifier {
             BakeSpike();
             BakeSpawnPoint();
 
+            AddressableHelper.SetAddressable(mapTM, "TM_Map", "TM_Map", true);
             EditorUtility.SetDirty(mapTM);
             AssetDatabase.SaveAssets();
             Debug.Log("Bake Sucess");
