@@ -33,8 +33,10 @@ namespace Leap {
 
             if (role.isWall) {
                 role.Color_SetColor(Color.green);
-            } else {
+            } else if (role.isGround) {
                 role.Color_SetColor(Color.yellow);
+            } else {
+                role.Color_SetColor(Color.magenta);
             }
 
             // Fall
@@ -68,17 +70,17 @@ namespace Leap {
                 role.Color_SetColor(Color.red);
             }
 
-            // Fall
-            GameRoleDomain.ApplyFalling(ctx, role, fixdt);
-
-            // Hit Wall
-            GameRoleDomain.ApplyHitWall(ctx, role, fixdt);
-
             // Wall Jump
             var timeIsOver = GameRoleDomain.ApplyWallJump(ctx, role, fixdt);
             if (timeIsOver) {
                 fsm.EnterNormal();
             }
+
+            // Fall
+            GameRoleDomain.ApplyFalling(ctx, role, fixdt);
+
+            // Hit Wall
+            GameRoleDomain.ApplyHitWall(ctx, role, fixdt);
 
             // Dead
             if (role.hp <= 0) {
