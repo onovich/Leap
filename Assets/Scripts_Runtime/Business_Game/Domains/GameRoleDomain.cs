@@ -139,7 +139,7 @@ namespace Leap {
                 return;
             }
             role.Move_WallJump();
-            // role.fsmCom.EnterWallJumping();
+            role.fsmCom.EnterWallJumping();
         }
 
         public static void ApplyConstraint(GameBusinessContext ctx, RoleEntity role, float dt) {
