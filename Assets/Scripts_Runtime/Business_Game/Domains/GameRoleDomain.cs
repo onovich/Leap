@@ -158,19 +158,22 @@ namespace Leap {
                 var diff = rolePos.y - max.y;
                 rolePos -= new Vector2(0, diff);
                 role.Pos_SetPos(rolePos);
-            }
-            if (rolePos.y < min.y) {
-                role.Attr_DeadlyHurt();
+                role.fsmCom.EnterNormal();
             }
             if (rolePos.x < min.x) {
                 var diff = min.x - rolePos.x;
                 rolePos += new Vector2(diff, 0);
                 role.Pos_SetPos(rolePos);
+                role.fsmCom.EnterNormal();
             }
             if (rolePos.x > max.x) {
                 var diff = rolePos.x - max.x;
                 rolePos -= new Vector2(diff, 0);
                 role.Pos_SetPos(rolePos);
+                role.fsmCom.EnterNormal();
+            }
+            if (rolePos.y < min.y) {
+                role.Attr_DeadlyHurt();
             }
         }
 
