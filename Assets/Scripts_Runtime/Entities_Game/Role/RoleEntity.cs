@@ -188,7 +188,10 @@ namespace Leap {
                 velo.y *= 1 - holdWallFriction;
             }
 
-            velo.y = Mathf.Max(velo.y, -fallingSpeedMax);
+            if (velo.y < -fallingSpeedMax) {
+                velo.y = -fallingSpeedMax;
+            }
+
             rb.velocity = velo;
         }
 

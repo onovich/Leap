@@ -136,11 +136,12 @@ namespace Leap {
 
         public static bool ApplyWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
             role.fsmCom.wallJumping_timer -= dt;
+            GLog.Log($"WallJumping v = {role.Velocity}");
             return role.fsmCom.wallJumping_timer <= 0;
         }
 
         public static bool ApplyTryWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
-            if (!role.isWall || role.inputCom.jumpAxis <= 0) {
+            if (!role.isWall || role.inputCom.jumpAxis <= 0 || role.enterWallDir.x == 0) {
                 return false;
             }
             role.fsmCom.EnterWallJumping(role.Move_GetWallJumpingDir(), role.wallJumpDuration);

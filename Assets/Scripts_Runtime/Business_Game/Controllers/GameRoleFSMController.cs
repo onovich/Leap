@@ -1,3 +1,4 @@
+using Codice.Client.BaseCommands.Config;
 using UnityEngine;
 
 namespace Leap {
@@ -31,28 +32,30 @@ namespace Leap {
                 fsm.normal_isEntering = false;
             }
 
-            if (role.isWall) {
+            if (role.isHoldWall) {
+                role.Color_SetColor(new Color(1, 0.5f, 0.5f));
+            } else if (role.isWall) {
                 role.Color_SetColor(Color.green);
             } else if (role.isGround) {
                 role.Color_SetColor(Color.yellow);
             } else {
-                role.Color_SetColor(Color.magenta);
+                role.Color_SetColor(Color.yellow);
             }
 
             // Fall
             GameRoleDomain.ApplyFalling(ctx, role, fixdt);
 
-            // Jump
-            bool succ = GameRoleDomain.ApplyTryJump(ctx, role, fixdt);
-
             // Hold Wall
             GameRoleDomain.ApplyHoldWall(ctx, role, fixdt);
 
             // Wall Jump
-            succ = GameRoleDomain.ApplyTryWallJump(ctx, role, fixdt);
+            bool succ = GameRoleDomain.ApplyTryWallJump(ctx, role, fixdt);
             if (succ) {
                 return;
             }
+
+            // Jump
+            succ = GameRoleDomain.ApplyTryJump(ctx, role, fixdt);
 
             // Move
             GameRoleDomain.ApplyMove(ctx, role, fixdt);
