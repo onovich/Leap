@@ -74,6 +74,10 @@ namespace Leap {
             // Hit Wall
             GameRoleDomain.ApplyHitWall(ctx, role, fixdt);
 
+            // Dead
+            if (role.hp <= 0) {
+                fsm.EnterDead();
+            }
         }
 
         static void FixedTickFSM_Dead(GameBusinessContext ctx, RoleEntity role, float fixdt) {
