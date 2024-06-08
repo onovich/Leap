@@ -138,7 +138,10 @@ namespace Leap {
             if (!role.isWall) {
                 return;
             }
-            role.Move_WallJump();
+            var succ = role.Move_TryWallJump();
+            if (!succ) {
+                return;
+            }
             role.fsmCom.EnterWallJumping();
         }
 

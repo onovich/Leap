@@ -167,18 +167,19 @@ namespace Leap {
             rb.velocity = velo;
         }
 
-        public void Move_WallJump() {
+        public bool Move_TryWallJump() {
             if (!isHoldWall) {
-                return;
+                return false;
             }
             if (inputCom.jumpAxis <= 0) {
-                return;
+                return false;
             }
             var velo = rb.velocity;
             velo.y = wallJumpForceY;
             velo.x += -holdWallDir.x * wallJumpForceX;
             rb.velocity = velo;
             Move_LeaveWall();
+            return true;
         }
 
         public void Move_Falling(float dt) {
