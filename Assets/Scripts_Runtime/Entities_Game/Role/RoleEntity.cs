@@ -151,6 +151,10 @@ namespace Leap {
             return true;
         }
 
+        public void Color_SetColor(Color color) {
+            spr.color = color;
+        }
+
         public void Move_Jump() {
             if (!isGround) {
                 return;

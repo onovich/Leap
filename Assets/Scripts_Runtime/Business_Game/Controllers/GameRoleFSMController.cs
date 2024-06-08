@@ -28,6 +28,7 @@ namespace Leap {
         static void FixedTickFSM_Idle(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.normal_isEntering) {
+                role.Color_SetColor(Color.yellow);
                 fsm.normal_isEntering = false;
             }
 
@@ -54,15 +55,16 @@ namespace Leap {
 
         static void FixedTickFSM_WallJumping(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
-            if (fsm.dead_isEntering) {
-                fsm.dead_isEntering = false;
+            if (fsm.wallJumping_isEntering) {
+                fsm.wallJumping_isEntering = false;
+                role.Color_SetColor(Color.red);
             }
 
             // Fall
             GameRoleDomain.ApplyFalling(ctx, role, fixdt);
 
             // Wall Jump
-            // GameRoleDomain.ApplyWallJump(ctx, role, fixdt);
+            GameRoleDomain.ApplyWallJump(ctx, role, fixdt);
 
             // Hit Wall
             GameRoleDomain.ApplyHitWall(ctx, role, fixdt);
