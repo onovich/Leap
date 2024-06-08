@@ -52,7 +52,6 @@ namespace Leap {
         // Physics
         [SerializeField] Rigidbody2D rb;
         [SerializeField] RoleCollisionComponent bodyTrigger;
-        [SerializeField] RoleCollisionComponent bodyCollider;
         Vector2 size;
         public Vector2 Size => size;
 
@@ -151,35 +150,33 @@ namespace Leap {
             return true;
         }
 
+        public Vector2 Move_GetWallJumpingDir() {
+            return -holdWallDir;
+        }
+
         public void Color_SetColor(Color color) {
             spr.color = color;
         }
 
-        public void Move_Jump() {
+        public bool Move_TryJump() {
             if (!isGround) {
-                return;
+                return false;
             }
             if (inputCom.jumpAxis <= 0) {
-                return;
+                return false;
             }
             var velo = rb.velocity;
             velo.y = jumpForceY;
             rb.velocity = velo;
+            return true;
         }
 
-        public bool Move_TryWallJump() {
-            if (!isHoldWall) {
-                return false;
-            }
-            if (inputCom.jumpAxis <= 0) {
-                return false;
-            }
+        public void Move_WallJump() {
             var velo = rb.velocity;
             velo.y = wallJumpForceY;
-            velo.x += -holdWallDir.x * wallJumpForceX;
+            velo.x = -holdWallDir.x * wallJumpForceX;
             rb.velocity = velo;
             Move_LeaveWall();
-            return true;
         }
 
         public void Move_Falling(float dt) {

@@ -278,8 +278,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   typeID: 0
-  mapSize: {x: 0, y: 0}
   tileBase_terrain: {fileID: 0}
+  constraintSize: {x: 0, y: 0}
+  constraintCenter: {x: 0, y: 0}
   tilemap_terrain: {fileID: 3041446861403955691}
 --- !u!156049354 &6546403515748534231
 Grid:

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Leap {
 
     public class RoleFSMComponent {
@@ -6,6 +8,7 @@ namespace Leap {
 
         public bool normal_isEntering;
         public bool wallJumping_isEntering;
+        public Vector2 wallJumping_jumpingDir;
         public bool dead_isEntering;
 
         public RoleFSMComponent() { }
@@ -16,10 +19,11 @@ namespace Leap {
             normal_isEntering = true;
         }
 
-        public void EnterWallJumping() {
+        public void EnterWallJumping(Vector2 wallJumpDir) {
             Reset();
             status = RoleFSMStatus.WallJumping;
             wallJumping_isEntering = true;
+            wallJumping_jumpingDir = wallJumpDir;
         }
 
         public void EnterDead() {

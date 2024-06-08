@@ -48,6 +48,11 @@ namespace Leap {
             Destroy(gameObject);
         }
 
+        private void OnDrawGizmos() {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(constraintCenter, constraintSize);
+        }
+
     }
 
 }

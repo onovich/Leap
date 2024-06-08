@@ -101,11 +101,12 @@ namespace Leap {
             block.entityIndex = index;
             block.typeID = typeID;
 
-            // Set Pos
-            block.Pos_SetPos(pos);
-
             // Set Size
             block.Size_SetSize(size);
+
+            // Set Pos
+            var offset = size / 2;
+            block.Pos_SetPos(pos + offset);
 
             // Set Mesh
             block.Mesh_Set(blockTM.mesh);
@@ -138,11 +139,12 @@ namespace Leap {
             spike.entityIndex = index;
             spike.typeID = typeID;
 
-            // Set Pos
-            spike.Pos_SetPos(pos);
-
             // Set Size
             spike.Size_SetSize(size);
+
+            // Set Pos
+            var offset = size / 2;
+            spike.Pos_SetPos(pos + offset);
 
             // Set Mesh
             spike.Mesh_Set(blockTM.mesh);

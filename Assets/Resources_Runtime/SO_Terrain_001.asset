@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeID: 1
   tile: {fileID: 11400000, guid: 7cff088cd60594a7e9c71fce7ed147d4, type: 2}
-  fallingFriction: 0.18
+  fallingFriction: 0.2

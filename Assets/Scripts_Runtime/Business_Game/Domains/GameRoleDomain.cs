@@ -116,12 +116,12 @@ namespace Leap {
             role.Move_ApplyMove(dt);
         }
 
-        public static void ApplyJump(GameBusinessContext ctx, RoleEntity role, float dt) {
-            role.Move_Jump();
+        public static bool ApplyTryJump(GameBusinessContext ctx, RoleEntity role, float dt) {
+            return role.Move_TryJump();
         }
 
         public static void ApplyHitWall(GameBusinessContext ctx, RoleEntity role, float dt) {
-            if (role.isWall || role.isGround) {
+            if (role.isWall && role.holdWallDir == role.fsmCom.wallJumping_jumpingDir || role.isGround) {
                 role.fsmCom.EnterNormal();
             }
         }
@@ -134,15 +134,13 @@ namespace Leap {
             }
         }
 
-        public static void ApplyWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
-            if (!role.isWall) {
-                return;
+        public static bool ApplyTryWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
+            if (!role.isWall || role.inputCom.jumpAxis <= 0) {
+                return false;
             }
-            var succ = role.Move_TryWallJump();
-            if (!succ) {
-                return;
-            }
-            role.fsmCom.EnterWallJumping();
+            role.fsmCom.EnterWallJumping(role.Move_GetWallJumpingDir());
+            role.Move_WallJump();
+            return true;
         }
 
         public static void ApplyConstraint(GameBusinessContext ctx, RoleEntity role, float dt) {
@@ -156,6 +154,14 @@ namespace Leap {
             var min = center - size / 2;
             var max = center + size / 2 - roleSize;
 
+            if (rolePos.y > max.y) {
+                var diff = rolePos.y - max.y;
+                rolePos -= new Vector2(0, diff);
+                role.Pos_SetPos(rolePos);
+            }
+            if (rolePos.y < min.y) {
+                role.Attr_DeadlyHurt();
+            }
             if (rolePos.x < min.x) {
                 var diff = min.x - rolePos.x;
                 rolePos += new Vector2(diff, 0);
@@ -165,14 +171,6 @@ namespace Leap {
                 var diff = rolePos.x - max.x;
                 rolePos -= new Vector2(diff, 0);
                 role.Pos_SetPos(rolePos);
-            }
-            if (rolePos.y > max.y) {
-                var diff = rolePos.y - max.y;
-                rolePos -= new Vector2(0, diff);
-                role.Pos_SetPos(rolePos);
-            }
-            if (rolePos.y < min.y) {
-                role.Attr_DeadlyHurt();
             }
         }
 

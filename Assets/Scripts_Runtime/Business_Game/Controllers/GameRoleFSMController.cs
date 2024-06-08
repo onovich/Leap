@@ -28,24 +28,32 @@ namespace Leap {
         static void FixedTickFSM_Idle(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.normal_isEntering) {
-                role.Color_SetColor(Color.yellow);
                 fsm.normal_isEntering = false;
+            }
+
+            if (role.isWall) {
+                role.Color_SetColor(Color.green);
+            } else {
+                role.Color_SetColor(Color.yellow);
             }
 
             // Fall
             GameRoleDomain.ApplyFalling(ctx, role, fixdt);
 
-            // Move
-            GameRoleDomain.ApplyMove(ctx, role, fixdt);
-
             // Jump
-            GameRoleDomain.ApplyJump(ctx, role, fixdt);
+            bool succ = GameRoleDomain.ApplyTryJump(ctx, role, fixdt);
 
             // Hold Wall
             GameRoleDomain.ApplyHoldWall(ctx, role, fixdt);
 
             // Wall Jump
-            GameRoleDomain.ApplyWallJump(ctx, role, fixdt);
+            succ = GameRoleDomain.ApplyTryWallJump(ctx, role, fixdt);
+            if (succ) {
+                return;
+            }
+
+            // Move
+            GameRoleDomain.ApplyMove(ctx, role, fixdt);
 
             // Dead
             if (role.hp <= 0) {
@@ -62,9 +70,6 @@ namespace Leap {
 
             // Fall
             GameRoleDomain.ApplyFalling(ctx, role, fixdt);
-
-            // Wall Jump
-            GameRoleDomain.ApplyWallJump(ctx, role, fixdt);
 
             // Hit Wall
             GameRoleDomain.ApplyHitWall(ctx, role, fixdt);
