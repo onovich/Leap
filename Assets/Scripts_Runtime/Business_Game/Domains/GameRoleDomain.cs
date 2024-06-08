@@ -134,11 +134,16 @@ namespace Leap {
             }
         }
 
+        public static bool ApplyWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
+            role.fsmCom.wallJumping_timer -= dt;
+            return role.fsmCom.wallJumping_timer <= 0;
+        }
+
         public static bool ApplyTryWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
             if (!role.isWall || role.inputCom.jumpAxis <= 0) {
                 return false;
             }
-            role.fsmCom.EnterWallJumping(role.Move_GetWallJumpingDir());
+            role.fsmCom.EnterWallJumping(role.Move_GetWallJumpingDir(), role.wallJumpDuration);
             role.Move_WallJump();
             return true;
         }

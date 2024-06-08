@@ -17,8 +17,9 @@ MonoBehaviour:
   aiType: 0
   moveSpeed: 6.5
   jumpForceY: 16
-  wallJumpForceY: 30
+  wallJumpForceY: 20
   wallJumpForceX: 10
+  wallJumpDuration: 0.2
   g: 50
   fallingSpeedMax: 40
   hp: 1

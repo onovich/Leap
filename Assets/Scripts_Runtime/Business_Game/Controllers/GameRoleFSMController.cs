@@ -74,6 +74,12 @@ namespace Leap {
             // Hit Wall
             GameRoleDomain.ApplyHitWall(ctx, role, fixdt);
 
+            // Wall Jump
+            var timeIsOver = GameRoleDomain.ApplyWallJump(ctx, role, fixdt);
+            if (timeIsOver) {
+                fsm.EnterNormal();
+            }
+
             // Dead
             if (role.hp <= 0) {
                 fsm.EnterDead();

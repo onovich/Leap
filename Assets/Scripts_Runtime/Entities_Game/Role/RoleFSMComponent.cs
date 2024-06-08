@@ -9,6 +9,7 @@ namespace Leap {
         public bool normal_isEntering;
         public bool wallJumping_isEntering;
         public Vector2 wallJumping_jumpingDir;
+        public float wallJumping_timer;
         public bool dead_isEntering;
 
         public RoleFSMComponent() { }
@@ -19,11 +20,12 @@ namespace Leap {
             normal_isEntering = true;
         }
 
-        public void EnterWallJumping(Vector2 wallJumpDir) {
+        public void EnterWallJumping(Vector2 wallJumpDir, float wallJumpDuration) {
             Reset();
             status = RoleFSMStatus.WallJumping;
             wallJumping_isEntering = true;
             wallJumping_jumpingDir = wallJumpDir;
+            wallJumping_timer = wallJumpDuration;
         }
 
         public void EnterDead() {
