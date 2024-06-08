@@ -32,8 +32,8 @@ namespace Leap {
         public bool isGround;
         public bool needTearDown;
         public bool isWall;
+        public Vector2 enterWallDir;
         public bool isHoldWall;
-        public Vector2 holdWallDir;
         public float holdWallFriction;
 
         // FSM
@@ -124,13 +124,13 @@ namespace Leap {
             isHoldWall = true;
         }
 
-        public void Move_LeaveHoldWall() {
+        public void Move_CancleHoldWall() {
             isHoldWall = false;
         }
 
         public void Move_EnterWall(Vector2 dir, float friction) {
             isWall = true;
-            holdWallDir = dir;
+            enterWallDir = dir;
             holdWallFriction = friction;
         }
 
@@ -145,14 +145,14 @@ namespace Leap {
             if (inputCom.moveAxis.x == 0) {
                 return false;
             }
-            if (inputCom.moveAxis.x != holdWallDir.x) {
+            if (inputCom.moveAxis.x != enterWallDir.x) {
                 return false;
             }
             return true;
         }
 
         public Vector2 Move_GetWallJumpingDir() {
-            return -holdWallDir;
+            return -enterWallDir;
         }
 
         public void Color_SetColor(Color color) {
@@ -175,7 +175,7 @@ namespace Leap {
         public void Move_WallJump() {
             var velo = rb.velocity;
             velo.y = wallJumpForceY;
-            velo.x = -holdWallDir.x * wallJumpForceX;
+            velo.x = -enterWallDir.x * wallJumpForceX;
             rb.velocity = velo;
             Move_LeaveWall();
         }

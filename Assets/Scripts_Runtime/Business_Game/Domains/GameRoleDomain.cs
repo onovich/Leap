@@ -121,7 +121,7 @@ namespace Leap {
         }
 
         public static void ApplyHitWall(GameBusinessContext ctx, RoleEntity role, float dt) {
-            if (role.isWall && role.holdWallDir == role.fsmCom.wallJumping_jumpingDir || role.isGround) {
+            if (role.isWall && role.enterWallDir == role.fsmCom.wallJumping_jumpingDir || role.isGround) {
                 role.fsmCom.EnterNormal();
             }
         }
@@ -130,7 +130,7 @@ namespace Leap {
             if (role.Move_TryHoldWall()) {
                 role.Move_HoldWall();
             } else {
-                role.Move_LeaveHoldWall();
+                role.Move_CancleHoldWall();
             }
         }
 
