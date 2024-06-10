@@ -32,9 +32,7 @@ namespace Leap {
                 fsm.normal_isEntering = false;
             }
 
-            if (role.isHoldWall) {
-                role.Color_SetColor(new Color(1, 0.5f, 0.5f));
-            } else if (role.isWall) {
+            if (role.isWall) {
                 role.Color_SetColor(Color.green);
             } else if (role.isGround) {
                 role.Color_SetColor(Color.yellow);
@@ -44,9 +42,6 @@ namespace Leap {
 
             // Fall
             GameRoleDomain.ApplyFalling(ctx, role, fixdt);
-
-            // Hold Wall
-            GameRoleDomain.ApplyHoldWall(ctx, role, fixdt);
 
             // Wall Jump
             bool succ = GameRoleDomain.ApplyTryWallJump(ctx, role, fixdt);

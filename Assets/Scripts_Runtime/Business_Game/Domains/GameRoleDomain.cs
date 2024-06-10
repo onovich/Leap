@@ -119,14 +119,6 @@ namespace Leap {
             }
         }
 
-        public static void ApplyHoldWall(GameBusinessContext ctx, RoleEntity role, float dt) {
-            if (role.Move_TryHoldWall()) {
-                role.Move_HoldWall();
-            } else {
-                role.Move_CancleHoldWall();
-            }
-        }
-
         public static bool ApplyWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
             role.fsmCom.wallJumping_timer -= dt;
             // GLog.Log($"WallJumping v = {role.Velocity}");

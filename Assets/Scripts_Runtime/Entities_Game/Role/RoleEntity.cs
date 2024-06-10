@@ -33,8 +33,7 @@ namespace Leap {
         public bool needTearDown;
         public bool isWall;
         public Vector2 enterWallDir;
-        public bool isHoldWall;
-        public float holdWallFriction;
+        public float wallFriction;
 
         // FSM
         public RoleFSMComponent fsmCom;
@@ -117,26 +116,14 @@ namespace Leap {
             isGround = false;
         }
 
-        public void Move_HoldWall() {
-            if (holdWallFriction <= 0) {
-                return;
-            }
-            isHoldWall = true;
-        }
-
-        public void Move_CancleHoldWall() {
-            isHoldWall = false;
-        }
-
         public void Move_EnterWall(Vector2 dir, float friction) {
             isWall = true;
             enterWallDir = dir;
-            holdWallFriction = friction;
+            wallFriction = friction;
         }
 
         public void Move_LeaveWall() {
             isWall = false;
-            isHoldWall = false;
         }
 
         public bool Move_TryHoldWall() {
@@ -185,8 +172,8 @@ namespace Leap {
             var velo = rb.velocity;
             velo.y -= g * dt;
 
-            if (isHoldWall) {
-                velo.y *= 1 - holdWallFriction;
+            if (isWall && inputCom.moveAxis.x == enterWallDir.x) {
+                velo.y *= 1 - wallFriction;
             }
 
             if (velo.y < -fallingSpeedMax) {
