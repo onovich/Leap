@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "leap.sln"
+    "dotnet.defaultSolution": "Leap.sln"
 }
