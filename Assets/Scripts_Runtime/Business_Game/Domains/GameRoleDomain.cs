@@ -84,19 +84,13 @@ namespace Leap {
                 return;
             }
             var horizontalDir = new Vector2(-normal.x, 0);
+            var config = ctx.templateInfraContext.Config_Get();
             if (coll.transform.CompareTag(TagConst.BLOCK)) {
-                var go = coll.transform.parent.parent;
-                var entity = go.GetComponent<BlockEntity>();
-                if (entity == null) {
-                    GLog.LogError($"Didn't Find BlockEntity At: {entity.gameObject.name}");
-                }
-                var friction = GameBlockDomain.GetFallingFriction(ctx, entity.typeID);
+                var friction = config.roleBlockFriction;
                 role.Move_EnterWall(horizontalDir, friction);
             }
             if (coll.transform.CompareTag(TagConst.TERRAIN)) {
-                var point = coll.ClosestPoint(role.Pos);
-                var pos = role.Pos - normal;
-                var friction = 0.2f;
+                var friction = config.roleTerrainFriction;
                 role.Move_EnterWall(horizontalDir, friction);
             }
         }

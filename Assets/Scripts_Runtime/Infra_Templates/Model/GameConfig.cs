@@ -16,6 +16,10 @@ namespace Leap {
         public int ownerRoleTypeID;
         public int originalMapTypeID;
 
+        // Friction
+        public float roleTerrainFriction;
+        public float roleBlockFriction;
+
         // Camera
         [Header("DeadZone Config")]
         public Vector2 cameraDeadZoneNormalizedSize;

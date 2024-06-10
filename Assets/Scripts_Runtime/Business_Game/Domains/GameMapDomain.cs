@@ -35,22 +35,6 @@ namespace Leap {
             map.Terrain_Set(pos, tile, typeID);
         }
 
-        public static float Terrain_GetFallingFriction(GameBusinessContext ctx, MapEntity map, Vector2 pos) {
-            var worldPos = pos;
-            var tileMap = map.Tilemap_Terrain;
-            var posInt = tileMap.WorldToCell(worldPos).ToVector2Int();
-            var has = map.Terrain_GetTypeID(posInt, out var typeID);
-            if (!has) {
-                GLog.LogError($"TerrainTypeID Not Found At {posInt} (originalPos = {pos}); worldPos = {worldPos}");
-                return 0;
-            }
-            has = ctx.templateInfraContext.Terrain_TryGet(typeID, out var terrainTM);
-            if (!has) {
-                GLog.LogError($"TerrainTM Not Found At {posInt} ({pos})");
-            }
-            return terrainTM.fallingFriction;
-        }
-
     }
 
 }

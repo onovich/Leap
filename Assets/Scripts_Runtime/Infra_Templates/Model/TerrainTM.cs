@@ -9,7 +9,6 @@ namespace Leap {
 
         public int typeID;
         public TileBase tile;
-        public float fallingFriction;
 
     }
 

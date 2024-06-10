@@ -8,7 +8,6 @@ namespace Leap {
 
         public int typeID;
         public Sprite mesh;
-        public float fallingFriction;
 
     }
 
