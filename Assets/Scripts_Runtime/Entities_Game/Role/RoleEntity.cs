@@ -136,6 +136,7 @@ namespace Leap {
 
         public void Move_LeaveWall() {
             isWall = false;
+            isHoldWall = false;
         }
 
         public bool Move_TryHoldWall() {
