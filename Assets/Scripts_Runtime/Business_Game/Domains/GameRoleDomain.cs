@@ -115,13 +115,11 @@ namespace Leap {
         public static void ApplyHitWall(GameBusinessContext ctx, RoleEntity role, float dt) {
             if (role.isWall && role.enterWallDir == role.fsmCom.wallJumping_jumpingDir || role.isGround) {
                 role.fsmCom.EnterNormal();
-                // Debug.Log("Hit Wall");
             }
         }
 
         public static bool ApplyWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
             role.fsmCom.wallJumping_timer -= dt;
-            // GLog.Log($"WallJumping v = {role.Velocity}");
             return role.fsmCom.wallJumping_timer <= 0;
         }
 
