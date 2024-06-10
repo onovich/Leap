@@ -32,7 +32,9 @@ namespace Leap {
                 fsm.normal_isEntering = false;
             }
 
-            if (role.isWall) {
+            if (role.isHoldingWall()) {
+                role.Color_SetColor(new Color(1, 0.5f, 0.5f));
+            } else if (role.isWall) {
                 role.Color_SetColor(Color.green);
             } else if (role.isGround) {
                 role.Color_SetColor(Color.yellow);

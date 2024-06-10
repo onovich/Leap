@@ -168,11 +168,15 @@ namespace Leap {
             Move_LeaveWall();
         }
 
+        public bool isHoldingWall() {
+            return isWall && inputCom.moveAxis.x == enterWallDir.x;
+        }
+
         public void Move_Falling(float dt) {
             var velo = rb.velocity;
             velo.y -= g * dt;
 
-            if (isWall && inputCom.moveAxis.x == enterWallDir.x) {
+            if (isHoldingWall()) {
                 velo.y *= 1 - wallFriction;
             }
 
