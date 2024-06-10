@@ -37,7 +37,6 @@ namespace Leap {
             role.Move_LeaveGround();
             var hitResults = ctx.hitResults;
             var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0.3f, layer);
-            Debug.DrawRay(pos, dir * 0.8f, Color.red);
             for (int i = 0; i < hitCount; i++) {
                 var hit = hitResults[i];
                 var hitGo = hit.collider.gameObject;
@@ -59,7 +58,6 @@ namespace Leap {
             role.Move_LeaveWall();
             var hitResults = ctx.hitResults;
             var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0f, layer);
-            Debug.DrawRay(pos + new Vector2(-0.8f, 0f), new Vector2(0.8f, 0f), Color.red);
             for (int i = 0; i < hitCount; i++) {
                 var hit = hitResults[i];
                 var hitGo = hit.collider.gameObject;
