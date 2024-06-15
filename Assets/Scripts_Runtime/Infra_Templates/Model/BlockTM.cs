@@ -8,6 +8,7 @@ namespace Leap {
 
         public int typeID;
         public Sprite mesh;
+        public Vector2 size;
 
     }
 

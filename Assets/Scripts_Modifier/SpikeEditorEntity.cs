@@ -2,9 +2,10 @@ using UnityEngine;
 
 namespace Leap.Modifier {
 
-    public class SpikerEditorEntity : MonoBehaviour {
+    public class SpikeEditorEntity : MonoBehaviour {
 
         [SerializeField] public SpikeTM spikeTM;
+        public EntityType type => EntityType.Spike;
         public int index;
 
         public void Rename() {
@@ -29,6 +30,13 @@ namespace Leap.Modifier {
             rotation.z = rotationZInt;
             this.transform.rotation = rotation;
             return rotationZInt;
+        }
+
+        public void OnDrawGhost(Vector3 offset) {
+            if (spikeTM == null) return;
+            Gizmos.color = new Color(1, 1, 1, 0.5f);
+            var pos = transform.position + offset;
+            Gizmos.DrawCube(offset, Vector3.one);
         }
 
     }

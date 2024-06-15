@@ -17,6 +17,7 @@ namespace Leap.Modifier {
         [SerializeField] Transform blockGroup;
         [SerializeField] Transform spikeGroup;
         [SerializeField] Transform spawnPointGroup;
+        [SerializeField] Transform pathGroup;
         [SerializeField] Vector2 cameraConfinerWorldMax;
         [SerializeField] Vector2 cameraConfinerWorldMin;
 
@@ -33,6 +34,7 @@ namespace Leap.Modifier {
             BakeMapInfo();
             BakeBlock();
             BakeSpike();
+            BakePath();
             BakeSpawnPoint();
 
             AddressableHelper.SetAddressable(mapTM, "TM_Map", "TM_Map", true);
@@ -77,7 +79,7 @@ namespace Leap.Modifier {
             List<Vector2Int> spikeSpawnSizeList = new List<Vector2Int>();
             List<int> spikeSpawnRotationZList = new List<int>();
             List<int> spikeIndexList = new List<int>();
-            var spikeEditors = spikeGroup.GetComponentsInChildren<SpikerEditorEntity>();
+            var spikeEditors = spikeGroup.GetComponentsInChildren<SpikeEditorEntity>();
             if (spikeEditors == null) {
                 Debug.Log("BlockEditors Not Found");
             }
@@ -109,6 +111,57 @@ namespace Leap.Modifier {
             mapTM.spikeSpawnIndexArr = spikeIndexList.ToArray();
             mapTM.cameraConfinerWorldMax = cameraConfinerWorldMax;
             mapTM.cameraConfinerWorldMin = cameraConfinerWorldMin;
+        }
+
+         void BakePath() {
+            if (pathGroup == null) {
+                return;
+            }
+            var editors = pathGroup.GetComponentsInChildren<PathEditorEntity>();
+            if (editors == null || editors.Length == 0) {
+                mapTM.pathSpawnTMArr = null;
+                mapTM.pathTravelerTypeArr = null;
+                mapTM.pathTravelerIndexArr = null;
+                mapTM.pathIndexArr = null;
+                mapTM.pathTMArr = null;
+                mapTM.pathIsCircleLoopArr = null;
+                mapTM.pathIsPingPongLoopArr = null;
+                mapTM.pathTravelerHalfSizeArr = null;
+                return;
+            }
+            var pathTMArr = new List<PathTM>();
+            var pathSpawnTMArr = new List<PathSpawnTM>();
+            var pathTravelerTypeArr = new List<EntityType>();
+            var pathTravelerIndexArr = new List<int>();
+            var pathIndexArr = new List<int>();
+            var pathIsCircleLoopArr = new List<bool>();
+            var pathIsPingPongLoopArr = new List<bool>();
+            var pathTravelerHalfSizeArr = new List<Vector2>();
+            var index = 0;
+            foreach (var editor in editors) {
+                index++;
+                var pathSpawnTM = new PathSpawnTM();
+                pathSpawnTM.pathNodeArr = editor.GetPathNodeArr();
+                pathSpawnTMArr.Add(pathSpawnTM);
+                editor.Rename(index);
+                var travelerType = editor.GetTravelerType();
+                var travlerIndex = editor.GetTravlerIndex();
+                pathTravelerTypeArr.Add(travelerType);
+                pathTravelerIndexArr.Add(travlerIndex);
+                pathIndexArr.Add(index);
+                pathTMArr.Add(editor.pathTM);
+                pathIsCircleLoopArr.Add(editor.isCircleLoop);
+                pathIsPingPongLoopArr.Add(editor.isPingPongLoop);
+                pathTravelerHalfSizeArr.Add(editor.GetTravelerSize(editor.traveler) / 2);
+            }
+            mapTM.pathSpawnTMArr = pathSpawnTMArr.ToArray();
+            mapTM.pathTravelerTypeArr = pathTravelerTypeArr.ToArray();
+            mapTM.pathTravelerIndexArr = pathTravelerIndexArr.ToArray();
+            mapTM.pathIndexArr = pathIndexArr.ToArray();
+            mapTM.pathTMArr = pathTMArr.ToArray();
+            mapTM.pathIsCircleLoopArr = pathIsCircleLoopArr.ToArray();
+            mapTM.pathIsPingPongLoopArr = pathIsPingPongLoopArr.ToArray();
+            mapTM.pathTravelerHalfSizeArr = pathTravelerHalfSizeArr.ToArray();
         }
 
         void BakeBlock() {

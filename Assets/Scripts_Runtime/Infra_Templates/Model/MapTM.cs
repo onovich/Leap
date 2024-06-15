@@ -40,7 +40,15 @@ namespace Leap {
         public int[] spikeSpawnIndexArr;
 
         // Track
-        public TrackSpawnTM[] trackSpawnArr;
+        [Header("Path")]
+        public int[] pathIndexArr;
+        public PathTM[] pathTMArr;
+        public PathSpawnTM[] pathSpawnTMArr;
+        public EntityType[] pathTravelerTypeArr;
+        public int[] pathTravelerIndexArr;
+        public bool[] pathIsCircleLoopArr;
+        public bool[] pathIsPingPongLoopArr;
+        public Vector2[] pathTravelerHalfSizeArr;
 
     }
 

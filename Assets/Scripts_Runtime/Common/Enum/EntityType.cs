@@ -7,6 +7,10 @@ namespace Leap {
         Terrain,
         Spike,
 
+        Goal = 3,
+        Role = 5,
+        Gate = 6,
+
     }
 
 }
