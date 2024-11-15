@@ -47,12 +47,17 @@ namespace Leap {
 
             // Wall Jump
             bool succ = GameRoleDomain.ApplyTryWallJump(ctx, role, fixdt);
+            var input = ctx.inputEntity;
             if (succ) {
+                input.ResetJumpAxisTemp();
                 return;
             }
 
             // Jump
             succ = GameRoleDomain.ApplyTryJump(ctx, role, fixdt);
+            if (succ) {
+                input.ResetJumpAxisTemp();
+            }
 
             // Move
             GameRoleDomain.ApplyMove(ctx, role, fixdt);

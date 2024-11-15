@@ -151,7 +151,7 @@ namespace Leap {
             if (!isGround) {
                 return false;
             }
-            if (inputCom.jumpAxis <= 0) {
+            if (inputCom.jumpAxis_Temp <= 0) {
                 return false;
             }
             var velo = rb.velocity;

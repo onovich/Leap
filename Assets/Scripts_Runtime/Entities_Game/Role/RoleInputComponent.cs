@@ -6,6 +6,7 @@ namespace Leap {
 
         public Vector2 moveAxis;
         public float jumpAxis;
+        public float jumpAxis_Temp;
 
     }
 

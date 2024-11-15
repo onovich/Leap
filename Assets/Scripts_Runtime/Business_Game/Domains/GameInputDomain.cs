@@ -12,6 +12,7 @@ namespace Leap {
             ref RoleInputComponent inputCom = ref owner.inputCom;
             inputCom.moveAxis = inputEntity.moveAxis;
             inputCom.jumpAxis = inputEntity.jumpAxis;
+            inputCom.jumpAxis_Temp = inputEntity.jumpAxis_Temp;
         }
 
     }
