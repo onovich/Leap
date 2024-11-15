@@ -117,17 +117,28 @@ namespace Leap {
                 GameRoleDomain.ApplyWallJump(ctx, role, fsm.wallJumping_jumpingDir);
             }
 
-            // Wall Jump
+            GameRoleDomain.ApplyWallJumpForce(ctx, role, fsm.wallJumping_jumpingDir, fixdt);
+
+            // Walk
             var timeIsOver = GameRoleDomain.Condition_WallJumpIsEnd(ctx, role, fixdt);
             if (timeIsOver) {
                 fsm.EnterWalking();
             }
 
             // Fall
+            bool succ = GameRoleDomain.Condition_IsGround(ctx, role, fixdt);
+            if (succ) {
+                fsm.EnterWalking();
+                return;
+            }
             GameRoleDomain.ApplyFalling(ctx, role, fixdt);
 
             // Hit Wall
-            // GameRoleDomain.ApplyHitWall(ctx, role, fixdt);
+            succ = GameRoleDomain.Condition_HitWall(ctx, role, fixdt);
+            if (succ) {
+                fsm.EnterWalking();
+                return;
+            }
 
             // Dead
             if (role.hp <= 0) {

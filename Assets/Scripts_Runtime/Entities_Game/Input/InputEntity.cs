@@ -18,7 +18,7 @@ namespace Leap {
 
         public void Ctor() {
             keybindingCom.Ctor();
-            jumpAxis_ResetInterval_Interval = .4f;
+            jumpAxis_ResetInterval_Interval = .1f;
             jumpAxis_ResetInterval_Timer = 0f;
         }
 

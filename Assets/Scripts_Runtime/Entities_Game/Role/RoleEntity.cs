@@ -14,8 +14,10 @@ namespace Leap {
         // Attr
         public float moveSpeed;
         public float jumpForceY;
-        public float wallJumpForceY;
-        public float wallJumpForceX;
+        public float wallJumpForceYMax;
+        public float wallJumpForceYCurrent;
+        public float wallJumpForceXMax;
+        public float wallJumpForceXCurrent;
         public float wallJumpDuration;
         public float g;
         public float fallingSpeedMax;
@@ -67,7 +69,7 @@ namespace Leap {
             fsmCom = new RoleFSMComponent();
             inputCom = new RoleInputComponent();
             Binding();
-            enterWallDuration = 1f;
+            enterWallDuration = .1f;
         }
 
         void Binding() {
@@ -179,10 +181,22 @@ namespace Leap {
 
         public void Move_WallJump(Vector2 dir) {
             var velo = rb.velocity;
-            velo.y = wallJumpForceY;
-            velo.x = dir.x * wallJumpForceX;
+            velo.y = wallJumpForceYMax;
+            velo.x = dir.x * wallJumpForceXMax;
             rb.velocity = velo;
             Move_LeaveWall();
+
+            wallJumpForceYCurrent = wallJumpForceYMax;
+            wallJumpForceXCurrent = wallJumpForceXMax;
+        }
+
+        public void Move_WallJumpForceTick(Vector2 dir, float dt) {
+            wallJumpForceYCurrent -= .1f * wallJumpForceYCurrent;
+            wallJumpForceXCurrent -= .1f * wallJumpForceXCurrent;
+            var velo = rb.velocity;
+            velo.y = wallJumpForceYCurrent;
+            velo.x = dir.x * wallJumpForceXCurrent;
+            rb.velocity = velo;
         }
 
         public bool isHoldingWall() {

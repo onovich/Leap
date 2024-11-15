@@ -116,10 +116,8 @@ namespace Leap {
             role.Move_Jump();
         }
 
-        public static void ApplyHitWall(GameBusinessContext ctx, RoleEntity role, float dt) {
-            if (role.isWall && role.enterWallDir == role.fsmCom.wallJumping_jumpingDir || role.isGround) {
-                role.fsmCom.EnterWalking();
-            }
+        public static bool Condition_HitWall(GameBusinessContext ctx, RoleEntity role, float dt) {
+            return (role.isWall && role.enterWallDir == role.fsmCom.wallJumping_jumpingDir);
         }
 
         public static bool Condition_WallJumpIsEnd(GameBusinessContext ctx, RoleEntity role, float dt) {
@@ -133,6 +131,10 @@ namespace Leap {
 
         public static void ApplyWallJump(GameBusinessContext ctx, RoleEntity role, Vector2 dir) {
             role.Move_WallJump(dir);
+        }
+
+        public static void ApplyWallJumpForce(GameBusinessContext ctx, RoleEntity role, Vector2 dir, float dt) {
+            role.Move_WallJumpForceTick(dir, dt);
         }
 
         public static void ApplyConstraint(GameBusinessContext ctx, RoleEntity role, float dt) {
