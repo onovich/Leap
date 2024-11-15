@@ -170,9 +170,12 @@ MonoBehaviour:
   aiType: 0
   moveSpeed: 0
   jumpForceY: 0
-  wallJumpForceY: 0
-  wallJumpForceX: 0
+  wallJumpForceYMax: 0
+  wallJumpForceYCurrent: 0
+  wallJumpForceXMax: 0
+  wallJumpForceXCurrent: 0
   wallJumpDuration: 0
+  wallingDuration: 0
   g: 0
   fallingSpeedMax: 0
   hp: 0
@@ -180,11 +183,10 @@ MonoBehaviour:
   hasWallJump: 0
   hasDoubleJump: 0
   hasDash: 0
-  isGround: 0
+  gizmosColor: {r: 0, g: 0, b: 0, a: 0}
+  gizmosOffset: {x: -0.6, y: 2.2, z: 0}
+  gizmosText: 
   needTearDown: 0
-  isWall: 0
-  enterWallDir: {x: 0, y: 0}
-  wallFriction: 0
   body: {fileID: 5756515061732775915}
   spr: {fileID: 6979487770325959718}
   deadVFXName: 

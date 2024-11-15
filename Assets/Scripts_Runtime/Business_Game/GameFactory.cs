@@ -69,7 +69,7 @@ namespace Leap {
             role.Mesh_Set(roleTM.mesh);
 
             // Set FSM
-            role.FSM_EnterIdle();
+            role.fsmCom.EnterLanding();
 
             // Set VFX
             role.deadVFXName = roleTM.deadVFX.name;

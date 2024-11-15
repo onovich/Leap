@@ -84,13 +84,6 @@ namespace Leap {
                 }
 
                 Physics2D.Simulate(fixdt);
-
-                for (int i = 0; i < roleLen; i++) {
-                    var role = roleArr[i];
-                    GameRoleDomain.BoxCastGround(ctx, role);
-                    GameRoleDomain.Tick_BoxCastWall(ctx, role, fixdt);
-                }
-
             }
 
         }
@@ -106,13 +99,6 @@ namespace Leap {
                 CameraApp.LateTick(ctx.cameraContext, dt);
 
                 // UI
-
-                // Roles
-                var roleLen = ctx.roleRepo.TakeAll(out var roleArr);
-                for (int i = 0; i < roleLen; i++) {
-                    var role = roleArr[i];
-                    GameRoleDomain.ApplyConstraint(ctx, role, dt);
-                }
 
             }
             // VFX

@@ -1,11 +1,16 @@
 namespace Leap {
 
     public enum RoleFSMStatus {
-        
+
         None,
-        Walking,
+        Landing,
+
+        Airing,
         Jumping,
+
+        Walling,
         WallJumping,
+        
         Dying,
 
     }

@@ -1,4 +1,7 @@
 using System;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Leap {
@@ -19,6 +22,7 @@ namespace Leap {
         public float wallJumpForceXMax;
         public float wallJumpForceXCurrent;
         public float wallJumpDuration;
+        public float wallingDuration;
         public float g;
         public float fallingSpeedMax;
         public Vector2 Velocity => rb.velocity;
@@ -30,14 +34,13 @@ namespace Leap {
         public bool hasDoubleJump;
         public bool hasDash;
 
+        // Gizmos
+        public Color gizmosColor;
+        public Vector3 gizmosOffset;
+        public string gizmosText;
+
         // State
-        public bool isGround;
         public bool needTearDown;
-        public bool isWall;
-        public Vector2 enterWallDir;
-        public float enterWallDuration;
-        public float enterWallTimer;
-        public float wallFriction;
 
         // FSM
         public RoleFSMComponent fsmCom;
@@ -69,7 +72,7 @@ namespace Leap {
             fsmCom = new RoleFSMComponent();
             inputCom = new RoleInputComponent();
             Binding();
-            enterWallDuration = .1f;
+            wallingDuration = 0.1f;
         }
 
         void Binding() {
@@ -113,61 +116,6 @@ namespace Leap {
             rb.velocity = velo;
         }
 
-        public void Move_EnterGround() {
-            isGround = true;
-        }
-
-        public void Move_LeaveGround() {
-            isGround = false;
-        }
-
-        public void Move_EnterWall(Vector2 dir, float friction) {
-            isWall = true;
-            if (dir.x != 0) {
-                enterWallDir = dir;
-                Move_ResetEnterWallTimer();
-            }
-            wallFriction = friction;
-        }
-
-        public void Move_ResetEnterWallDir_Tick(float dt) {
-            enterWallTimer += dt;
-            if (enterWallTimer >= enterWallDuration) {
-                enterWallDir = Vector2.zero;
-                enterWallTimer = 0;
-            }
-        }
-
-        public void Move_ResetEnterWallDir_Manual() {
-            enterWallDir = Vector2.zero;
-            enterWallTimer = 0;
-        }
-
-        public void Move_ResetEnterWallTimer() {
-            enterWallTimer = 0;
-        }
-
-        public void Move_LeaveWall() {
-            isWall = false;
-        }
-
-        public bool Move_TryHoldWall() {
-            if (!isWall) {
-                return false;
-            }
-            if (inputCom.moveAxis.x == 0) {
-                return false;
-            }
-            if (inputCom.moveAxis.x != enterWallDir.x) {
-                return false;
-            }
-            return true;
-        }
-
-        public Vector2 Move_GetWallJumpingDir() {
-            return -enterWallDir;
-        }
-
         public void Color_SetColor(Color color) {
             spr.color = color;
         }
@@ -184,7 +132,6 @@ namespace Leap {
             velo.y = wallJumpForceYMax;
             velo.x = dir.x * wallJumpForceXMax;
             rb.velocity = velo;
-            Move_LeaveWall();
 
             wallJumpForceYCurrent = wallJumpForceYMax;
             wallJumpForceXCurrent = wallJumpForceXMax;
@@ -199,17 +146,11 @@ namespace Leap {
             rb.velocity = velo;
         }
 
-        public bool isHoldingWall() {
-            return isWall && inputCom.moveAxis.x == enterWallDir.x;
-        }
-
-        public void Move_Falling(float dt) {
+        public void Move_Falling(float wallFriction, float dt) {
             var velo = rb.velocity;
             velo.y -= g * dt;
 
-            if (isHoldingWall()) {
-                velo.y *= 1 - wallFriction;
-            }
+            velo.y *= 1 - wallFriction;
 
             if (velo.y < -fallingSpeedMax) {
                 velo.y = -fallingSpeedMax;
@@ -227,14 +168,6 @@ namespace Leap {
             return fsmCom;
         }
 
-        public void FSM_EnterIdle() {
-            fsmCom.EnterWalking();
-        }
-
-        public void FSM_EnterDead() {
-            fsmCom.EnterDying();
-        }
-
         // Mesh
         public void Mesh_Set(Sprite sp) {
             this.spr.sprite = sp;
@@ -249,6 +182,18 @@ namespace Leap {
         public void Size_SetSize(Vector2 size) {
             this.size = size;
         }
+
+        // Gizmos
+#if UNITY_EDITOR
+        void OnDrawGizmos() {
+            // 设置文字的颜色
+            GUIStyle style = new GUIStyle();
+            style.normal.textColor = gizmosColor;
+
+            // 在物体位置上方绘制文字
+            Handles.Label(transform.position + gizmosOffset, gizmosText, style);
+        }
+#endif
 
     }
 
