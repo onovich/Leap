@@ -48,7 +48,7 @@ namespace Leap {
             }
         }
 
-        public static void BoxCastWall(GameBusinessContext ctx, RoleEntity role) {
+        public static void Tick_BoxCastWall(GameBusinessContext ctx, RoleEntity role, float dt) {
             var pos = role.Pos;
             var size = role.Size;
             var dir = role.Velocity.normalized;
@@ -65,6 +65,8 @@ namespace Leap {
                     OnBodyEnterWall(ctx, role, hit.collider, hit.normal);
                 }
             }
+
+            role.Move_ResetEnterWallDir_Tick(dt);
         }
 
         static void OnFootEnterGround(GameBusinessContext ctx, RoleEntity role) {

@@ -88,7 +88,7 @@ namespace Leap {
                 for (int i = 0; i < roleLen; i++) {
                     var role = roleArr[i];
                     GameRoleDomain.BoxCastGround(ctx, role);
-                    GameRoleDomain.BoxCastWall(ctx, role);
+                    GameRoleDomain.Tick_BoxCastWall(ctx, role, fixdt);
                 }
 
             }

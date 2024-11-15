@@ -33,6 +33,8 @@ namespace Leap {
         public bool needTearDown;
         public bool isWall;
         public Vector2 enterWallDir;
+        public float enterWallDuration;
+        public float enterWallTimer;
         public float wallFriction;
 
         // FSM
@@ -65,6 +67,7 @@ namespace Leap {
             fsmCom = new RoleFSMComponent();
             inputCom = new RoleInputComponent();
             Binding();
+            enterWallDuration = 1f;
         }
 
         void Binding() {
@@ -118,8 +121,30 @@ namespace Leap {
 
         public void Move_EnterWall(Vector2 dir, float friction) {
             isWall = true;
-            enterWallDir = dir;
+            if (dir.x != 0) {
+                enterWallDir = dir;
+                Move_ResetEnterWallTimer();
+            }
             wallFriction = friction;
+        }
+
+        public void Move_ResetEnterWallDir_Tick(float dt) {
+            enterWallTimer += dt;
+            if (enterWallTimer >= enterWallDuration) {
+                enterWallDir = Vector2.zero;
+                enterWallTimer = 0;
+            }
+        }
+
+        public void Move_ResetEnterWallDir_Manual() {
+            enterWallDir = Vector2.zero;
+            enterWallTimer = 0;
+            Debug.Log("Reset Enter Wall Dir");
+        }
+
+        public void Move_ResetEnterWallTimer() {
+            enterWallTimer = 0;
+            Debug.Log("Reset Enter Wall Timer");
         }
 
         public void Move_LeaveWall() {

@@ -33,6 +33,7 @@ namespace Leap {
             if (keybindingCom.IsKeyDown(InputKeyEnum.Jump)) {
                 jumpAxis = 1;
                 jumpAxis_Temp = 1;
+                ResetJumpAxisTimer();
             }
 
             jumpAxis_ResetInterval_Timer += dt;
@@ -56,6 +57,11 @@ namespace Leap {
 
         public void ResetJumpAxisTemp() {
             jumpAxis_Temp = 0f;
+            jumpAxis_ResetInterval_Timer = 0f;
+        }
+
+        public void ResetJumpAxisTimer() {
+            jumpAxis_ResetInterval_Timer = 0f;
         }
 
     }

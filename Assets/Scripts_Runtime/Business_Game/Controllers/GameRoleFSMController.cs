@@ -50,6 +50,7 @@ namespace Leap {
             var input = ctx.inputEntity;
             if (succ) {
                 input.ResetJumpAxisTemp();
+                role.Move_ResetEnterWallDir_Manual();
                 return;
             }
 
