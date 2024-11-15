@@ -108,28 +108,31 @@ namespace Leap {
             role.Move_ApplyMove(dt);
         }
 
-        public static bool ApplyTryJump(GameBusinessContext ctx, RoleEntity role, float dt) {
-            return role.Move_TryJump();
+        public static bool Condition_Jump(GameBusinessContext ctx, RoleEntity role, float dt) {
+            return role.isGround && role.inputCom.jumpAxis_Temp != 0;
+        }
+
+        public static void ApplyJump(GameBusinessContext ctx, RoleEntity role, float dt) {
+            role.Move_Jump();
         }
 
         public static void ApplyHitWall(GameBusinessContext ctx, RoleEntity role, float dt) {
             if (role.isWall && role.enterWallDir == role.fsmCom.wallJumping_jumpingDir || role.isGround) {
-                role.fsmCom.EnterNormal();
+                role.fsmCom.EnterWalking();
             }
         }
 
-        public static bool ApplyWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
+        public static bool Condition_WallJumpIsEnd(GameBusinessContext ctx, RoleEntity role, float dt) {
             role.fsmCom.wallJumping_timer -= dt;
             return role.fsmCom.wallJumping_timer <= 0;
         }
 
-        public static bool ApplyTryWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
-            if (!role.isWall || role.inputCom.jumpAxis_Temp <= 0 || role.enterWallDir.x == 0) {
-                return false;
-            }
-            role.fsmCom.EnterWallJumping(role.Move_GetWallJumpingDir(), role.wallJumpDuration);
-            role.Move_WallJump();
-            return true;
+        public static bool Condition_WallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
+            return role.isWall && role.inputCom.jumpAxis_Temp != 0 && role.enterWallDir.x != 0;
+        }
+
+        public static void ApplyWallJump(GameBusinessContext ctx, RoleEntity role, Vector2 dir) {
+            role.Move_WallJump(dir);
         }
 
         public static void ApplyConstraint(GameBusinessContext ctx, RoleEntity role, float dt) {
@@ -147,19 +150,19 @@ namespace Leap {
                 var diff = rolePos.y - max.y;
                 rolePos -= new Vector2(0, diff);
                 role.Pos_SetPos(rolePos);
-                role.fsmCom.EnterNormal();
+                role.fsmCom.EnterWalking();
             }
             if (rolePos.x < min.x) {
                 var diff = min.x - rolePos.x;
                 rolePos += new Vector2(diff, 0);
                 role.Pos_SetPos(rolePos);
-                role.fsmCom.EnterNormal();
+                role.fsmCom.EnterWalking();
             }
             if (rolePos.x > max.x) {
                 var diff = rolePos.x - max.x;
                 rolePos -= new Vector2(diff, 0);
                 role.Pos_SetPos(rolePos);
-                role.fsmCom.EnterNormal();
+                role.fsmCom.EnterWalking();
             }
             if (rolePos.y < min.y) {
                 role.Attr_DeadlyHurt();
@@ -168,6 +171,10 @@ namespace Leap {
 
         public static void ApplyFalling(GameBusinessContext ctx, RoleEntity role, float dt) {
             role.Move_Falling(dt);
+        }
+
+        public static bool Condition_IsGround(GameBusinessContext ctx, RoleEntity role, float dt) {
+            return role.isGround;
         }
 
     }

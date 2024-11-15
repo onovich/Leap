@@ -139,12 +139,10 @@ namespace Leap {
         public void Move_ResetEnterWallDir_Manual() {
             enterWallDir = Vector2.zero;
             enterWallTimer = 0;
-            Debug.Log("Reset Enter Wall Dir");
         }
 
         public void Move_ResetEnterWallTimer() {
             enterWallTimer = 0;
-            Debug.Log("Reset Enter Wall Timer");
         }
 
         public void Move_LeaveWall() {
@@ -172,23 +170,17 @@ namespace Leap {
             spr.color = color;
         }
 
-        public bool Move_TryJump() {
-            if (!isGround) {
-                return false;
-            }
-            if (inputCom.jumpAxis_Temp <= 0) {
-                return false;
-            }
+        public bool Move_Jump() {
             var velo = rb.velocity;
             velo.y = jumpForceY;
             rb.velocity = velo;
             return true;
         }
 
-        public void Move_WallJump() {
+        public void Move_WallJump(Vector2 dir) {
             var velo = rb.velocity;
             velo.y = wallJumpForceY;
-            velo.x = -enterWallDir.x * wallJumpForceX;
+            velo.x = dir.x * wallJumpForceX;
             rb.velocity = velo;
             Move_LeaveWall();
         }
@@ -222,11 +214,11 @@ namespace Leap {
         }
 
         public void FSM_EnterIdle() {
-            fsmCom.EnterNormal();
+            fsmCom.EnterWalking();
         }
 
         public void FSM_EnterDead() {
-            fsmCom.EnterDead();
+            fsmCom.EnterDying();
         }
 
         // Mesh
