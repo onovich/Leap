@@ -38,7 +38,8 @@ namespace Leap {
         public Vector2 ownerSpawnPoint;
 
         // TEMP
-        public RaycastHit2D[] hitResults;
+        public RaycastHit2D[] hitResultsTemp;
+        public Collider2D[] colResultsTemp;
 
         public GameBusinessContext() {
             gameEntity = new GameEntity();
@@ -47,7 +48,8 @@ namespace Leap {
             roleRepo = new RoleRepository();
             blockRepo = new BlockRepository();
             spikeRepo = new SpikeRepository();
-            hitResults = new RaycastHit2D[100];
+            hitResultsTemp = new RaycastHit2D[100];
+            colResultsTemp = new Collider2D[100];
         }
 
         public void Reset() {

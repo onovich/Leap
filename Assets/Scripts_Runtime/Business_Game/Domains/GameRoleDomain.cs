@@ -37,7 +37,7 @@ namespace Leap {
             var size = new Vector2(0.8f, 1f);
             var dir = Vector2.down;
             LayerMask layer = (1 << LayConst.TERRAIN) | (1 << LayConst.BLOCK);
-            var hitResults = ctx.hitResults;
+            var hitResults = ctx.hitResultsTemp;
             var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0.01f, layer);
             for (int i = 0; i < hitCount; i++) {
                 var hit = hitResults[i];
@@ -59,7 +59,7 @@ namespace Leap {
             var size = new Vector2(0.8f, 1f);
             var dir = Vector2.down;
             LayerMask layer = 1 << LayConst.SPIKE;
-            var hitResults = ctx.hitResults;
+            var hitResults = ctx.hitResultsTemp;
             var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0.3f, layer);
             for (int i = 0; i < hitCount; i++) {
                 var hit = hitResults[i];
@@ -81,25 +81,29 @@ namespace Leap {
         public static void Physics_CheckHitWall(GameBusinessContext ctx, RoleEntity role) {
             var pos = role.Pos;
             var size = role.Size;
-            var dir = role.Velocity.normalized;
+            // var dir = Vector2.right;
             role.physics_wallFriction = 0f;
-            dir.y = 0;
+            // dir.y = 0;
             LayerMask layer = (1 << LayConst.TERRAIN) | (1 << LayConst.BLOCK);
-            var hitResults = ctx.hitResults;
+            var hitResults = ctx.colResultsTemp;
             var config = ctx.templateInfraContext.Config_Get();
-            var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0f, layer);
+            var hitCount = Physics2D.OverlapBoxNonAlloc(pos, size, 0, hitResults, layer);
+            // var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0f, layer);
             for (int i = 0; i < hitCount; i++) {
                 var hit = hitResults[i];
-                var hitGo = hit.collider.gameObject;
+                // var hitGo = hit.collider.gameObject;
+                var hitGo = hit.gameObject;
                 if (hitGo.CompareTag(TagConst.BLOCK)) {
                     role.physics_wallFriction = config.roleBlockFriction;
                     role.physics_hitWall = true;
-                    role.physics_hitWallDir = dir;
+                    // role.physics_hitWallDir = dir;
+                    role.physics_hitWallDir = (hitGo.transform.position - pos.ToVector3()).normalized;
                     return;
                 } else if (hitGo.CompareTag(TagConst.TERRAIN)) {
                     role.physics_wallFriction = config.roleTerrainFriction;
                     role.physics_hitWall = true;
-                    role.physics_hitWallDir = dir;
+                    // role.physics_hitWallDir = dir;
+                    role.physics_hitWallDir = (hitGo.transform.position - pos.ToVector3()).normalized;  
                     return;
                 }
             }
