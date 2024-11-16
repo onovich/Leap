@@ -70,6 +70,7 @@ namespace Leap {
             airing_isEntering = false;
             walling_isEntering = false;
             dying_isEntering = false;
+            wallJumping_isEntering = false;
         }
 
     }

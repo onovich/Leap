@@ -191,6 +191,7 @@ namespace Leap {
                 input.ResetJumpAxisTemp();
 
                 GameRoleDomain.ApplyWallJump(ctx, role, fsm.wallJumping_jumpingDir);
+                return;
             }
 
             GameRoleDomain.ApplyWallJumpForce(ctx, role, fsm.wallJumping_jumpingDir, fixdt);
