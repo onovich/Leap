@@ -23,6 +23,7 @@ MonoBehaviour:
   wallingDuration: 0.2
   wallJumpAccelerationX: -0.1
   wallJumpAccelerationY: -0.1
+  landDuration: 0.4
   g: 70
   fallingSpeedMax: 40
   hp: 1

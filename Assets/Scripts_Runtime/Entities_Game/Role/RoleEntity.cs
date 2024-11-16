@@ -25,6 +25,7 @@ namespace Leap {
         public float wallingDuration;
         public float wallJumpAccelerationX;
         public float wallJumpAccelerationY;
+        public float landDuration;
         public float g;
         public float fallingSpeedMax;
         public Vector2 Velocity => rb.velocity;

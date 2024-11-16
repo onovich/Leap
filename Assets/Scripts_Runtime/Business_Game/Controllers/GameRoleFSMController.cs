@@ -57,7 +57,7 @@ namespace Leap {
             // Fall
             bool succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (succ) {
-                fsm.EnterLanding();
+                fsm.EnterLanding(role.landDuration);
                 return;
             }
             GameRoleDomain.ApplyFalling(ctx, role, 0f, dt);
@@ -100,7 +100,7 @@ namespace Leap {
             // Fall
             bool succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (succ) {
-                fsm.EnterLanding();
+                fsm.EnterLanding(role.landDuration);
                 // Debug.Log("Jumping -> Landing");
                 return;
             }
@@ -139,25 +139,30 @@ namespace Leap {
                 return;
             }
 
+            // Move
+            GameRoleDomain.ApplyMove(ctx, role, fixdt);
+
             // Fall
             GameRoleDomain.ApplyFalling(ctx, role, 0f, fixdt);
 
             bool succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (!succ) {
-                fsm.EnterAiring();
-                // Debug.Log("Walling -> Landing");
-                return;
+                if (fsm.LandingTimerIsEnd(fixdt)) {
+                    fsm.EnterAiring();
+                    // Debug.Log("Walling -> Landing");
+                    return;
+                }
+            } else {
+                fsm.ResetLandingTimer();
             }
 
             // Jump
             succ = GameRoleDomain.Condition_InputJump(ctx, role, fixdt);
             if (succ) {
                 fsm.EnterJumping();
+                // Debug.Log("Landing -> Jumping");
                 return;
             }
-
-            // Move
-            GameRoleDomain.ApplyMove(ctx, role, fixdt);
 
             // Spike
             succ = GameRoleDomain.Condition_CheckHitSpike(ctx, role);
@@ -184,7 +189,7 @@ namespace Leap {
             // Fall
             bool succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (succ) {
-                fsm.EnterLanding();
+                fsm.EnterLanding(role.landDuration);
                 // Debug.Log("Walling -> Landing");
                 return;
             }
@@ -248,7 +253,7 @@ namespace Leap {
             // Fall
             succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (succ) {
-                fsm.EnterLanding();
+                fsm.EnterLanding(role.landDuration);
                 // Debug.Log("WallJumping -> Landing");
                 return;
             }

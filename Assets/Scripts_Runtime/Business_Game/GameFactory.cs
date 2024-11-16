@@ -55,6 +55,7 @@ namespace Leap {
             role.wallingDuration = roleTM.wallingDuration;
             role.wallJumpAccelerationX = roleTM.wallJumpAccelerationX;
             role.wallJumpAccelerationY = roleTM.wallJumpAccelerationY;
+            role.landDuration = roleTM.landDuration;
             role.g = roleTM.g;
             role.fallingSpeedMax = roleTM.fallingSpeedMax;
             role.hp = roleTM.hp;
@@ -72,7 +73,7 @@ namespace Leap {
             role.Mesh_Set(roleTM.mesh);
 
             // Set FSM
-            role.fsmCom.EnterLanding();
+            role.fsmCom.EnterLanding(roleTM.landDuration);
 
             // Set VFX
             role.deadVFXName = roleTM.deadVFX.name;

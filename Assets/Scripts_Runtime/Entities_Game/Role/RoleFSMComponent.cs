@@ -7,6 +7,8 @@ namespace Leap {
         public RoleFSMStatus status;
 
         public bool landing_isEntering;
+        public float landing_duration;
+        public float landing_timer;
 
         public bool airing_isEntering;
 
@@ -25,10 +27,21 @@ namespace Leap {
 
         public RoleFSMComponent() { }
 
-        public void EnterLanding() {
+        public void EnterLanding(float duration) {
             Reset();
             status = RoleFSMStatus.Landing;
             landing_isEntering = true;
+            landing_duration = duration;
+            landing_timer = 0;
+        }
+
+        public bool LandingTimerIsEnd(float dt) {
+            landing_timer += dt;
+            return landing_timer >= landing_duration;
+        }
+
+        public void ResetLandingTimer() {
+            landing_timer = 0;
         }
 
         public void EnterAiring() {
@@ -82,6 +95,9 @@ namespace Leap {
             walling_isEntering = false;
             dying_isEntering = false;
             wallJumping_isEntering = false;
+
+            landing_timer = 0;
+            walling_timer = 0;
         }
 
     }
