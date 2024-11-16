@@ -25,16 +25,8 @@ namespace Leap.Modifier {
 
         public void AdjustMeshSize() {
             var spr = GetComponentInChildren<SpriteRenderer>();
-            var trans = GetComponentInChildren<SpriteRenderer>().transform;
             spr.size = meshSize;
 
-            var halfSize = meshSize / 2;
-            var center = trans.localPosition.ToVector2();
-            var ld = center - halfSize;
-
-            // var meshOffsetX = ld.x % 2 == 0 ? 0f : 0.5f;
-            // var meshOffsetY = ld.y % 2 == 0 ? 0f : 0.5f;
-            // meshOffset = new Vector2(meshOffsetX, meshOffsetY);
             var meshOffsetX = meshSize.x % 2 == 0 ? 0.5f : 0f;
             var meshOffsetY = meshSize.y % 2 == 0 ? 0.5f : 0f;
             meshOffset = new Vector2(meshOffsetX, meshOffsetY);

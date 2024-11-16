@@ -90,7 +90,7 @@ namespace Leap {
                                   int typeID,
                                   Vector2Int pos,
                                   Vector2Int size,
-                                  Vector2 meshOffset,
+                                  Vector2 offset,
                                   int index) {
 
             var has = templateInfraContext.Block_TryGet(typeID, out var blockTM);
@@ -110,7 +110,7 @@ namespace Leap {
             block.Size_SetSize(size);
 
             // Set Mesh Offset
-            block.Mesh_SetOffset(meshOffset);
+            block.Body_SetOffset(offset);
 
             // Set Pos
             block.Pos_SetPos(pos);
@@ -130,6 +130,7 @@ namespace Leap {
                                   int typeID,
                                   Vector2Int pos,
                                   Vector2Int size,
+                                  Vector2 offset,
                                   int rotationZ,
                                   int index) {
 
@@ -149,8 +150,10 @@ namespace Leap {
             // Set Size
             spike.Size_SetSize(size);
 
+            // Set Offset
+            spike.Body_SetOffset(offset);
+
             // Set Pos
-            var offset = size / 2;
             spike.Pos_SetPos(pos + offset);
 
             // Set Mesh

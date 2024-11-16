@@ -3972,10 +3972,30 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1606213931169003597, guid: 20677e6e77f5e43f79882d43b55d5840, type: 3}
       propertyPath: m_Size.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1606213931169003597, guid: 20677e6e77f5e43f79882d43b55d5840, type: 3}
+      propertyPath: m_Size.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2990058368249433857, guid: 20677e6e77f5e43f79882d43b55d5840, type: 3}
+      propertyPath: m_Size.x
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2990058368249433857, guid: 20677e6e77f5e43f79882d43b55d5840, type: 3}
+      propertyPath: m_Size.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5812466400292561661, guid: 20677e6e77f5e43f79882d43b55d5840, type: 3}
       propertyPath: index
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5812466400292561661, guid: 20677e6e77f5e43f79882d43b55d5840, type: 3}
+      propertyPath: meshSize.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5812466400292561661, guid: 20677e6e77f5e43f79882d43b55d5840, type: 3}
+      propertyPath: meshSize.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7540117112930740670, guid: 20677e6e77f5e43f79882d43b55d5840, type: 3}
@@ -3988,7 +4008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7580944553516897973, guid: 20677e6e77f5e43f79882d43b55d5840, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12
+      value: -11
       objectReference: {fileID: 0}
     - target: {fileID: 7580944553516897973, guid: 20677e6e77f5e43f79882d43b55d5840, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4024,6 +4044,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7580944553516897973, guid: 20677e6e77f5e43f79882d43b55d5840, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737304844281128783, guid: 20677e6e77f5e43f79882d43b55d5840, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737304844281128783, guid: 20677e6e77f5e43f79882d43b55d5840, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

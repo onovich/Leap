@@ -350,7 +350,7 @@ MonoBehaviour:
   blockSpawnSizeArr:
   - {x: 1, y: 10}
   - {x: 2, y: 1}
-  blockSpawnMeshOffsetArr:
+  blockSpawnOffsetArr:
   - {x: 0, y: 0.5}
   - {x: 0.5, y: 0}
   blockSpawnIndexArr: 0100000002000000
@@ -359,9 +359,11 @@ MonoBehaviour:
   spikeSpawnArr:
   - {fileID: 11400000, guid: 4207a4dbb68f040fb975daf2d9edf313, type: 2}
   spikeSpawnPosArr:
-  - {x: -12, y: -3}
+  - {x: -11, y: -3}
   spikeSpawnSizeArr:
   - {x: 3, y: 1}
+  spikeSpawnOffsetArr:
+  - {x: 0, y: 0}
   spikeSpawnRotationZArr: 00000000
   spikeSpawnIndexArr: 01000000
   pathIndexArr: 

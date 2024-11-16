@@ -77,6 +77,7 @@ namespace Leap.Modifier {
             List<SpikeTM> spikeTMList = new List<SpikeTM>();
             List<Vector2Int> spikeSpawnPosList = new List<Vector2Int>();
             List<Vector2Int> spikeSpawnSizeList = new List<Vector2Int>();
+            List<Vector2> spikeSpawnOffsetList = new List<Vector2>();
             List<int> spikeSpawnRotationZList = new List<int>();
             List<int> spikeIndexList = new List<int>();
             var spikeEditors = spikeGroup.GetComponentsInChildren<SpikeEditorEntity>();
@@ -85,6 +86,7 @@ namespace Leap.Modifier {
             }
             for (int i = 0; i < spikeEditors.Length; i++) {
                 var editor = spikeEditors[i];
+                editor.AdjustMeshSize();
 
                 var tm = editor.spikeTM;
                 spikeTMList.Add(tm);
@@ -92,8 +94,11 @@ namespace Leap.Modifier {
                 var posInt = editor.GetPosInt();
                 spikeSpawnPosList.Add(posInt);
 
-                var sizeInt = editor.GetSizeInt();
+                var sizeInt = editor.GetMeshSize();
                 spikeSpawnSizeList.Add(sizeInt);
+
+                var offset = editor.GetMeshOffset();
+                spikeSpawnOffsetList.Add(offset);
 
                 var zInt = editor.GetRotationZInt();
                 spikeSpawnRotationZList.Add(zInt);
@@ -107,13 +112,14 @@ namespace Leap.Modifier {
             mapTM.spikeSpawnArr = spikeTMList.ToArray();
             mapTM.spikeSpawnPosArr = spikeSpawnPosList.ToArray();
             mapTM.spikeSpawnSizeArr = spikeSpawnSizeList.ToArray();
+            mapTM.spikeSpawnOffsetArr = spikeSpawnOffsetList.ToArray();
             mapTM.spikeSpawnRotationZArr = spikeSpawnRotationZList.ToArray();
             mapTM.spikeSpawnIndexArr = spikeIndexList.ToArray();
             mapTM.cameraConfinerWorldMax = cameraConfinerWorldMax;
             mapTM.cameraConfinerWorldMin = cameraConfinerWorldMin;
         }
 
-         void BakePath() {
+        void BakePath() {
             if (pathGroup == null) {
                 return;
             }
@@ -199,7 +205,7 @@ namespace Leap.Modifier {
             mapTM.blockSpawnArr = blockTMList.ToArray();
             mapTM.blockSpawnPosArr = blockSpawnPosList.ToArray();
             mapTM.blockSpawnSizeArr = blockSpawnMeshSizeList.ToArray();
-            mapTM.blockSpawnMeshOffsetArr = blockSpawnMeshOffsetList.ToArray();
+            mapTM.blockSpawnOffsetArr = blockSpawnMeshOffsetList.ToArray();
 
             mapTM.blockSpawnIndexArr = blockIndexList.ToArray();
         }

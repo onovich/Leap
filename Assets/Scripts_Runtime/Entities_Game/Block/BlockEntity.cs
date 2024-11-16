@@ -30,6 +30,11 @@ namespace Leap {
             return transform.position.RoundToVector3Int().ToVector2Int();
         }
 
+        // Body
+        public void Body_SetOffset(Vector2 offset) {
+            body.localPosition = offset;
+        }
+
         // Size
         public void Size_SetSize(Vector2 size) {
             spr.size = size;
@@ -39,10 +44,6 @@ namespace Leap {
         // Mesh
         public void Mesh_Set(Sprite sp) {
             this.spr.sprite = sp;
-        }
-
-        public void Mesh_SetOffset(Vector2 offset) {
-            body.localPosition = offset;
         }
 
         // Rename

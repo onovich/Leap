@@ -1,3 +1,4 @@
+using TriInspector;
 using UnityEngine;
 
 namespace Leap.Modifier {
@@ -7,6 +8,11 @@ namespace Leap.Modifier {
         [SerializeField] public SpikeTM spikeTM;
         public EntityType type => EntityType.Spike;
         public int index;
+
+        Vector2 meshOffset;
+
+        [OnValueChanged(nameof(AdjustMeshSize))]
+        [SerializeField] Vector2Int meshSize;
 
         public void Rename() {
             this.gameObject.name = $"Spike - {spikeTM.typeID} - {index}";
@@ -18,10 +24,27 @@ namespace Leap.Modifier {
             return posInt;
         }
 
-        public Vector2Int GetSizeInt() {
-            var size = GetComponent<SpriteRenderer>().size;
-            var sizeInt = size.RoundToVector2Int();
-            return sizeInt;
+        void SetMeshOffset() {
+            var trans = GetComponentInChildren<SpriteRenderer>().transform;
+            trans.localPosition = meshOffset;
+        }
+
+        public Vector2Int GetMeshSize() {
+            return meshSize;
+        }
+
+        public Vector2 GetMeshOffset() {
+            return meshOffset;
+        }
+
+        public void AdjustMeshSize() {
+            var spr = GetComponentInChildren<SpriteRenderer>();
+            spr.size = meshSize;
+
+            var meshOffsetX = meshSize.x % 2 == 0 ? 0.5f : 0f;
+            var meshOffsetY = meshSize.y % 2 == 0 ? 0.5f : 0f;
+            meshOffset = new Vector2(meshOffsetX, meshOffsetY);
+            SetMeshOffset();
         }
 
         public int GetRotationZInt() {
