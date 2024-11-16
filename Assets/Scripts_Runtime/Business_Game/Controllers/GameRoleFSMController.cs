@@ -54,6 +54,9 @@ namespace Leap {
                 return;
             }
 
+            // Move
+            GameRoleDomain.ApplyMove(ctx, role, dt);
+
             // Fall
             bool succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (succ) {
@@ -68,9 +71,6 @@ namespace Leap {
                 fsm.EnterWalling(wallDir, role.wallingDuration);
                 return;
             }
-
-            // Move
-            GameRoleDomain.ApplyMove(ctx, role, dt);
 
             // Spike
             succ = GameRoleDomain.Condition_CheckHitSpike(ctx, role);
@@ -183,6 +183,15 @@ namespace Leap {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.walling_isEntering) {
                 fsm.walling_isEntering = false;
+
+                // Wall Jump
+                bool inputWallJump = GameRoleDomain.Condition_InputWallJump(ctx, role, fixdt);
+                if (inputWallJump) {
+                    fsm.EnterWallJumping(-fsm.walling_dir, role.wallJumpDuration);
+                    // Debug.Log("Walling -> WallJumping: " + -wallDir);
+                    return;
+                }
+
                 return;
             }
 
