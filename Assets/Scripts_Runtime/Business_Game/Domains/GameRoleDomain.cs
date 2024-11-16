@@ -13,6 +13,15 @@ namespace Leap {
             role.OnBodyTriggerEnterHandle += (RoleEntity role, Collider2D other) => {
                 OnBodyTriggerEnter(ctx, role, other);
             };
+            role.OnBodyCollisionStayHandle += (RoleEntity role, Collision2D other) => {
+                // OnBodyCollisionStay(ctx, role, other);
+            };
+            role.OnHeadCollisionEnterHandle += (RoleEntity role, Collision2D other) => {
+                // OnHeadCollisionEnter(ctx, role, other);
+            };
+            role.OnFootCollisionEnterHandle += (RoleEntity role, Collision2D other) => {
+                // OnFootCollisionEnter(ctx, role, other);
+            };
             ctx.roleRepo.Add(role);
             return role;
         }
@@ -78,45 +87,87 @@ namespace Leap {
             return role.physics_hitWall;
         }
 
+        public static void Physics_ResetHitWall(GameBusinessContext ctx, RoleEntity role) {
+            role.Physics_ResetHitWall();
+        }
+
+        public static void Physics_ResetLandGround(GameBusinessContext ctx, RoleEntity role) {
+            role.Physics_ResetLandGround();
+        }
+
+        public static void Physics_ResetHitSpike(GameBusinessContext ctx, RoleEntity role) {
+            role.Physics_ResetHitSpike();
+        }
+
         public static void Physics_CheckHitWall(GameBusinessContext ctx, RoleEntity role) {
-            var pos = role.Pos;
-            var size = role.Size;
-            // var dir = Vector2.right;
-            role.physics_wallFriction = 0f;
-            // dir.y = 0;
+            var leftCheckHitDir = CheckHitWall(ctx, role.Pos, role.Size, Vector2.left, out var leftWallFriction);
+            var rightCheckHitDir = CheckHitWall(ctx, role.Pos, role.Size, Vector2.right, out var rightWallFriction);
+            if (leftCheckHitDir != Vector2.zero) {
+                role.physics_hitWall = true;
+                role.physics_hitWallDir = leftCheckHitDir;
+                role.physics_wallFriction = leftWallFriction;
+            } else if (rightCheckHitDir != Vector2.zero) {
+                role.physics_hitWall = true;
+                role.physics_hitWallDir = rightCheckHitDir;
+                role.physics_wallFriction = rightWallFriction;
+            } else {
+                role.physics_hitWall = false;
+                role.physics_hitWallDir = Vector2.zero;
+                role.physics_wallFriction = 0;
+            }
+        }
+
+        static Vector2 CheckHitWall(GameBusinessContext ctx, Vector2 pos, Vector2 size, Vector2 dir, out float wallFriction) {
+            dir.y = 0;
+            wallFriction = 0;
             LayerMask layer = (1 << LayConst.TERRAIN) | (1 << LayConst.BLOCK);
-            var hitResults = ctx.colResultsTemp;
+            var hitResults = ctx.hitResultsTemp;
             var config = ctx.templateInfraContext.Config_Get();
-            var hitCount = Physics2D.OverlapBoxNonAlloc(pos, size, 0, hitResults, layer);
-            // var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0f, layer);
+            var hitCount = Physics2D.BoxCastNonAlloc(pos, size, 0, dir, hitResults, 0f, layer);
             for (int i = 0; i < hitCount; i++) {
                 var hit = hitResults[i];
-                // var hitGo = hit.collider.gameObject;
-                var hitGo = hit.gameObject;
+                var hitGo = hit.collider.gameObject;
                 if (hitGo.CompareTag(TagConst.BLOCK)) {
-                    role.physics_wallFriction = config.roleBlockFriction;
-                    role.physics_hitWall = true;
-                    // role.physics_hitWallDir = dir;
-                    role.physics_hitWallDir = (hitGo.transform.position - pos.ToVector3()).normalized;
-                    return;
+                    wallFriction = config.roleBlockFriction;
+                    var hitDir = -hit.normal;
+                    return hitDir;
                 } else if (hitGo.CompareTag(TagConst.TERRAIN)) {
-                    role.physics_wallFriction = config.roleTerrainFriction;
-                    role.physics_hitWall = true;
-                    // role.physics_hitWallDir = dir;
-                    role.physics_hitWallDir = (hitGo.transform.position - pos.ToVector3()).normalized;  
-                    return;
+                    wallFriction = config.roleTerrainFriction;
+                    var hitDir = -hit.normal;
+                    return hitDir;
                 }
             }
-            role.physics_hitWallDir = Vector2.zero;
-            role.physics_hitWall = false;
+            return Vector2.zero;
         }
 
         static void GetHurt(GameBusinessContext ctx, RoleEntity role) {
             role.Attr_GetHurt();
         }
 
-        static void OnBodyTriggerEnter(GameBusinessContext gameContext, RoleEntity role, Collider2D other) {
+        static void OnBodyTriggerEnter(GameBusinessContext ctx, RoleEntity role, Collider2D other) {
             // Eat Star
+        }
+
+        static void OnBodyCollisionStay(GameBusinessContext ctx, RoleEntity role, Collision2D other) {
+            var otherGo = other.gameObject;
+            if (otherGo.CompareTag(TagConst.SPIKE)) {
+                GetHurt(ctx, role);
+            }
+            if (otherGo.CompareTag(TagConst.BLOCK) || otherGo.CompareTag(TagConst.TERRAIN)) {
+                role.physics_hitWall = true;
+                // var hitDir = otherGo.transform.position - role.Pos.ToVector3();
+                var hitDir = other.relativeVelocity;
+                var x = hitDir.x == 0 ? 0 : Mathf.Sign(hitDir.x);
+                role.physics_hitWallDir = new Vector2(x, 0);
+                Debug.Log("Hit Wall, dir = " + role.physics_hitWallDir + "hitDir = " + hitDir + " otherGo = " + otherGo.name);
+            }
+        }
+
+        static void OnFootCollisionEnter(GameBusinessContext ctx, RoleEntity role, Collision2D other) {
+            var otherGo = other.gameObject;
+            if (otherGo.CompareTag(TagConst.BLOCK) || otherGo.CompareTag(TagConst.TERRAIN)) {
+                role.physics_hitGround = true;
+            }
         }
 
         public static void ApplyMove(GameBusinessContext ctx, RoleEntity role, float dt) {

@@ -48,6 +48,7 @@ namespace Leap {
             if (fsm.airing_isEntering) {
                 fsm.airing_isEntering = false;
                 role.Color_SetColor(Color.green);
+                role.Move_Stop();
             }
 
             // Fall
@@ -91,14 +92,16 @@ namespace Leap {
             bool succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (succ) {
                 fsm.EnterLanding();
+                // Debug.Log("Jumping -> Landing");
                 return;
             }
             GameRoleDomain.ApplyFalling(ctx, role, 0f, fixdt);
 
             // Hit Wall
             succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
-            if (succ && wallDir.normalized == role.inputCom.moveAxis.normalized) {
+            if (succ) {
                 fsm.EnterWalling(wallDir, role.wallingDuration);
+                // Debug.Log("Jumping -> Walling");
                 return;
             }
 
@@ -152,6 +155,7 @@ namespace Leap {
             bool succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (succ) {
                 fsm.EnterLanding();
+                // Debug.Log("Walling -> Landing");
                 return;
             }
 
@@ -159,8 +163,9 @@ namespace Leap {
 
             // Hit Wall
             bool hitWall = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
-            if (hitWall && wallDir.normalized != role.inputCom.moveAxis.normalized) {
+            if (!hitWall) {
                 fsm.EnterAiring();
+                // Debug.Log("Walling -> Airing");
                 return;
             }
 
@@ -168,6 +173,7 @@ namespace Leap {
             succ = GameRoleDomain.Condition_InputWallJump(ctx, role, fixdt);
             if (succ) {
                 fsm.EnterWallJumping(-wallDir, role.wallJumpDuration);
+                // Debug.Log("Walling -> WallJumping: " + -wallDir);
                 return;
             }
 
@@ -193,6 +199,7 @@ namespace Leap {
             bool succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
             if (succ && wallDir.normalized != role.inputCom.moveAxis.normalized) {
                 fsm.EnterWalling(wallDir, role.wallingDuration);
+                // Debug.Log("WallJumping -> Walling");
                 return;
             }
 
@@ -200,6 +207,7 @@ namespace Leap {
             succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (succ) {
                 fsm.EnterLanding();
+                // Debug.Log("WallJumping -> Landing");
                 return;
             }
             GameRoleDomain.ApplyFalling(ctx, role, 0f, fixdt);
@@ -209,10 +217,10 @@ namespace Leap {
 
             // Time Is End
             var timeIsOver = GameRoleDomain.Condition_WallJumpingIsEnd(ctx, role, fixdt);
-            if (!timeIsOver) {
-                return;
-            } else {
+            if (timeIsOver) {
                 fsm.EnterAiring();
+                // Debug.Log("WallJumping -> Airing");
+                return;
             }
 
             // Dead

@@ -27,7 +27,12 @@ MonoBehaviour:
   fallingSpeedMax: 40
   hp: 1
   mesh: {fileID: 21300000, guid: 98da00dbfc3054698a257b8b39361059, type: 3}
-  size: {x: 1.08, y: 1}
+  meshSize: {x: 1, y: 0.98}
+  bodySize: {x: 1, y: 1}
+  headSize: {x: 0, y: 0}
+  headOffset: {x: 0, y: 0}
+  footSize: {x: 0, y: 0}
+  footOffset: {x: 0, y: 0}
   deadVFX: {fileID: 1046417506903995189, guid: 4cc547ee9ad754a728a343efb6c300c0, type: 3}
   deadVFXDuration: 2
   hasWallJump: 0

@@ -83,6 +83,13 @@ namespace Leap {
                     GameRoleFSMController.FixedTickFSM(ctx, role, fixdt);
                 }
 
+                for (int i = 0; i < roleLen; i++) {
+                    var role = roleArr[i];
+                    // GameRoleDomain.Physics_ResetHitSpike(ctx, role);
+                    // GameRoleDomain.Physics_ResetHitWall(ctx, role);
+                    // GameRoleDomain.Physics_ResetLandGround(ctx, role);
+                }
+
                 Physics2D.Simulate(fixdt);
 
                 for (int i = 0; i < roleLen; i++) {

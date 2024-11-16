@@ -72,6 +72,10 @@ namespace Leap {
         // Physics
         [SerializeField] Rigidbody2D rb;
         [SerializeField] RoleCollisionComponent bodyTrigger;
+        [SerializeField] RoleCollisionComponent bodyCollider;
+        [SerializeField] RoleCollisionComponent headCollider;
+        [SerializeField] RoleCollisionComponent footCollider;
+
         Vector2 size;
         public Vector2 Size => size;
 
@@ -80,6 +84,9 @@ namespace Leap {
 
         // Action
         public event Action<RoleEntity, Collider2D> OnBodyTriggerEnterHandle;
+        public event Action<RoleEntity, Collision2D> OnBodyCollisionStayHandle;
+        public event Action<RoleEntity, Collision2D> OnHeadCollisionEnterHandle;
+        public event Action<RoleEntity, Collision2D> OnFootCollisionEnterHandle;
 
         public void Ctor() {
             fsmCom = new RoleFSMComponent();
@@ -88,7 +95,18 @@ namespace Leap {
         }
 
         void Binding() {
-            bodyTrigger.OnTriggerEnterHandle += (coll) => { OnBodyTriggerEnterHandle.Invoke(this, coll); };
+            bodyTrigger.OnTriggerEnterHandle += (coll) => {
+                OnBodyTriggerEnterHandle.Invoke(this, coll);
+            };
+            bodyCollider.OnCollisionStayHandle += (coll) => {
+                OnBodyCollisionStayHandle.Invoke(this, coll);
+            };
+            headCollider.OnCollisionEnterHandle += (coll) => {
+                OnHeadCollisionEnterHandle.Invoke(this, coll);
+            };
+            footCollider.OnCollisionEnterHandle += (coll) => {
+                OnFootCollisionEnterHandle.Invoke(this, coll);
+            };
         }
 
         // Pos
@@ -193,6 +211,20 @@ namespace Leap {
         // Physics
         public void Size_SetSize(Vector2 size) {
             this.size = size;
+        }
+
+        public void Physics_ResetHitWall() {
+            physics_hitWall = false;
+            physics_wallFriction = 0f;
+            physics_hitWallDir = Vector2.zero;
+        }
+
+        public void Physics_ResetLandGround() {
+            physics_hitGround = false;
+        }
+
+        public void Physics_ResetHitSpike() {
+            physics_hitSpike = false;
         }
 
         // Gizmos
