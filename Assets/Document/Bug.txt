@@ -1,2 +1,2 @@
-1. 角色落地和地面有差 0.014995
-2. Apply Constraint 后，Physics2D.Simulate 前的坐标是正确的，Physics2D.Simulate 后的坐标是错误的
+1. 蹬墙跳，碰到墙时有时会维持 Airing 状态，而非 Walling 状态，导致无阻力下滑
+2. 有时跳到高台上时，由于只有边角站在平台边缘，角色可以站住，但是此时状态仍是 Airing
