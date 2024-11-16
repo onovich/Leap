@@ -84,6 +84,13 @@ namespace Leap {
                 }
 
                 Physics2D.Simulate(fixdt);
+
+                for (int i = 0; i < roleLen; i++) {
+                    var role = roleArr[i];
+                    GameRoleDomain.Physics_CheckLandGround(ctx, role);
+                    GameRoleDomain.Physics_CheckHitSpike(ctx, role);
+                    GameRoleDomain.Physics_CheckHitWall(ctx, role);
+                }
             }
 
         }

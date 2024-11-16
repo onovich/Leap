@@ -183,9 +183,16 @@ MonoBehaviour:
   hasWallJump: 0
   hasDoubleJump: 0
   hasDash: 0
-  gizmosColor: {r: 0, g: 0, b: 0, a: 0}
-  gizmosOffset: {x: -0.6, y: 2.2, z: 0}
+  gizmosTextColor: {r: 0, g: 0, b: 0, a: 0}
+  gizmosTextOffset: {x: -0.6, y: 2.2, z: 0}
   gizmosText: 
+  gizmosColliderColor: {r: 0, g: 0, b: 0, a: 0}
+  gizmosColliderOffset: {x: 0, y: 0, z: 0}
+  gizmosColliderSize: {x: 0, y: 0}
+  physics_hitGround: 0
+  physics_hitSpike: 0
+  physics_hitWall: 0
+  physics_wallFriction: 0
   needTearDown: 0
   body: {fileID: 5756515061732775915}
   spr: {fileID: 6979487770325959718}

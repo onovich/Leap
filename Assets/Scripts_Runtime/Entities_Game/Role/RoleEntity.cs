@@ -23,6 +23,8 @@ namespace Leap {
         public float wallJumpForceXCurrent;
         public float wallJumpDuration;
         public float wallingDuration;
+        public float wallJumpAccelerationX;
+        public float wallJumpAccelerationY;
         public float g;
         public float fallingSpeedMax;
         public Vector2 Velocity => rb.velocity;
@@ -35,9 +37,20 @@ namespace Leap {
         public bool hasDash;
 
         // Gizmos
-        public Color gizmosColor;
-        public Vector3 gizmosOffset;
+        public Color gizmosTextColor;
+        public Vector3 gizmosTextOffset;
         public string gizmosText;
+
+        public Color gizmosColliderColor;
+        public Vector3 gizmosColliderOffset;
+        public Vector2 gizmosColliderSize;
+
+        // Physics
+        public bool physics_hitGround;
+        public bool physics_hitSpike;
+        public bool physics_hitWall;
+        public Vector2 physics_hitWallDir;
+        public float physics_wallFriction;
 
         // State
         public bool needTearDown;
@@ -72,7 +85,6 @@ namespace Leap {
             fsmCom = new RoleFSMComponent();
             inputCom = new RoleInputComponent();
             Binding();
-            wallingDuration = 0.1f;
         }
 
         void Binding() {
@@ -138,8 +150,8 @@ namespace Leap {
         }
 
         public void Move_WallJumpForceTick(Vector2 dir, float dt) {
-            wallJumpForceYCurrent -= .1f * wallJumpForceYCurrent;
-            wallJumpForceXCurrent -= .1f * wallJumpForceXCurrent;
+            wallJumpForceYCurrent += wallJumpAccelerationY * wallJumpForceYCurrent;
+            wallJumpForceXCurrent += wallJumpAccelerationX * wallJumpForceXCurrent;
             var velo = rb.velocity;
             velo.y = wallJumpForceYCurrent;
             velo.x = dir.x * wallJumpForceXCurrent;
@@ -188,10 +200,18 @@ namespace Leap {
         void OnDrawGizmos() {
             // 设置文字的颜色
             GUIStyle style = new GUIStyle();
-            style.normal.textColor = gizmosColor;
+            style.normal.textColor = gizmosTextColor;
 
             // 在物体位置上方绘制文字
-            Handles.Label(transform.position + gizmosOffset, gizmosText, style);
+            Handles.Label(transform.position + gizmosTextOffset, gizmosText, style);
+
+            // 绘制碰撞检测盒
+            // Gizmos.color = gizmosColliderColor;
+            // Gizmos.DrawWireCube(transform.position + gizmosColliderOffset, gizmosColliderSize);
+
+            // 绘制碰撞方向
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, transform.position + new Vector3(physics_hitWallDir.x, physics_hitWallDir.y, 0));
         }
 #endif
 

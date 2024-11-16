@@ -15,6 +15,9 @@ namespace Leap {
         public float wallJumpForceY;
         public float wallJumpForceX;
         public float wallJumpDuration;
+        public float wallingDuration;
+        public float wallJumpAccelerationX;
+        public float wallJumpAccelerationY;
         public float g;
         public float fallingSpeedMax;
 

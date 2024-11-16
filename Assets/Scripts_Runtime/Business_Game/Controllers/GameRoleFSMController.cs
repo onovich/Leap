@@ -12,49 +12,35 @@ namespace Leap {
             RoleFSMStatus status = role.FSM_GetStatus();
             if (status == RoleFSMStatus.Landing) {
                 FixedTickFSM_Landing(ctx, role, fixdt);
+                SetFSMGizmos(ctx, role, Color.white, Color.red, "陆");
             } else if (status == RoleFSMStatus.Airing) {
                 FixedTickFSM_Airing(ctx, role, fixdt);
+                SetFSMGizmos(ctx, role, Color.green, Color.white, "空");
             } else if (status == RoleFSMStatus.Jumping) {
                 FixedTickFSM_Jumping(ctx, role, fixdt);
+                SetFSMGizmos(ctx, role, Color.yellow, Color.red, "跳");
             } else if (status == RoleFSMStatus.Walling) {
                 FixedTickFSM_Walling(ctx, role, fixdt);
+                SetFSMGizmos(ctx, role, Color.red, Color.white, "墙");
             } else if (status == RoleFSMStatus.WallJumping) {
                 FixedTickFSM_WallJumping(ctx, role, fixdt);
+                SetFSMGizmos(ctx, role, Color.blue, Color.white, "蹬");
             } else if (status == RoleFSMStatus.Dying) {
                 FixedTickFSM_Dying(ctx, role, fixdt);
+                SetFSMGizmos(ctx, role, Color.black, Color.white, "亡");
             } else {
                 GLog.LogError($"GameRoleFSMController.FixedTickFSM: unknown status: {status}");
             }
 
         }
 
+        static void SetFSMGizmos(GameBusinessContext ctx, RoleEntity role, Color roleColor, Color gizmosColor, string gizmosText) {
+            role.Color_SetColor(roleColor);
+            role.gizmosTextColor = gizmosColor;
+            role.gizmosText = gizmosText;
+        }
+
         static void FixedTickFSM_Any(GameBusinessContext ctx, RoleEntity role, float fixdt) {
-            RoleFSMComponent fsm = role.FSM_GetComponent();
-            if (fsm.status == RoleFSMStatus.Landing) {
-                role.Color_SetColor(Color.white);
-                role.gizmosColor = Color.red;
-                role.gizmosText = "陆";
-            } else if (fsm.status == RoleFSMStatus.Walling) {
-                role.Color_SetColor(Color.red);
-                role.gizmosColor = Color.white;
-                role.gizmosText = "墙";
-            } else if (fsm.status == RoleFSMStatus.Airing) {
-                role.Color_SetColor(Color.green);
-                role.gizmosColor = Color.white;
-                role.gizmosText = "空";
-            } else if (fsm.status == RoleFSMStatus.Jumping) {
-                role.Color_SetColor(Color.yellow);
-                role.gizmosColor = Color.white;
-                role.gizmosText = "跳";
-            } else if (fsm.status == RoleFSMStatus.WallJumping) {
-                role.Color_SetColor(Color.blue);
-                role.gizmosColor = Color.white;
-                role.gizmosText = "蹬";
-            } else if (fsm.status == RoleFSMStatus.Dying) {
-                role.Color_SetColor(Color.black);
-                role.gizmosColor = Color.white;
-                role.gizmosText = "亡";
-            }
         }
 
         static void FixedTickFSM_Airing(GameBusinessContext ctx, RoleEntity role, float dt) {
@@ -73,9 +59,9 @@ namespace Leap {
             GameRoleDomain.ApplyFalling(ctx, role, 0f, dt);
 
             // Hit Wall
-            succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction);
+            succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
             if (succ) {
-                fsm.EnterWalling(role.Velocity.normalized, wallFriction, role.wallingDuration);
+                fsm.EnterWalling(wallDir, role.wallingDuration);
                 return;
             }
 
@@ -110,9 +96,9 @@ namespace Leap {
             GameRoleDomain.ApplyFalling(ctx, role, 0f, fixdt);
 
             // Hit Wall
-            succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction);
-            if (succ) {
-                fsm.EnterWalling(role.Velocity.normalized, wallFriction, role.wallingDuration);
+            succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
+            if (succ && wallDir.normalized == role.inputCom.moveAxis.normalized) {
+                fsm.EnterWalling(wallDir, role.wallingDuration);
                 return;
             }
 
@@ -158,29 +144,35 @@ namespace Leap {
 
         static void FixedTickFSM_Walling(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
-
-            // Air
-            bool succ = GameRoleDomain.Condition_InputHoldingWall(ctx, role, fsm.walling_dir, fixdt);
-            if (!succ) {
-                fsm.EnterAiring();
-                return;
+            if (fsm.walling_isEntering) {
+                fsm.walling_isEntering = false;
             }
 
             // Fall
-            succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
+            bool succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (succ) {
                 fsm.EnterLanding();
+                return;
+            }
+
+            bool holdWall = GameRoleDomain.Condition_InputHoldingWall(ctx, role, fsm.walling_dir, fixdt);
+
+            // Hit Wall
+            bool hitWall = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
+            if (hitWall && wallDir.normalized != role.inputCom.moveAxis.normalized) {
+                fsm.EnterAiring();
                 return;
             }
 
             // Wall Jump
             succ = GameRoleDomain.Condition_InputWallJump(ctx, role, fixdt);
             if (succ) {
-                fsm.EnterWallJumping(role.inputCom.moveAxis, role.wallJumpDuration);
+                fsm.EnterWallJumping(-wallDir, role.wallJumpDuration);
                 return;
             }
 
-            GameRoleDomain.ApplyFalling(ctx, role, fsm.walling_friction, fixdt);
+            var walling_friction = holdWall ? wallFriction : 0f;
+            GameRoleDomain.ApplyFalling(ctx, role, walling_friction, fixdt);
         }
 
         static void FixedTickFSM_WallJumping(GameBusinessContext ctx, RoleEntity role, float fixdt) {
@@ -198,16 +190,10 @@ namespace Leap {
             GameRoleDomain.ApplyWallJumpForce(ctx, role, fsm.wallJumping_jumpingDir, fixdt);
 
             // Hit Wall
-            bool succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction);
-            if (succ) {
-                fsm.EnterWalling(role.Velocity.normalized, wallFriction, role.wallingDuration);
+            bool succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
+            if (succ && wallDir.normalized != role.inputCom.moveAxis.normalized) {
+                fsm.EnterWalling(wallDir, role.wallingDuration);
                 return;
-            }
-
-            // Air
-            var timeIsOver = GameRoleDomain.Condition_WallJumpingIsEnd(ctx, role, fixdt);
-            if (timeIsOver) {
-                fsm.EnterAiring();
             }
 
             // Fall
@@ -220,6 +206,14 @@ namespace Leap {
 
             // Constraint
             GameRoleDomain.ApplyConstraint(ctx, role, fixdt);
+
+            // Time Is End
+            var timeIsOver = GameRoleDomain.Condition_WallJumpingIsEnd(ctx, role, fixdt);
+            if (!timeIsOver) {
+                return;
+            } else {
+                fsm.EnterAiring();
+            }
 
             // Dead
             if (role.hp <= 0) {
