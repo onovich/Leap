@@ -246,6 +246,12 @@ namespace Leap {
             role.Move_Falling(friction, dt);
         }
 
+#if UNITY_EDITOR
+        public static void OnDrawGizmos(GameBusinessContext ctx, RoleEntity role) {
+            role.OnDrawDebugGizmos();
+        }
+#endif
+
     }
 
 }

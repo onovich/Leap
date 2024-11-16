@@ -24,12 +24,7 @@ namespace Leap {
         public int hp;
 
         public Sprite mesh;
-        public Vector2 meshSize;
-        public Vector2 bodySize;
-        public Vector2 headSize;
-        public Vector2 headOffset;
-        public Vector2 footSize;
-        public Vector2 footOffset;
+        public Vector2 bodyColliderSize;
         public GameObject deadVFX;
         public float deadVFXDuration;
 

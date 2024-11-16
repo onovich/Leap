@@ -127,6 +127,7 @@ namespace Leap {
             }
         }
 
+#if UNITY_EDITOR
         public static void OnDrawGizmos(GameBusinessContext ctx, bool drawCameraGizmos) {
             if (ctx == null) {
                 return;
@@ -136,9 +137,16 @@ namespace Leap {
             if (status == GameStatus.Gaming) {
                 if (drawCameraGizmos) {
                     CameraApp.OnDrawGizmos(ctx.cameraContext);
+
+                    var roleLen = ctx.roleRepo.TakeAll(out var roleArr);
+                    for (int i = 0; i < roleLen; i++) {
+                        var role = roleArr[i];
+                        GameRoleDomain.OnDrawGizmos(ctx, role);
+                    }
                 }
             }
         }
+#endif
 
     }
 

@@ -9,7 +9,7 @@ namespace Leap {
 
     public class Main : MonoBehaviour {
 
-        [SerializeField] bool drawCameraGizmos;
+        [SerializeField] bool isDebugMode;
 
         InputEntity inputEntity;
 
@@ -39,7 +39,7 @@ namespace Leap {
             inputEntity = new InputEntity();
 
             loginBusinessContext = new LoginBusinessContext();
-            gameBusinessContext = new GameBusinessContext();
+            gameBusinessContext = new GameBusinessContext(isDebugMode);
 
             uiAppContext = new UIAppContext("UI", mainCanvas, hudFakeCanvas, mainCamera);
             vfxAppContext = new VFXAppContext("VFX", vfxRoot);
@@ -162,9 +162,11 @@ namespace Leap {
             // UIApp.TearDown(uiAppContext);
         }
 
+#if UNITY_EDITOR
         void OnDrawGizmos() {
-            GameBusiness.OnDrawGizmos(gameBusinessContext, drawCameraGizmos);
+            GameBusiness.OnDrawGizmos(gameBusinessContext, isDebugMode);
         }
+#endif
 
     }
 

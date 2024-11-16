@@ -41,8 +41,8 @@ namespace Leap {
         public RaycastHit2D[] hitResultsTemp;
         public Collider2D[] colResultsTemp;
 
-        public GameBusinessContext() {
-            gameEntity = new GameEntity();
+        public GameBusinessContext(bool isDebugMode) {
+            gameEntity = new GameEntity(isDebugMode);
             playerEntity = new PlayerEntity();
             idRecordService = new IDRecordService();
             roleRepo = new RoleRepository();

@@ -229,7 +229,7 @@ namespace Leap {
 
         // Gizmos
 #if UNITY_EDITOR
-        void OnDrawGizmos() {
+        public void OnDrawDebugGizmos() {
             // 设置文字的颜色
             GUIStyle style = new GUIStyle();
             style.normal.textColor = gizmosTextColor;

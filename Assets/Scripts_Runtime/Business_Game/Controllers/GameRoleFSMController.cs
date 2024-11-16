@@ -35,6 +35,9 @@ namespace Leap {
         }
 
         static void SetFSMGizmos(GameBusinessContext ctx, RoleEntity role, Color roleColor, Color gizmosColor, string gizmosText) {
+            if (!ctx.gameEntity.IsDebugMode) {
+                return;
+            }
             role.Color_SetColor(roleColor);
             role.gizmosTextColor = gizmosColor;
             role.gizmosText = gizmosText;
@@ -47,7 +50,6 @@ namespace Leap {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.airing_isEntering) {
                 fsm.airing_isEntering = false;
-                role.Color_SetColor(Color.green);
                 role.Move_Stop();
             }
 
@@ -185,7 +187,6 @@ namespace Leap {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.wallJumping_isEntering) {
                 fsm.wallJumping_isEntering = false;
-                role.Color_SetColor(Color.red);
 
                 var input = ctx.inputEntity;
                 input.ResetJumpAxisTemp();
