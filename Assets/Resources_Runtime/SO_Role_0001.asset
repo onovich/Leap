@@ -18,7 +18,7 @@ MonoBehaviour:
   moveSpeed: 6.5
   jumpForceY: 16
   wallJumpForceY: 30
-  wallJumpForceX: 30
+  wallJumpForceX: 20
   wallJumpDuration: 0.2
   wallingDuration: 0.2
   wallJumpAccelerationX: -0.1
