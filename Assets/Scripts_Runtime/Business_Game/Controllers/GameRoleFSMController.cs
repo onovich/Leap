@@ -183,6 +183,7 @@ namespace Leap {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.walling_isEntering) {
                 fsm.walling_isEntering = false;
+                role.Move_Stop();
 
                 // Wall Jump
                 bool inputWallJump = GameRoleDomain.Condition_InputWallJump(ctx, role, fixdt);
@@ -241,6 +242,7 @@ namespace Leap {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.wallJumping_isEntering) {
                 fsm.wallJumping_isEntering = false;
+                role.Move_Stop();
 
                 var input = ctx.inputEntity;
                 input.ResetJumpAxisTemp();
