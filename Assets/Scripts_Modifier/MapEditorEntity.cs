@@ -167,7 +167,8 @@ namespace Leap.Modifier {
         void BakeBlock() {
             List<BlockTM> blockTMList = new List<BlockTM>();
             List<Vector2Int> blockSpawnPosList = new List<Vector2Int>();
-            List<Vector2Int> blockSpawnSizeList = new List<Vector2Int>();
+            List<Vector2Int> blockSpawnMeshSizeList = new List<Vector2Int>();
+            List<Vector2> blockSpawnMeshOffsetList = new List<Vector2>();
             List<int> blockIndexList = new List<int>();
             var blockEditors = blockGroup.GetComponentsInChildren<BlockEditorEntity>();
             if (blockEditors == null) {
@@ -175,6 +176,7 @@ namespace Leap.Modifier {
             }
             for (int i = 0; i < blockEditors.Length; i++) {
                 var editor = blockEditors[i];
+                editor.AdjustMeshSize();
 
                 var tm = editor.blockTM;
                 blockTMList.Add(tm);
@@ -182,8 +184,11 @@ namespace Leap.Modifier {
                 var posInt = editor.GetPosInt();
                 blockSpawnPosList.Add(posInt);
 
-                var sizeInt = editor.GetSizeInt();
-                blockSpawnSizeList.Add(sizeInt);
+                var meshSizeInt = editor.GetMeshSize();
+                blockSpawnMeshSizeList.Add(meshSizeInt);
+
+                var meshOffset = editor.GetMeshOffset();
+                blockSpawnMeshOffsetList.Add(meshOffset);
 
                 var index = indexService.PickBlockIndex();
                 blockIndexList.Add(index);
@@ -193,7 +198,9 @@ namespace Leap.Modifier {
             }
             mapTM.blockSpawnArr = blockTMList.ToArray();
             mapTM.blockSpawnPosArr = blockSpawnPosList.ToArray();
-            mapTM.blockSpawnSizeArr = blockSpawnSizeList.ToArray();
+            mapTM.blockSpawnSizeArr = blockSpawnMeshSizeList.ToArray();
+            mapTM.blockSpawnMeshOffsetArr = blockSpawnMeshOffsetList.ToArray();
+
             mapTM.blockSpawnIndexArr = blockIndexList.ToArray();
         }
 

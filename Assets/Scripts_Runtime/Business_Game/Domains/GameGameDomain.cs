@@ -42,8 +42,9 @@ namespace Leap {
             var blockTMArr = mapTM.blockSpawnArr;
             var blockPosArr = mapTM.blockSpawnPosArr;
             var blockSizeArr = mapTM.blockSpawnSizeArr;
+            var blockMeshOffsetArr = mapTM.blockSpawnMeshOffsetArr;
             var blockIndexArr = mapTM.blockSpawnIndexArr;
-            GameBlockDomain.SpawnAll(ctx, blockTMArr, blockPosArr, blockSizeArr, blockIndexArr);
+            GameBlockDomain.SpawnAll(ctx, blockTMArr, blockPosArr, blockSizeArr, blockMeshOffsetArr, blockIndexArr);
 
             // Spike
             var spikeTMArr = mapTM.spikeSpawnArr;

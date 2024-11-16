@@ -23,7 +23,7 @@ MonoBehaviour:
   wallingDuration: 0.2
   wallJumpAccelerationX: -0.1
   wallJumpAccelerationY: -0.1
-  g: 60
+  g: 70
   fallingSpeedMax: 40
   hp: 1
   mesh: {fileID: 21300000, guid: 98da00dbfc3054698a257b8b39361059, type: 3}

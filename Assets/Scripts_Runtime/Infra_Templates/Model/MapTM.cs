@@ -26,6 +26,7 @@ namespace Leap {
         public BlockTM[] blockSpawnArr;
         public Vector2Int[] blockSpawnPosArr;
         public Vector2Int[] blockSpawnSizeArr;
+        public Vector2[] blockSpawnMeshOffsetArr;
         public int[] blockSpawnIndexArr;
 
         // Camera

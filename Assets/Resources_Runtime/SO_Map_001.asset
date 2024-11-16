@@ -344,37 +344,16 @@ MonoBehaviour:
   blockSpawnArr:
   - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
   - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
-  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
-  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
-  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
-  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
-  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
-  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
-  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
-  - {fileID: 11400000, guid: 7ca3c71a4168149ec99635acf5a8625a, type: 2}
   blockSpawnPosArr:
-  - {x: -3, y: 0}
-  - {x: -3, y: 1}
-  - {x: -3, y: 2}
-  - {x: -3, y: 3}
   - {x: -3, y: 4}
-  - {x: -3, y: 5}
-  - {x: -3, y: 6}
-  - {x: -3, y: 7}
-  - {x: -3, y: 9}
-  - {x: -3, y: 8}
+  - {x: -4, y: 10}
   blockSpawnSizeArr:
-  - {x: 1, y: 1}
-  - {x: 1, y: 1}
-  - {x: 1, y: 1}
-  - {x: 1, y: 1}
-  - {x: 1, y: 1}
-  - {x: 1, y: 1}
-  - {x: 1, y: 1}
-  - {x: 1, y: 1}
-  - {x: 1, y: 1}
-  - {x: 1, y: 1}
-  blockSpawnIndexArr: 0100000002000000030000000400000005000000060000000700000008000000090000000a000000
+  - {x: 1, y: 10}
+  - {x: 2, y: 1}
+  blockSpawnMeshOffsetArr:
+  - {x: 0, y: 0.5}
+  - {x: 0.5, y: 0}
+  blockSpawnIndexArr: 0100000002000000
   cameraConfinerWorldMax: {x: 30, y: 20}
   cameraConfinerWorldMin: {x: -30, y: -20}
   spikeSpawnArr:
@@ -385,3 +364,11 @@ MonoBehaviour:
   - {x: 3, y: 1}
   spikeSpawnRotationZArr: 00000000
   spikeSpawnIndexArr: 01000000
+  pathIndexArr: 
+  pathTMArr: []
+  pathSpawnTMArr: []
+  pathTravelerTypeArr: 
+  pathTravelerIndexArr: 
+  pathIsCircleLoopArr: 
+  pathIsPingPongLoopArr: 
+  pathTravelerHalfSizeArr: []

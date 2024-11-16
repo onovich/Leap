@@ -41,6 +41,10 @@ namespace Leap {
             this.spr.sprite = sp;
         }
 
+        public void Mesh_SetOffset(Vector2 offset) {
+            body.localPosition = offset;
+        }
+
         // Rename
         public void Rename() {
             this.name = $"Block - {typeID} - {entityIndex}";
