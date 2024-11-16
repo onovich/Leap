@@ -189,20 +189,26 @@ namespace Leap {
                 return;
             }
 
+            // Move
+            GameRoleDomain.ApplyMove(ctx, role, fixdt);
+
             bool holdWall = GameRoleDomain.Condition_InputHoldingWall(ctx, role, fsm.walling_dir, fixdt);
 
             // Hit Wall
             bool hitWall = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
-            if (!hitWall) {
-                fsm.EnterAiring();
-                // Debug.Log("Walling -> Airing");
-                return;
+            if (hitWall) {
+                fsm.ResetWallingTimer();
+            } else {
+                if (fsm.WallingTimerIsEnd(fixdt)) {
+                    fsm.EnterAiring();
+                    return;
+                }
             }
 
             // Wall Jump
             succ = GameRoleDomain.Condition_InputWallJump(ctx, role, fixdt);
             if (succ) {
-                fsm.EnterWallJumping(-wallDir, role.wallJumpDuration);
+                fsm.EnterWallJumping(-fsm.walling_dir, role.wallJumpDuration);
                 // Debug.Log("Walling -> WallJumping: " + -wallDir);
                 return;
             }

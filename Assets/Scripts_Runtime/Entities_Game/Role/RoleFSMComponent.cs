@@ -15,6 +15,7 @@ namespace Leap {
         public bool walling_isEntering;
         public Vector2 walling_dir;
         public float walling_duration;
+        public float walling_timer;
 
         public bool wallJumping_isEntering;
         public Vector2 wallJumping_jumpingDir;
@@ -46,15 +47,25 @@ namespace Leap {
             Reset();
             status = RoleFSMStatus.Walling;
             walling_isEntering = true;
-            walling_dir = wallDir; 
+            walling_dir = wallDir;
             walling_duration = duration;
+            ResetWallingTimer();
+        }
+
+        public bool WallingTimerIsEnd(float dt) {
+            walling_timer += dt;
+            return walling_timer >= walling_duration;
+        }
+
+        public void ResetWallingTimer() {
+            walling_timer = 0;
         }
 
         public void EnterWallJumping(Vector2 jumpingDir, float duration) {
             Reset();
             status = RoleFSMStatus.WallJumping;
             wallJumping_isEntering = true;
-            wallJumping_jumpingDir = jumpingDir; 
+            wallJumping_jumpingDir = jumpingDir;
             wallJumping_duration = duration;
         }
 
