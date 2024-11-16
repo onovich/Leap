@@ -33,9 +33,13 @@ namespace Leap {
         // Size
         public void Size_SetSize(Vector2 size) {
             spr.size = size;
-            // size.y *= 0.5f;
+        }
+
+        // Physics
+        public void Physics_SetColliderSize(Vector2 size) {
             boxCollider.size = size;
         }
+
 
         // Body
         public void Body_SetOffset(Vector2 offset) {

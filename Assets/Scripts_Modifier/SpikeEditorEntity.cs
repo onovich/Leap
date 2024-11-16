@@ -9,10 +9,12 @@ namespace Leap.Modifier {
         public EntityType type => EntityType.Spike;
         public int index;
 
-        Vector2 meshOffset;
 
         [OnValueChanged(nameof(AdjustMeshSize))]
-        [SerializeField] Vector2Int meshSize;
+        [SerializeField] public Vector2 meshSize;
+
+        [OnValueChanged(nameof(AdjustMeshSize))]
+        [SerializeField] Vector2 meshOffset;
 
         public void Rename() {
             this.gameObject.name = $"Spike - {spikeTM.typeID} - {index}";
@@ -29,7 +31,7 @@ namespace Leap.Modifier {
             trans.localPosition = meshOffset;
         }
 
-        public Vector2Int GetMeshSize() {
+        public Vector2 GetMeshSize() {
             return meshSize;
         }
 
@@ -40,10 +42,6 @@ namespace Leap.Modifier {
         public void AdjustMeshSize() {
             var spr = GetComponentInChildren<SpriteRenderer>();
             spr.size = meshSize;
-
-            var meshOffsetX = meshSize.x % 2 == 0 ? 0.5f : 0f;
-            var meshOffsetY = meshSize.y % 2 == 0 ? 0.5f : 0f;
-            meshOffset = new Vector2(meshOffsetX, meshOffsetY);
             SetMeshOffset();
         }
 
@@ -60,6 +58,17 @@ namespace Leap.Modifier {
             Gizmos.color = new Color(1, 1, 1, 0.5f);
             var pos = transform.position + offset;
             Gizmos.DrawCube(offset, Vector3.one);
+        }
+
+        void OnDrawGizmos() {
+            Gizmos.color = Color.red;
+
+            var sizeX = meshSize.x;
+            var sizeY = meshSize.y;
+            var colSize = new Vector2(sizeX, sizeY);
+
+            var pos = transform.position.ToVector2() + meshOffset;
+            Gizmos.DrawWireCube(pos, colSize);
         }
 
     }

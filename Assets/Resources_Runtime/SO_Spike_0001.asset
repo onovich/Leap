@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeID: 1
   mesh: {fileID: 21300000, guid: 85d7249cc2903454287279e9e41a951e, type: 3}
+  size: {x: 0, y: 0}
+  colliderSize: {x: 1, y: 0.5}

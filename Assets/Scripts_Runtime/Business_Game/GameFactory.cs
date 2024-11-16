@@ -129,12 +129,12 @@ namespace Leap {
                                   IDRecordService idRecordService,
                                   int typeID,
                                   Vector2Int pos,
-                                  Vector2Int size,
+                                  Vector2 size,
                                   Vector2 offset,
                                   int rotationZ,
                                   int index) {
 
-            var has = templateInfraContext.Spike_TryGet(typeID, out var blockTM);
+            var has = templateInfraContext.Spike_TryGet(typeID, out var spikeTM);
             if (!has) {
                 GLog.LogError($"Role {typeID} not found");
             }
@@ -150,6 +150,9 @@ namespace Leap {
             // Set Size
             spike.Size_SetSize(size);
 
+            // Set Physics Size
+            spike.Physics_SetColliderSize(size);
+
             // Set Offset
             spike.Body_SetOffset(offset);
 
@@ -157,7 +160,7 @@ namespace Leap {
             spike.Pos_SetPos(pos + offset);
 
             // Set Mesh
-            spike.Mesh_Set(blockTM.mesh);
+            spike.Mesh_Set(spikeTM.mesh);
 
             // Rename
             spike.Rename();

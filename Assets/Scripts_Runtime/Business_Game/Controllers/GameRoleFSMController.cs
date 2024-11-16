@@ -71,6 +71,12 @@ namespace Leap {
             // Move
             GameRoleDomain.ApplyMove(ctx, role, dt);
 
+            // Spike
+            succ = GameRoleDomain.Condition_CheckHitSpike(ctx, role);
+            if (succ) {
+                GameRoleDomain.GetDeadlyHurt(ctx, role);
+            }
+
             // Constraint
             GameRoleDomain.ApplyConstraint(ctx, role, dt);
 
@@ -110,6 +116,12 @@ namespace Leap {
             // Move
             GameRoleDomain.ApplyMove(ctx, role, fixdt);
 
+            // Spike
+            succ = GameRoleDomain.Condition_CheckHitSpike(ctx, role);
+            if (succ) {
+                GameRoleDomain.GetDeadlyHurt(ctx, role);
+            }
+
             // Constraint
             GameRoleDomain.ApplyConstraint(ctx, role, fixdt);
 
@@ -137,6 +149,12 @@ namespace Leap {
 
             // Move
             GameRoleDomain.ApplyMove(ctx, role, fixdt);
+
+            // Spike
+            succ = GameRoleDomain.Condition_CheckHitSpike(ctx, role);
+            if (succ) {
+                GameRoleDomain.GetDeadlyHurt(ctx, role);
+            }
 
             // Constraint
             GameRoleDomain.ApplyConstraint(ctx, role, fixdt);
@@ -179,6 +197,12 @@ namespace Leap {
                 return;
             }
 
+            // Spike
+            succ = GameRoleDomain.Condition_CheckHitSpike(ctx, role);
+            if (succ) {
+                GameRoleDomain.GetDeadlyHurt(ctx, role);
+            }
+
             var walling_friction = holdWall ? wallFriction : 0f;
             GameRoleDomain.ApplyFalling(ctx, role, walling_friction, fixdt);
         }
@@ -213,6 +237,12 @@ namespace Leap {
                 return;
             }
             GameRoleDomain.ApplyFalling(ctx, role, 0f, fixdt);
+
+            // Spike
+            succ = GameRoleDomain.Condition_CheckHitSpike(ctx, role);
+            if (succ) {
+                GameRoleDomain.GetDeadlyHurt(ctx, role);
+            }
 
             // Constraint
             GameRoleDomain.ApplyConstraint(ctx, role, fixdt);

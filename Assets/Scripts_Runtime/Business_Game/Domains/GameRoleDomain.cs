@@ -140,34 +140,12 @@ namespace Leap {
             return Vector2.zero;
         }
 
-        static void GetHurt(GameBusinessContext ctx, RoleEntity role) {
-            role.Attr_GetHurt();
+        public static void GetDeadlyHurt(GameBusinessContext ctx, RoleEntity role) {
+            role.Attr_DeadlyHurt();
         }
 
         static void OnBodyTriggerEnter(GameBusinessContext ctx, RoleEntity role, Collider2D other) {
             // Eat Star
-        }
-
-        static void OnBodyCollisionStay(GameBusinessContext ctx, RoleEntity role, Collision2D other) {
-            var otherGo = other.gameObject;
-            if (otherGo.CompareTag(TagConst.SPIKE)) {
-                GetHurt(ctx, role);
-            }
-            if (otherGo.CompareTag(TagConst.BLOCK) || otherGo.CompareTag(TagConst.TERRAIN)) {
-                role.physics_hitWall = true;
-                // var hitDir = otherGo.transform.position - role.Pos.ToVector3();
-                var hitDir = other.relativeVelocity;
-                var x = hitDir.x == 0 ? 0 : Mathf.Sign(hitDir.x);
-                role.physics_hitWallDir = new Vector2(x, 0);
-                Debug.Log("Hit Wall, dir = " + role.physics_hitWallDir + "hitDir = " + hitDir + " otherGo = " + otherGo.name);
-            }
-        }
-
-        static void OnFootCollisionEnter(GameBusinessContext ctx, RoleEntity role, Collision2D other) {
-            var otherGo = other.gameObject;
-            if (otherGo.CompareTag(TagConst.BLOCK) || otherGo.CompareTag(TagConst.TERRAIN)) {
-                role.physics_hitGround = true;
-            }
         }
 
         public static void ApplyMove(GameBusinessContext ctx, RoleEntity role, float dt) {
@@ -238,7 +216,7 @@ namespace Leap {
                 role.Pos_SetPos(rolePos);
             }
             if (rolePos.y < min.y) {
-                role.Attr_DeadlyHurt();
+                GetDeadlyHurt(ctx, role);
             }
         }
 

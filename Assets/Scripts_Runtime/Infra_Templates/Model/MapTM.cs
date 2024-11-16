@@ -36,7 +36,7 @@ namespace Leap {
         // Spike Spawn
         public SpikeTM[] spikeSpawnArr;
         public Vector2Int[] spikeSpawnPosArr;
-        public Vector2Int[] spikeSpawnSizeArr;
+        public Vector2[] spikeSpawnSizeArr;
         public Vector2[] spikeSpawnOffsetArr;
         public int[] spikeSpawnRotationZArr;
         public int[] spikeSpawnIndexArr;

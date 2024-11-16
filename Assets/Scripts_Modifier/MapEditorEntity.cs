@@ -76,7 +76,7 @@ namespace Leap.Modifier {
         void BakeSpike() {
             List<SpikeTM> spikeTMList = new List<SpikeTM>();
             List<Vector2Int> spikeSpawnPosList = new List<Vector2Int>();
-            List<Vector2Int> spikeSpawnSizeList = new List<Vector2Int>();
+            List<Vector2> spikeSpawnSizeList = new List<Vector2>();
             List<Vector2> spikeSpawnOffsetList = new List<Vector2>();
             List<int> spikeSpawnRotationZList = new List<int>();
             List<int> spikeIndexList = new List<int>();
@@ -94,8 +94,8 @@ namespace Leap.Modifier {
                 var posInt = editor.GetPosInt();
                 spikeSpawnPosList.Add(posInt);
 
-                var sizeInt = editor.GetMeshSize();
-                spikeSpawnSizeList.Add(sizeInt);
+                var size = editor.GetMeshSize();
+                spikeSpawnSizeList.Add(size);
 
                 var offset = editor.GetMeshOffset();
                 spikeSpawnOffsetList.Add(offset);
