@@ -51,6 +51,7 @@ namespace Leap {
             if (fsm.airing_isEntering) {
                 fsm.airing_isEntering = false;
                 role.Move_Stop();
+                return;
             }
 
             // Fall
@@ -135,13 +136,21 @@ namespace Leap {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.landing_isEntering) {
                 fsm.landing_isEntering = false;
+                return;
             }
 
             // Fall
             GameRoleDomain.ApplyFalling(ctx, role, 0f, fixdt);
 
+            bool succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
+            if (!succ) {
+                fsm.EnterAiring();
+                // Debug.Log("Walling -> Landing");
+                return;
+            }
+
             // Jump
-            bool succ = GameRoleDomain.Condition_InputJump(ctx, role, fixdt);
+            succ = GameRoleDomain.Condition_InputJump(ctx, role, fixdt);
             if (succ) {
                 fsm.EnterJumping();
                 return;
@@ -169,6 +178,7 @@ namespace Leap {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.walling_isEntering) {
                 fsm.walling_isEntering = false;
+                return;
             }
 
             // Fall
@@ -265,6 +275,7 @@ namespace Leap {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.dying_isEntering) {
                 fsm.dying_isEntering = false;
+                return;
             }
 
             // VFX
