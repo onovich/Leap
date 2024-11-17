@@ -287,7 +287,7 @@ namespace Leap {
 
             // Hit Wall
             bool succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
-            if (succ && wallDir.normalized != role.lastFaceDir) {
+            if (succ) {
                 fsm.EnterWalling(wallDir, role.wallingDuration);
                 // Debug.Log("WallJumping -> Walling");
                 return;
@@ -334,7 +334,7 @@ namespace Leap {
 
             // Hit Wall
             bool succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
-            if (succ && wallDir.normalized != role.lastFaceDir) {
+            if (succ && Mathf.Sign(wallDir.normalized.x) != Mathf.Sign(role.lastFaceDir.x)) {
                 fsm.EnterWalling(wallDir, role.wallingDuration);
                 // Debug.Log("WallJumping -> Walling");
                 return;
