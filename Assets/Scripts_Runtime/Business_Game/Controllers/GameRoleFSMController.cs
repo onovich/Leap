@@ -301,6 +301,7 @@ namespace Leap {
                 fsm.dash_isEntering = false;
                 role.Move_Stop();
                 GameRoleDomain.ApplyDash(ctx, role, fsm.dash_dir);
+                CameraApp.ShakeOnce_Dash(ctx.cameraContext, ctx.cameraContext.mainCameraID);
                 return;
             }
 
@@ -435,7 +436,7 @@ namespace Leap {
             VFXApp.AddVFXToWorld(ctx.vfxContext, role.deadVFXName, role.deadVFXDuration, role.Pos);
 
             // Camera
-            CameraApp.ShakeOnce(ctx.cameraContext, ctx.cameraContext.mainCameraID);
+            CameraApp.ShakeOnce_Dead(ctx.cameraContext, ctx.cameraContext.mainCameraID);
             role.needTearDown = true;
         }
         #endregion

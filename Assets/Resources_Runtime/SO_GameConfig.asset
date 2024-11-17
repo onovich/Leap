@@ -17,9 +17,14 @@ MonoBehaviour:
   originalMapTypeID: 1
   roleTerrainFriction: 0.2
   roleBlockFriction: 0
-  cameraDeadZoneNormalizedSize: {x: 0.1, y: 0.2}
+  cameraDeadZoneNormalizedSize: {x: 0.15, y: 0.2}
   roleDeadShakeFrequency: 6
   roleDeadShakeAmplitude: 1
   roleDeadShakeDuration: 0.2
   roleDeadShakeEasingType: 1
   roleDeadShakeEasingMode: 0
+  roleDashShakeFrequency: 2
+  roleDashShakeAmplitude: 0.2
+  roleDashShakeDuration: 0.2
+  roleDashShakeEasingType: 1
+  roleDashShakeEasingMode: 2

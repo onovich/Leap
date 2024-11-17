@@ -163,7 +163,9 @@ namespace Leap {
         public void Move_Stop() {
             var velo = new Vector2(0, 0);
             Velocity_Set(velo);
-            rb.Sleep();
+            rb.velocity = Vector2.zero; // 清零线性速度
+            rb.angularVelocity = 0f;    // 清零角速度
+            rb.inertia = rb.inertia;  // 重置惯性矩
         }
 
         void Move_Apply(float xAxis, float moveSpeed, float fixdt) {
@@ -182,6 +184,12 @@ namespace Leap {
             velo.y = jumpForceY;
             Velocity_Set(velo);
             return true;
+        }
+
+        public void Move_ResetVelY() {
+            var velo = rb.velocity;
+            velo.y = 0;
+            Velocity_Set(velo);
         }
 
         public void Move_Dash(Vector2 dir) {

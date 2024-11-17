@@ -24,13 +24,23 @@ namespace Leap {
             ctx.cameraCore.Tick(dt);
         }
 
-        public static void ShakeOnce(CameraAppContext ctx, int cameraID) {
+        public static void ShakeOnce_Dead(CameraAppContext ctx, int cameraID) {
             var config = ctx.templateInfraContext.Config_Get();
             var shakeFrequency = config.roleDeadShakeFrequency;
             var shakeAmplitude = config.roleDeadShakeAmplitude;
             var shakeDuration = config.roleDeadShakeDuration;
             var shakeEasingType = config.roleDeadShakeEasingType;
             var shakeEasingMode = config.roleDeadShakeEasingMode;
+            ctx.cameraCore.ShakeOnce(cameraID, shakeFrequency, shakeAmplitude, shakeDuration, shakeEasingType, shakeEasingMode);
+        }
+
+        public static void ShakeOnce_Dash(CameraAppContext ctx, int cameraID) {
+            var config = ctx.templateInfraContext.Config_Get();
+            var shakeFrequency = config.roleDashShakeFrequency;
+            var shakeAmplitude = config.roleDashShakeAmplitude;
+            var shakeDuration = config.roleDashShakeDuration;
+            var shakeEasingType = config.roleDashShakeEasingType;
+            var shakeEasingMode = config.roleDashShakeEasingMode;
             ctx.cameraCore.ShakeOnce(cameraID, shakeFrequency, shakeAmplitude, shakeDuration, shakeEasingType, shakeEasingMode);
         }
 

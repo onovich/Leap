@@ -24,12 +24,19 @@ namespace Leap {
         [Header("DeadZone Config")]
         public Vector2 cameraDeadZoneNormalizedSize;
 
-        [Header("Shake Config")]
+        [Header("Shake Config - Role Dead")]
         public float roleDeadShakeFrequency;
         public float roleDeadShakeAmplitude;
         public float roleDeadShakeDuration;
         public EasingType roleDeadShakeEasingType;
         public EasingMode roleDeadShakeEasingMode;
+
+        [Header("Shake Config - Role Dash")]
+        public float roleDashShakeFrequency;
+        public float roleDashShakeAmplitude;
+        public float roleDashShakeDuration;
+        public EasingType roleDashShakeEasingType;
+        public EasingMode roleDashShakeEasingMode;
 
     }
 

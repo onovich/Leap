@@ -389,8 +389,8 @@ MonoBehaviour:
   physics_hitCeiling: 0
   physics_hitCeilingDir: {x: 0, y: 0}
   needTearDown: 0
-  lastFaceDir: {x: 0, y: 0}
   lastVelocityNormalized: {x: 0, y: 0}
+  faceDir: {x: 0, y: 0}
   body: {fileID: 5756515061732775915}
   spr: {fileID: 6979487770325959718}
   deadVFXName: 
