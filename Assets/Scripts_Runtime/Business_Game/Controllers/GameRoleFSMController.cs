@@ -28,6 +28,9 @@ namespace Leap {
             } else if (status == RoleFSMStatus.Dying) {
                 FixedTickFSM_Dying(ctx, role, fixdt);
                 SetFSMGizmos(ctx, role, Color.black, Color.white, "亡");
+            } else if (status == RoleFSMStatus.Dash) {
+                FixedTickFSM_Dash(ctx, role, fixdt);
+                SetFSMGizmos(ctx, role, Color.magenta, Color.white, "冲");
             } else {
                 GLog.LogError($"GameRoleFSMController.FixedTickFSM: unknown status: {status}");
             }
@@ -46,7 +49,7 @@ namespace Leap {
         static void FixedTickFSM_Any(GameBusinessContext ctx, RoleEntity role, float fixdt) {
         }
 
-        static void FixedTickFSM_Airing(GameBusinessContext ctx, RoleEntity role, float dt) {
+        static void FixedTickFSM_Airing(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.airing_isEntering) {
                 fsm.airing_isEntering = false;
@@ -55,15 +58,24 @@ namespace Leap {
             }
 
             // Move
-            GameRoleDomain.ApplyMove(ctx, role, dt);
+            GameRoleDomain.ApplyMove(ctx, role, fixdt);
+
+            // Dash
+            bool succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
+            if (succ) {
+                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration);
+                // Debug.Log("Walling -> Dash");
+                return;
+            }
+
 
             // Fall
-            bool succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
+            succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (succ) {
                 fsm.EnterLanding(role.landDuration);
                 return;
             }
-            GameRoleDomain.ApplyFalling(ctx, role, 0f, dt);
+            GameRoleDomain.ApplyFalling(ctx, role, 0f, fixdt);
 
             // Hit Wall
             succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
@@ -79,7 +91,7 @@ namespace Leap {
             }
 
             // Constraint
-            GameRoleDomain.ApplyConstraint(ctx, role, dt);
+            GameRoleDomain.ApplyConstraint(ctx, role, fixdt);
 
             // Dead
             if (role.hp <= 0) {
@@ -97,8 +109,16 @@ namespace Leap {
                 return;
             }
 
+            // Dash
+            bool succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
+            if (succ) {
+                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration);
+                // Debug.Log("Walling -> Dash");
+                return;
+            }
+
             // Fall
-            bool succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
+            succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (succ) {
                 fsm.EnterLanding(role.landDuration);
                 // Debug.Log("Jumping -> Landing");
@@ -142,10 +162,18 @@ namespace Leap {
             // Move
             GameRoleDomain.ApplyMove(ctx, role, fixdt);
 
+            // Dash
+            bool succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
+            if (succ) {
+                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration);
+                // Debug.Log("Walling -> Dash");
+                return;
+            }
+
             // Fall
             GameRoleDomain.ApplyFalling(ctx, role, 0f, fixdt);
 
-            bool succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
+            succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (!succ) {
                 if (fsm.LandingTimerIsEnd(fixdt)) {
                     fsm.EnterAiring();
@@ -196,8 +224,16 @@ namespace Leap {
                 return;
             }
 
+            // Dash
+            bool succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
+            if (succ) {
+                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration);
+                // Debug.Log("Walling -> Dash");
+                return;
+            }
+
             // Fall
-            bool succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
+            succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
             if (succ) {
                 fsm.EnterLanding(role.landDuration);
                 // Debug.Log("Walling -> Landing");
@@ -238,6 +274,49 @@ namespace Leap {
             GameRoleDomain.ApplyFalling(ctx, role, walling_friction, fixdt);
         }
 
+        static void FixedTickFSM_Dash(GameBusinessContext ctx, RoleEntity role, float fixdt) {
+            RoleFSMComponent fsm = role.FSM_GetComponent();
+            if (fsm.dash_isEntering) {
+                fsm.dash_isEntering = false;
+                role.Move_Stop();
+                GameRoleDomain.ApplyDash(ctx, role, fsm.dash_dir);
+                return;
+            }
+
+            GameRoleDomain.ApplyDashForce(ctx, role, fsm.dash_dir, fixdt);
+
+            // Hit Wall
+            bool succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
+            if (succ && wallDir.normalized != role.lastFaceDir) {
+                fsm.EnterWalling(wallDir, role.wallingDuration);
+                // Debug.Log("WallJumping -> Walling");
+                return;
+            }
+
+            // Spike
+            succ = GameRoleDomain.Condition_CheckHitSpike(ctx, role);
+            if (succ) {
+                GameRoleDomain.GetDeadlyHurt(ctx, role);
+            }
+
+            // Constraint
+            GameRoleDomain.ApplyConstraint(ctx, role, fixdt);
+
+            // Time Is End
+            var timeIsOver = GameRoleDomain.Condition_DashIsEnd(ctx, role, fixdt);
+            if (timeIsOver) {
+                fsm.EnterAiring();
+                // Debug.Log("WallJumping -> Airing");
+                return;
+            }
+
+            // Dead
+            if (role.hp <= 0) {
+                fsm.EnterDying();
+            }
+
+        }
+
         static void FixedTickFSM_WallJumping(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.wallJumping_isEntering) {
@@ -255,9 +334,17 @@ namespace Leap {
 
             // Hit Wall
             bool succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
-            if (succ && wallDir.normalized != role.inputCom.moveAxis.normalized) {
+            if (succ && wallDir.normalized != role.lastFaceDir) {
                 fsm.EnterWalling(wallDir, role.wallingDuration);
                 // Debug.Log("WallJumping -> Walling");
+                return;
+            }
+
+            // Dash
+            succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
+            if (succ) {
+                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration);
+                // Debug.Log("Walling -> Dash");
                 return;
             }
 

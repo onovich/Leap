@@ -167,6 +167,11 @@ namespace Leap {
             return role.fsmCom.walling_duration <= 0;
         }
 
+        public static bool Condition_DashIsEnd(GameBusinessContext ctx, RoleEntity role, float dt) {
+            role.fsmCom.dash_duration -= dt;
+            return role.fsmCom.dash_duration <= 0;
+        }
+
         public static bool Condition_WallJumpingIsEnd(GameBusinessContext ctx, RoleEntity role, float dt) {
             role.fsmCom.wallJumping_duration -= dt;
             return role.fsmCom.wallJumping_duration <= 0;
@@ -179,8 +184,20 @@ namespace Leap {
             return succ;
         }
 
+        public static bool Condition_InputDash(GameBusinessContext ctx, RoleEntity role, float dt) {
+            return role.inputCom.isDash;
+        }
+
         public static bool Condition_InputWallJump(GameBusinessContext ctx, RoleEntity role, float dt) {
             return role.inputCom.jumpAxis_Temp != 0;
+        }
+
+        public static void ApplyDash(GameBusinessContext ctx, RoleEntity role, Vector2 dir) {
+            role.Move_Dash(dir);
+        }
+
+        public static void ApplyDashForce(GameBusinessContext ctx, RoleEntity role, Vector2 dir, float dt) {
+            role.Move_DashForceTick(dir, dt);
         }
 
         public static void ApplyWallJump(GameBusinessContext ctx, RoleEntity role, Vector2 dir) {

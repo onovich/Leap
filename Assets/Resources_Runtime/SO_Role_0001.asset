@@ -17,12 +17,16 @@ MonoBehaviour:
   aiType: 0
   moveSpeed: 6.5
   jumpForceY: 16
+  wallingDuration: 0.2
   wallJumpForceY: 30
   wallJumpForceX: 20
   wallJumpDuration: 0.2
-  wallingDuration: 0.2
   wallJumpAccelerationX: -0.1
   wallJumpAccelerationY: -0.1
+  dashSpeed: 20
+  dashAcceleration: -0.1
+  dashDuration: 0.4
+  dashForce: 2
   landDuration: 0.4
   g: 70
   fallingSpeedMax: 40

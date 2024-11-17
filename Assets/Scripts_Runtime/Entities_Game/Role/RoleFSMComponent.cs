@@ -23,6 +23,10 @@ namespace Leap {
         public Vector2 wallJumping_jumpingDir;
         public float wallJumping_duration;
 
+        public bool dash_isEntering;
+        public Vector2 dash_dir;
+        public float dash_duration;
+
         public bool dying_isEntering;
 
         public RoleFSMComponent() { }
@@ -82,6 +86,14 @@ namespace Leap {
             wallJumping_duration = duration;
         }
 
+        public void EnterDash(Vector2 dashDir, float duration) {
+            Reset();
+            status = RoleFSMStatus.Dash;
+            dash_isEntering = true;
+            dash_dir = dashDir;
+            dash_duration = duration;
+        }
+
         public void EnterDying() {
             Reset();
             status = RoleFSMStatus.Dying;
@@ -95,6 +107,11 @@ namespace Leap {
             walling_isEntering = false;
             dying_isEntering = false;
             wallJumping_isEntering = false;
+            dash_isEntering = false;
+
+            dash_dir = Vector2.zero;
+            walling_dir = Vector2.zero;
+            wallJumping_jumpingDir = Vector2.zero;
 
             landing_timer = 0;
             walling_timer = 0;

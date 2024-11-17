@@ -25,6 +25,13 @@ namespace Leap {
         public float wallingDuration;
         public float wallJumpAccelerationX;
         public float wallJumpAccelerationY;
+
+        public float dashSpeed;
+        public float dashAcceleration;
+        public float dashDuration;
+        public float dashForceMax;
+        public float dashForceCurrent;
+
         public float landDuration;
         public float g;
         public float fallingSpeedMax;
@@ -55,6 +62,7 @@ namespace Leap {
 
         // State
         public bool needTearDown;
+        public Vector2 lastFaceDir;
 
         // FSM
         public RoleFSMComponent fsmCom;
@@ -93,6 +101,7 @@ namespace Leap {
             fsmCom = new RoleFSMComponent();
             inputCom = new RoleInputComponent();
             Binding();
+            lastFaceDir = Vector2.right;
         }
 
         void Binding() {
@@ -145,6 +154,7 @@ namespace Leap {
             var velo = rb.velocity;
             velo.x = xAxis * moveSpeed;
             rb.velocity = velo;
+            RecordLastFaceDir(rb.velocity);
         }
 
         public void Color_SetColor(Color color) {
@@ -158,6 +168,19 @@ namespace Leap {
             return true;
         }
 
+        public void Move_Dash(Vector2 dir) {
+            var velo = dir.normalized * dashSpeed * dashForceMax;
+            rb.velocity = velo;
+            dashForceCurrent = dashForceMax;
+            RecordLastFaceDir(rb.velocity);
+        }
+
+        public void Move_DashForceTick(Vector2 dir, float dt) {
+            dashForceCurrent += dashAcceleration * dashForceCurrent;
+            var velo = dir.normalized * dashSpeed * dashForceCurrent;
+            rb.velocity = velo;
+        }
+
         public void Move_WallJump(Vector2 dir) {
             var velo = rb.velocity;
             velo.y = wallJumpForceYMax;
@@ -166,6 +189,8 @@ namespace Leap {
 
             wallJumpForceYCurrent = wallJumpForceYMax;
             wallJumpForceXCurrent = wallJumpForceXMax;
+
+            RecordLastFaceDir(rb.velocity);
         }
 
         public void Move_WallJumpForceTick(Vector2 dir, float dt) {
@@ -207,6 +232,15 @@ namespace Leap {
         public void TearDown() {
             bodyTrigger.TearDown();
             Destroy(this.gameObject);
+        }
+
+        // Record
+        void RecordLastFaceDir(Vector2 velocity) {
+            if (velocity.x >= 0) {
+                lastFaceDir = Vector2.right;
+            } else {
+                lastFaceDir = Vector2.left;
+            }
         }
 
         // Physics

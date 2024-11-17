@@ -10,6 +10,8 @@ namespace Leap {
 
         Walling,
         WallJumping,
+
+        Dash,
         
         Dying,
 

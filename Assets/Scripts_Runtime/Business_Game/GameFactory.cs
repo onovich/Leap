@@ -56,6 +56,10 @@ namespace Leap {
             role.wallingDuration = roleTM.wallingDuration;
             role.wallJumpAccelerationX = roleTM.wallJumpAccelerationX;
             role.wallJumpAccelerationY = roleTM.wallJumpAccelerationY;
+            role.dashSpeed = roleTM.dashSpeed;
+            role.dashAcceleration = roleTM.dashAcceleration;
+            role.dashDuration = roleTM.dashDuration;
+            role.dashForceMax = roleTM.dashForce;
             role.landDuration = roleTM.landDuration;
             role.g = roleTM.g;
             role.fallingSpeedMax = roleTM.fallingSpeedMax;
