@@ -352,6 +352,7 @@ MonoBehaviour:
   aiType: 0
   moveSpeed: 0
   jumpForceY: 0
+  jumpHangDuration: 0
   wallJumpForceYMax: 0
   wallJumpForceYCurrent: 0
   wallJumpForceXMax: 0
@@ -360,6 +361,13 @@ MonoBehaviour:
   wallingDuration: 0
   wallJumpAccelerationX: 0
   wallJumpAccelerationY: 0
+  dashSpeed: 0
+  dashAcceleration: 0
+  dashDuration: 0
+  dashForceMax: 0
+  dashForceCurrent: 0
+  dashHangDuration: 0
+  landDuration: 0
   g: 0
   fallingSpeedMax: 0
   hp: 0
@@ -378,7 +386,11 @@ MonoBehaviour:
   physics_hitWall: 0
   physics_hitWallDir: {x: 0, y: 0}
   physics_wallFriction: 0
+  physics_hitCeiling: 0
+  physics_hitCeilingDir: {x: 0, y: 0}
   needTearDown: 0
+  lastFaceDir: {x: 0, y: 0}
+  lastVelocityNormalized: {x: 0, y: 0}
   body: {fileID: 5756515061732775915}
   spr: {fileID: 6979487770325959718}
   deadVFXName: 

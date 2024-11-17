@@ -25,9 +25,9 @@ MonoBehaviour:
   wallJumpDuration: 0.2
   wallJumpAccelerationX: -0.1
   wallJumpAccelerationY: -0.1
-  dashSpeed: 20
+  dashSpeed: 40
   dashAcceleration: -0.1
-  dashDuration: 0.4
+  dashDuration: 0.1
   dashForce: 2
   dashHangDuration: 0.2
   landDuration: 0.4

@@ -67,8 +67,8 @@ namespace Leap {
 
         // State
         public bool needTearDown;
-        public Vector2 lastFaceDir;
         public Vector2 lastVelocityNormalized;
+        public Vector2 faceDir;
 
         // FSM
         public RoleFSMComponent fsmCom;
@@ -110,7 +110,6 @@ namespace Leap {
             fsmCom = new RoleFSMComponent();
             inputCom = new RoleInputComponent();
             Binding();
-            lastFaceDir = Vector2.right;
         }
 
         void Binding() {
@@ -162,14 +161,16 @@ namespace Leap {
         }
 
         public void Move_Stop() {
-            Move_Apply(0, 0, 0);
+            var velo = new Vector2(0, 0);
+            Velocity_Set(velo);
+            rb.Sleep();
         }
 
         void Move_Apply(float xAxis, float moveSpeed, float fixdt) {
             var velo = rb.velocity;
             velo.x = xAxis * moveSpeed;
             Velocity_Set(velo);
-            RecordLastFaceDir(rb.velocity);
+            FaceDir_Set(xAxis);
         }
 
         public void Color_SetColor(Color color) {
@@ -187,7 +188,7 @@ namespace Leap {
             var velo = dir.normalized * dashSpeed * dashForceMax;
             Velocity_Set(velo);
             dashForceCurrent = dashForceMax;
-            RecordLastFaceDir(rb.velocity);
+            FaceDir_Set(dir.x);
         }
 
         public void Move_DashForceTick(Vector2 dir, float dt) {
@@ -205,7 +206,7 @@ namespace Leap {
             wallJumpForceYCurrent = wallJumpForceYMax;
             wallJumpForceXCurrent = wallJumpForceXMax;
 
-            RecordLastFaceDir(rb.velocity);
+            FaceDir_Set(dir.x);
         }
 
         public void Move_WallJumpForceTick(Vector2 dir, float dt) {
@@ -250,11 +251,9 @@ namespace Leap {
         }
 
         // Record
-        void RecordLastFaceDir(Vector2 velocity) {
-            if (velocity.x >= 0) {
-                lastFaceDir = Vector2.right;
-            } else {
-                lastFaceDir = Vector2.left;
+        void FaceDir_Set(float xAxis) {
+            if (xAxis != 0 && Mathf.Sign(xAxis) != Mathf.Sign(faceDir.x)) {
+                faceDir = new Vector2(-faceDir.x, 0);
             }
         }
 

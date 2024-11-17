@@ -68,6 +68,8 @@ namespace Leap {
             role.hp = roleTM.hp;
             role.hpMax = roleTM.hp;
 
+            role.faceDir = Vector2.right;
+
             // Set Skill
             role.hasWallJump = roleTM.hasWallJump;
             role.hasDoubleJump = roleTM.hasDoubleJump;

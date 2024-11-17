@@ -47,10 +47,6 @@ namespace Leap {
                 isDash = true;
             }
 
-            if (dashAxis == Vector2.zero) {
-                dashAxis = Vector2.up;
-            }
-
             jumpAxis_ResetInterval_Timer += dt;
 
         }

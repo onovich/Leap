@@ -64,11 +64,11 @@ namespace Leap {
             // Dash
             bool succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
             if (succ) {
-                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration, role.dashHangDuration);
+                var dashDir = role.inputCom.dashAxis != Vector2.zero ? role.inputCom.dashAxis : role.faceDir;
+                fsm.EnterDash(dashDir, role.dashDuration, role.dashHangDuration);
                 // Debug.Log("Walling -> Dash");
                 return;
             }
-
 
             // Fall
             succ = GameRoleDomain.Condition_CheckLandGround(ctx, role);
@@ -115,7 +115,8 @@ namespace Leap {
             // Dash
             bool succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
             if (succ) {
-                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration, role.dashHangDuration);
+                var dashDir = role.inputCom.dashAxis != Vector2.zero ? role.inputCom.dashAxis : role.faceDir;
+                fsm.EnterDash(dashDir, role.dashDuration, role.dashHangDuration);
                 // Debug.Log("Walling -> Dash");
                 return;
             }
@@ -179,7 +180,8 @@ namespace Leap {
             // Dash
             bool succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
             if (succ) {
-                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration, role.dashHangDuration);
+                var dashDir = role.inputCom.dashAxis != Vector2.zero ? role.inputCom.dashAxis : role.faceDir;
+                fsm.EnterDash(dashDir, role.dashDuration, role.dashHangDuration);
                 // Debug.Log("Walling -> Dash");
                 return;
             }
@@ -243,7 +245,8 @@ namespace Leap {
             // Dash
             bool succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
             if (succ) {
-                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration, role.dashHangDuration);
+                var dashDir = role.inputCom.dashAxis != Vector2.zero ? role.inputCom.dashAxis : role.faceDir;
+                fsm.EnterDash(dashDir, role.dashDuration, role.dashHangDuration);
                 // Debug.Log("Walling -> Dash");
                 return;
             }
@@ -363,7 +366,7 @@ namespace Leap {
 
             // Hit Wall
             bool succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
-            if (succ && Mathf.Sign(wallDir.normalized.x) != Mathf.Sign(role.lastFaceDir.x)) {
+            if (succ && Mathf.Sign(wallDir.normalized.x) != Mathf.Sign(role.faceDir.x)) {
                 fsm.EnterWalling(wallDir, role.wallingDuration);
                 // Debug.Log("WallJumping -> Walling");
                 return;
@@ -381,7 +384,8 @@ namespace Leap {
             // Dash
             succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
             if (succ) {
-                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration, role.dashHangDuration);
+                var dashDir = role.inputCom.dashAxis != Vector2.zero ? role.inputCom.dashAxis : role.faceDir;
+                fsm.EnterDash(dashDir, role.dashDuration, role.dashHangDuration);
                 // Debug.Log("Walling -> Dash");
                 return;
             }
