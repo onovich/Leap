@@ -307,9 +307,17 @@ namespace Leap {
 
             GameRoleDomain.ApplyDashForce(ctx, role, fsm.dash_dir, fixdt);
 
+            // Time Is End
+            var timeIsOver = GameRoleDomain.Condition_DashIsEnd(ctx, role, fixdt);
+            if (timeIsOver) {
+                fsm.EnterAiring();
+                // Debug.Log("WallJumping -> Airing");
+                return;
+            }
+
             // Hit Wall
             bool succ = GameRoleDomain.Condition_CheckHitWall(ctx, role, out var wallFriction, out var wallDir);
-            if (succ) {
+            if (succ && timeIsOver) {
                 fsm.EnterWalling(wallDir, role.wallingDuration);
                 // Debug.Log("WallJumping -> Walling");
                 return;
@@ -332,14 +340,6 @@ namespace Leap {
 
             // Constraint
             GameRoleDomain.ApplyConstraint(ctx, role, fixdt);
-
-            // Time Is End
-            var timeIsOver = GameRoleDomain.Condition_DashIsEnd(ctx, role, fixdt);
-            if (timeIsOver) {
-                fsm.EnterAiring();
-                // Debug.Log("WallJumping -> Airing");
-                return;
-            }
 
             // Dead
             if (role.hp <= 0) {
