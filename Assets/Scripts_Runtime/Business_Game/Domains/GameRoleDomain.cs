@@ -127,9 +127,6 @@ namespace Leap {
             } else {
                 role.physics_hitCeiling = false;
                 role.physics_hitCeilingDir = Vector2.zero;
-                if (hitDir != Vector2.zero) {
-                    Debug.Log("Hit Ceiling, hitDir: " + hitDir);
-                }
             }
         }
 
