@@ -64,7 +64,7 @@ namespace Leap {
             // Dash
             bool succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
             if (succ) {
-                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration);
+                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration, role.dashHangDuration);
                 // Debug.Log("Walling -> Dash");
                 return;
             }
@@ -115,7 +115,7 @@ namespace Leap {
             // Dash
             bool succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
             if (succ) {
-                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration);
+                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration, role.dashHangDuration);
                 // Debug.Log("Walling -> Dash");
                 return;
             }
@@ -179,7 +179,7 @@ namespace Leap {
             // Dash
             bool succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
             if (succ) {
-                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration);
+                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration, role.dashHangDuration);
                 // Debug.Log("Walling -> Dash");
                 return;
             }
@@ -201,7 +201,7 @@ namespace Leap {
             // Jump
             succ = GameRoleDomain.Condition_InputJump(ctx, role, fixdt);
             if (succ) {
-                fsm.EnterJumping();
+                fsm.EnterJumping(role.jumpHangDuration);
                 // Debug.Log("Landing -> Jumping");
                 return;
             }
@@ -243,7 +243,7 @@ namespace Leap {
             // Dash
             bool succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
             if (succ) {
-                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration);
+                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration, role.dashHangDuration);
                 // Debug.Log("Walling -> Dash");
                 return;
             }
@@ -381,7 +381,7 @@ namespace Leap {
             // Dash
             succ = GameRoleDomain.Condition_InputDash(ctx, role, fixdt);
             if (succ) {
-                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration);
+                fsm.EnterDash(role.inputCom.dashAxis, role.dashDuration, role.dashHangDuration);
                 // Debug.Log("Walling -> Dash");
                 return;
             }

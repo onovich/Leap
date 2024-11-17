@@ -19,6 +19,7 @@ namespace Leap {
 
         [Header(" ** Attr_Jump ** ")]
         public float jumpForceY;
+        public float jumpHangDuration;
 
         [Header(" ** Attr_Wall ** ")]
         public float wallingDuration;
@@ -35,6 +36,7 @@ namespace Leap {
         public float dashAcceleration;
         public float dashDuration;
         public float dashForce;
+        public float dashHangDuration;
 
         [Header(" ** Attr_Land ** ")]
         public float landDuration;

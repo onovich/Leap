@@ -17,6 +17,8 @@ namespace Leap {
         // Attr
         public float moveSpeed;
         public float jumpForceY;
+        public float jumpHangDuration;
+
         public float wallJumpForceYMax;
         public float wallJumpForceYCurrent;
         public float wallJumpForceXMax;
@@ -31,6 +33,7 @@ namespace Leap {
         public float dashDuration;
         public float dashForceMax;
         public float dashForceCurrent;
+        public float dashHangDuration;
 
         public float landDuration;
         public float g;

@@ -13,6 +13,8 @@ namespace Leap {
         public bool airing_isEntering;
 
         public bool jumping_isEntering;
+        public float jumping_hangDuration;
+        public float jumping_hangTimer;
 
         public bool walling_isEntering;
         public Vector2 walling_dir;
@@ -26,6 +28,8 @@ namespace Leap {
         public bool dash_isEntering;
         public Vector2 dash_dir;
         public float dash_duration;
+        public float dash_hangDuration;
+        public float dash_hangTimer;
 
         public bool dying_isEntering;
 
@@ -54,10 +58,16 @@ namespace Leap {
             jumping_isEntering = true;
         }
 
-        public void EnterJumping() {
+        public void EnterJumping(float hangDuration) {
             Reset();
             status = RoleFSMStatus.Jumping;
             jumping_isEntering = true;
+            jumping_hangDuration = hangDuration;
+        }
+
+        public bool JumpingHangIsEnd(float dt) {
+            jumping_hangTimer += dt;
+            return jumping_hangTimer >= jumping_hangDuration;
         }
 
         public void EnterWalling(Vector2 wallDir, float duration) {
@@ -86,12 +96,18 @@ namespace Leap {
             wallJumping_duration = duration;
         }
 
-        public void EnterDash(Vector2 dashDir, float duration) {
+        public void EnterDash(Vector2 dashDir, float duration, float hangDuration) {
             Reset();
             status = RoleFSMStatus.Dash;
             dash_isEntering = true;
             dash_dir = dashDir;
             dash_duration = duration;
+            dash_hangDuration = hangDuration;
+        }
+
+        public bool DashHangIsEnd(float dt) {
+            dash_hangTimer += dt;
+            return dash_hangTimer >= dash_hangDuration;
         }
 
         public void EnterDying() {
@@ -115,6 +131,8 @@ namespace Leap {
 
             landing_timer = 0;
             walling_timer = 0;
+            jumping_hangTimer = 0;
+            dash_hangTimer = 0;
         }
 
     }
