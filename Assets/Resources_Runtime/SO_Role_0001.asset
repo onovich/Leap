@@ -18,6 +18,7 @@ MonoBehaviour:
   hp: 1
   moveSpeed: 6.5
   jumpForceY: 16
+  jumpHangDuration: 0.2
   wallingDuration: 0.1
   wallJumpForceY: 30
   wallJumpForceX: 20
@@ -28,6 +29,7 @@ MonoBehaviour:
   dashAcceleration: -0.1
   dashDuration: 0.4
   dashForce: 2
+  dashHangDuration: 0.2
   landDuration: 0.4
   g: 70
   fallingSpeedMax: 40
