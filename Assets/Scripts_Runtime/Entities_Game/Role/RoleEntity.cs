@@ -59,10 +59,13 @@ namespace Leap {
         public bool physics_hitWall;
         public Vector2 physics_hitWallDir;
         public float physics_wallFriction;
+        public bool physics_hitCeiling;
+        public Vector2 physics_hitCeilingDir;
 
         // State
         public bool needTearDown;
         public Vector2 lastFaceDir;
+        public Vector2 lastVelocityNormalized;
 
         // FSM
         public RoleFSMComponent fsmCom;
@@ -85,8 +88,11 @@ namespace Leap {
         [SerializeField] RoleCollisionComponent headCollider;
         [SerializeField] RoleCollisionComponent footCollider;
 
-        Vector2 size;
-        public Vector2 Size => size;
+        Vector2 bodyColSize;
+        public Vector2 BodyColSize => bodyColSize;
+
+        Vector2 headColSize;
+        public Vector2 HeadColSize => headColSize;
 
         // Pos
         public Vector2 Pos => Pos_GetPos();
@@ -141,6 +147,12 @@ namespace Leap {
             hp = 0;
         }
 
+        // Velocity
+        public void Velocity_Set(Vector2 v) {
+            rb.velocity = v;
+            lastVelocityNormalized = v.normalized;
+        }
+
         // Move
         public void Move_ApplyMove(float dt) {
             Move_Apply(inputCom.moveAxis.x, Attr_GetMoveSpeed(), dt);
@@ -153,7 +165,7 @@ namespace Leap {
         void Move_Apply(float xAxis, float moveSpeed, float fixdt) {
             var velo = rb.velocity;
             velo.x = xAxis * moveSpeed;
-            rb.velocity = velo;
+            Velocity_Set(velo);
             RecordLastFaceDir(rb.velocity);
         }
 
@@ -164,13 +176,13 @@ namespace Leap {
         public bool Move_Jump() {
             var velo = rb.velocity;
             velo.y = jumpForceY;
-            rb.velocity = velo;
+            Velocity_Set(velo);
             return true;
         }
 
         public void Move_Dash(Vector2 dir) {
             var velo = dir.normalized * dashSpeed * dashForceMax;
-            rb.velocity = velo;
+            Velocity_Set(velo);
             dashForceCurrent = dashForceMax;
             RecordLastFaceDir(rb.velocity);
         }
@@ -178,14 +190,14 @@ namespace Leap {
         public void Move_DashForceTick(Vector2 dir, float dt) {
             dashForceCurrent += dashAcceleration * dashForceCurrent;
             var velo = dir.normalized * dashSpeed * dashForceCurrent;
-            rb.velocity = velo;
+            Velocity_Set(velo);
         }
 
         public void Move_WallJump(Vector2 dir) {
             var velo = rb.velocity;
             velo.y = wallJumpForceYMax;
             velo.x = dir.x * wallJumpForceXMax;
-            rb.velocity = velo;
+            Velocity_Set(velo);
 
             wallJumpForceYCurrent = wallJumpForceYMax;
             wallJumpForceXCurrent = wallJumpForceXMax;
@@ -199,7 +211,7 @@ namespace Leap {
             var velo = rb.velocity;
             velo.y = wallJumpForceYCurrent;
             velo.x = dir.x * wallJumpForceXCurrent;
-            rb.velocity = velo;
+            Velocity_Set(velo);
         }
 
         public void Move_Falling(float wallFriction, float dt) {
@@ -212,7 +224,7 @@ namespace Leap {
                 velo.y = -fallingSpeedMax;
             }
 
-            rb.velocity = velo;
+            Velocity_Set(velo);
         }
 
         // FSM
@@ -244,8 +256,12 @@ namespace Leap {
         }
 
         // Physics
-        public void Size_SetSize(Vector2 size) {
-            this.size = size;
+        public void Size_SetBodyCollSize(Vector2 size) {
+            this.bodyColSize = size;
+        }
+
+        public void Size_SetHeadCollSize(Vector2 size) {
+            this.headColSize = size;
         }
 
         public void Physics_ResetHitWall() {

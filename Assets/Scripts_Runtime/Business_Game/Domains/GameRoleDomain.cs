@@ -89,6 +89,11 @@ namespace Leap {
             return role.physics_hitWall;
         }
 
+        public static bool Condition_CheckHitCeiling(GameBusinessContext ctx, RoleEntity role, out Vector2 wallDir) {
+            wallDir = role.physics_hitCeilingDir;
+            return role.physics_hitCeiling;
+        }
+
         public static void Physics_ResetHitWall(GameBusinessContext ctx, RoleEntity role) {
             role.Physics_ResetHitWall();
         }
@@ -102,16 +107,11 @@ namespace Leap {
         }
 
         public static void Physics_CheckHitWall(GameBusinessContext ctx, RoleEntity role) {
-            var leftCheckHitDir = CheckHitWall(ctx, role.Pos, role.Size, Vector2.left, out var leftWallFriction);
-            var rightCheckHitDir = CheckHitWall(ctx, role.Pos, role.Size, Vector2.right, out var rightWallFriction);
-            if (leftCheckHitDir != Vector2.zero) {
+            var hitDir = CheckHitWall(ctx, role.Pos, role.BodyColSize, role.lastVelocityNormalized, out var friction);
+            if (hitDir.x != 0) {
                 role.physics_hitWall = true;
-                role.physics_hitWallDir = leftCheckHitDir;
-                role.physics_wallFriction = leftWallFriction;
-            } else if (rightCheckHitDir != Vector2.zero) {
-                role.physics_hitWall = true;
-                role.physics_hitWallDir = rightCheckHitDir;
-                role.physics_wallFriction = rightWallFriction;
+                role.physics_hitWallDir = hitDir;
+                role.physics_wallFriction = friction;
             } else {
                 role.physics_hitWall = false;
                 role.physics_hitWallDir = Vector2.zero;
@@ -119,8 +119,21 @@ namespace Leap {
             }
         }
 
+        public static void Physics_CheckHitCeiling(GameBusinessContext ctx, RoleEntity role) {
+            var hitDir = CheckHitWall(ctx, role.Pos, role.HeadColSize, role.lastVelocityNormalized, out var friction);
+            if (hitDir.y > 0) {
+                role.physics_hitCeiling = true;
+                role.physics_hitCeilingDir = hitDir;
+            } else {
+                role.physics_hitCeiling = false;
+                role.physics_hitCeilingDir = Vector2.zero;
+                if (hitDir != Vector2.zero) {
+                    Debug.Log("Hit Ceiling, hitDir: " + hitDir);
+                }
+            }
+        }
+
         static Vector2 CheckHitWall(GameBusinessContext ctx, Vector2 pos, Vector2 size, Vector2 dir, out float wallFriction) {
-            dir.y = 0;
             wallFriction = 0;
             LayerMask layer = (1 << LayConst.TERRAIN) | (1 << LayConst.BLOCK);
             var hitResults = ctx.hitResultsTemp;
@@ -214,7 +227,7 @@ namespace Leap {
             var center = map.constraintCenter;
 
             var rolePos = role.Pos;
-            var roleSize = role.Size;
+            var roleSize = role.BodyColSize;
 
             var min = center - size / 2;
             var max = center + size / 2 - roleSize;

@@ -86,7 +86,8 @@ namespace Leap {
             role.deadVFXDuration = roleTM.deadVFXDuration;
 
             // Set Physics
-            role.Size_SetSize(roleTM.bodyColliderSize);
+            role.Size_SetBodyCollSize(roleTM.bodyColliderSize);
+            role.Size_SetHeadCollSize(roleTM.headColliderSize);
 
             return role;
         }

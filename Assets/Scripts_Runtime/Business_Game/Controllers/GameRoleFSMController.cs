@@ -49,6 +49,7 @@ namespace Leap {
         static void FixedTickFSM_Any(GameBusinessContext ctx, RoleEntity role, float fixdt) {
         }
 
+        #region Airing
         static void FixedTickFSM_Airing(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.airing_isEntering) {
@@ -98,7 +99,9 @@ namespace Leap {
                 fsm.EnterDying();
             }
         }
+        #endregion
 
+        #region Jumping
         static void FixedTickFSM_Jumping(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             var input = ctx.inputEntity;
@@ -134,6 +137,15 @@ namespace Leap {
                 return;
             }
 
+            // Hit Ceiling
+            succ = GameRoleDomain.Condition_CheckHitCeiling(ctx, role, out var ceilingDir);
+            if (succ) {
+                role.Move_Stop();
+                fsm.EnterAiring();
+                // Debug.Log("Jumping -> Airing");
+                return;
+            }
+
             // Move
             GameRoleDomain.ApplyMove(ctx, role, fixdt);
 
@@ -151,7 +163,9 @@ namespace Leap {
                 fsm.EnterDying();
             }
         }
+        #endregion
 
+        #region Landing
         static void FixedTickFSM_Landing(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.landing_isEntering) {
@@ -206,7 +220,9 @@ namespace Leap {
                 fsm.EnterDying();
             }
         }
+        #endregion
 
+        #region Walling
         static void FixedTickFSM_Walling(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.walling_isEntering) {
@@ -273,7 +289,9 @@ namespace Leap {
             var walling_friction = holdWall ? wallFriction : 0f;
             GameRoleDomain.ApplyFalling(ctx, role, walling_friction, fixdt);
         }
+        #endregion
 
+        #region Dash
         static void FixedTickFSM_Dash(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.dash_isEntering) {
@@ -290,6 +308,15 @@ namespace Leap {
             if (succ) {
                 fsm.EnterWalling(wallDir, role.wallingDuration);
                 // Debug.Log("WallJumping -> Walling");
+                return;
+            }
+
+            // Hit Ceiling
+            succ = GameRoleDomain.Condition_CheckHitCeiling(ctx, role, out var ceilingDir);
+            if (succ) {
+                role.Move_Stop();
+                fsm.EnterAiring();
+                // Debug.Log("WallJumping -> Airing");
                 return;
             }
 
@@ -316,7 +343,9 @@ namespace Leap {
             }
 
         }
+        #endregion
 
+        #region WallJumping
         static void FixedTickFSM_WallJumping(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.wallJumping_isEntering) {
@@ -337,6 +366,15 @@ namespace Leap {
             if (succ && Mathf.Sign(wallDir.normalized.x) != Mathf.Sign(role.lastFaceDir.x)) {
                 fsm.EnterWalling(wallDir, role.wallingDuration);
                 // Debug.Log("WallJumping -> Walling");
+                return;
+            }
+
+            // Hit Ceiling
+            succ = GameRoleDomain.Condition_CheckHitCeiling(ctx, role, out var ceilingDir);
+            if (succ) {
+                role.Move_Stop();
+                fsm.EnterAiring();
+                // Debug.Log("WallJumping -> Airing");
                 return;
             }
 
@@ -379,7 +417,9 @@ namespace Leap {
                 fsm.EnterDying();
             }
         }
+        #endregion
 
+        #region Dying
         static void FixedTickFSM_Dying(GameBusinessContext ctx, RoleEntity role, float fixdt) {
             RoleFSMComponent fsm = role.FSM_GetComponent();
             if (fsm.dying_isEntering) {
@@ -394,6 +434,7 @@ namespace Leap {
             CameraApp.ShakeOnce(ctx.cameraContext, ctx.cameraContext.mainCameraID);
             role.needTearDown = true;
         }
+        #endregion
 
     }
 
