@@ -29,7 +29,8 @@ namespace Leap {
                                  AssetsInfraContext assetsInfraContext,
                                  IDRecordService idRecordService,
                                  int typeID,
-                                 Vector2 pos) {
+                                 Vector2 pos,
+                                 bool isDebugMode) {
 
             var has = templateInfraContext.Role_TryGet(typeID, out var roleTM);
             if (!has) {
@@ -70,7 +71,8 @@ namespace Leap {
             role.Pos_SetPos(pos);
 
             // Set Mesh
-            role.Mesh_Set(roleTM.mesh);
+            var mesh = isDebugMode ? roleTM.mesh_debug : roleTM.mesh;
+            role.Mesh_Set(mesh);
 
             // Set FSM
             role.fsmCom.EnterLanding(roleTM.landDuration);

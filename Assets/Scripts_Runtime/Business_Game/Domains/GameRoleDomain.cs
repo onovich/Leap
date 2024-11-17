@@ -5,11 +5,13 @@ namespace Leap {
     public static class GameRoleDomain {
 
         public static RoleEntity Spawn(GameBusinessContext ctx, int typeID, Vector2 pos) {
+            var isDebugMode = ctx.gameEntity.IsDebugMode;
             var role = GameFactory.Role_Spawn(ctx.templateInfraContext,
                                               ctx.assetsInfraContext,
                                               ctx.idRecordService,
                                               typeID,
-                                              pos);
+                                              pos,
+                                              isDebugMode);
             role.OnBodyTriggerEnterHandle += (RoleEntity role, Collider2D other) => {
                 OnBodyTriggerEnter(ctx, role, other);
             };
