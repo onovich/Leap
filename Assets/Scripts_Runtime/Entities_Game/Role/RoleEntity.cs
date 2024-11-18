@@ -42,10 +42,8 @@ namespace Leap {
         public int hp;
         public int hpMax;
 
-        // Skill
-        public bool hasWallJump;
-        public bool hasDoubleJump;
-        public bool hasDash;
+        // Mode
+        public RoleMode mode;
 
         // Gizmos
         public Color gizmosTextColor;

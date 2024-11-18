@@ -53,11 +53,6 @@ namespace Leap {
         public Vector2 bodyColliderSize;
         public Vector2 headColliderSize;
 
-        [Header(" ** Skills ** ")]
-        public bool hasWallJump;
-        public bool hasDoubleJump;
-        public bool hasDash;
-
     }
 
 }
