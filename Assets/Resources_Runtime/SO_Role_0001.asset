@@ -26,7 +26,7 @@ MonoBehaviour:
   wallJumpAccelerationX: -0.1
   wallJumpAccelerationY: -0.1
   dashSpeed: 40
-  dashAcceleration: -0.1
+  dashAcceleration: -0.2
   dashDuration: 0.25
   dashForce: 1
   dashHangDuration: 0.2
@@ -39,6 +39,3 @@ MonoBehaviour:
   deadVFXDuration: 2
   bodyColliderSize: {x: 1.02, y: 0.98}
   headColliderSize: {x: 0.98, y: 1.02}
-  hasWallJump: 0
-  hasDoubleJump: 0
-  hasDash: 0
